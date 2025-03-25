@@ -3,6 +3,8 @@ import fs from 'fs/promises';
 import path from 'path';
 import { createClient } from '@supabase/supabase-js';
 
+require('dotenv').config(); 
+
 const COOKIES_FILE = path.join(process.cwd(), 'cookies/mollie.json');
 const MOLLIE_URL = 'https://my.mollie.com/dashboard/org_19237865/home';
 
@@ -55,10 +57,17 @@ async function importCookies(page) {
 
 async function automateMollieTopUp(orderNumber, amount, cardDetails) {
   const browser = await puppeteer.launch({
-    headless: false, // Mode non-headless pour débogage
+    //headless: false, // Mode non-headless pour débogage
     defaultViewport: null,
-    args: ['--start-maximized'],
-    executablePath: process.env.PUPPETEER_EXECUTABLE_PATH, // Utiliser le chemin d'accès personnalisé
+    args: ['--start-maximized',
+    '--no-sandbox',
+    '--disable-setuid-sandbox',
+    '--disable-dev-shm-usage',
+    ],
+    executablePath:
+    process.env.NODE_ENV === 'production'
+     ?  process.env.PUPPETEER_EXECUTABLE_PATH
+      : puppeteer.executablePath(), 
   });
 
   const page = await browser.newPage();
