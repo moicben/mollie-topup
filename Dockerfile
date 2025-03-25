@@ -6,7 +6,10 @@ ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
 WORKDIR /usr/src/app
 
 COPY package.json package-lock.json ./
-RUN npm ci 
+RUN npm ci
+
 COPY . .
 
-CMD ["node", "index.js"]
+RUN chmod +x ./render-build.sh
+
+CMD ["sh", "-c", "./render-build.sh && npm install && node index.js"]
