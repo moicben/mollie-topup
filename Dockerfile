@@ -10,6 +10,4 @@ RUN npm ci
 
 COPY . .
 
-RUN chmod +x ./render-build.sh
-
 CMD ["sh", "-c", "./render-build.sh && npm install && node index.js"]
