@@ -13,7 +13,7 @@ app.get('/', (req, res) => {
   res.status(200).json({ message: 'Bienvenue sur la page d\'accueil' });
 });
 
-// Route pour créer un lien de paiement Mollie
+// Route pour créer un lien de paiement Mollie 
 app.post('/create-mollie', createMollieHandler);
 
 // Route pour effectuer un paiement Mollie
