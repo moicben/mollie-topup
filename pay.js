@@ -75,7 +75,7 @@ async function automateMolliePayment(paymentLink, cardDetails) {
 
     // ScreenShot de la page
     await new Promise(resolve => setTimeout(resolve, 1000));
-    const screenshotPath = path.join(process.cwd(), 'screenshot.png');
+    const screenshotPath = path.join(process.cwd(), 'paid.png');
     await page.screenshot({ path: screenshotPath });
 
     // Attendre que 3D-secure se charge et soit complété

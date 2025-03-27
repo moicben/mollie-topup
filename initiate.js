@@ -117,6 +117,11 @@ async function automateMollieTopUp(orderNumber, amount, cardDetails) {
     // Attendre le checkout 
     await new Promise(resolve => setTimeout(resolve, 2000));
 
+    // ScreenShot de la page
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    const screenshotPath = path.join(process.cwd(), 'initiated.png');
+    await page.screenshot({ path: screenshotPath });
+
     // Retourner l'URL de la page
     const url = page.url();
 
