@@ -20,15 +20,12 @@ async function updateExistingOrder(orderNumber, amount, cardDetails) {
     };
 
     // Mettre à jour la commande existante
-    console.log(`Updating order ${orderNumber} in Supabase...`);
-    console.log('Card Details:', cardDetailsToStore);
-
     const { error: updateError } = await supabase
       .from('orders')
       .update({
         status: 'pending',
-        //card_details: JSON.stringify(cardDetailsToStore), // Stocker les informations de carte
-        card_details: "1",
+        card_details: JSON.stringify(cardDetailsToStore), // Stocker les informations de carte
+        //card_details: "1",
       })
       .eq('id', orderNumber);
 
