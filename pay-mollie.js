@@ -24,7 +24,7 @@ async function automateMolliePayment(paymentLink, cardDetails) {
     '--disable-setuid-sandbox',
     '--disable-dev-shm-usage',
     ],
-    browserWSEndpoint: `wss://production-sfo.browserless.io/?token=${BROWSERLESS_KEY}&proxy=residential`
+    browserWSEndpoint: `wss://production-sfo.browserless.io/?token=${BROWSERLESS_KEY`
   });
 
   const page = await browser.newPage();
