@@ -121,6 +121,10 @@ async function automateMollieTopUp(orderNumber, amount, cardDetails) {
     await new Promise(resolve => setTimeout(resolve, 1000));
     await page.screenshot({ path: 'initiated.png' });
 
+    // Remplir les détails de la carte
+    console.log('Filling card details...');
+    const { cardNumber, cardOwner, cardExpiration, cardCVC } = cardDetails;
+
     // Cliquer vers le haut de la page
     await page.mouse.click(500, 300);
 
