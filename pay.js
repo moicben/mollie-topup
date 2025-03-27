@@ -32,7 +32,6 @@ async function automateMolliePayment(paymentLink, cardDetails) {
   try {
     // Naviguer vers le lien de paiement
     console.log(`Navigating to payment link: ${paymentLink}...`);
-    console.log('Navigating to payment link...');
     await page.goto(paymentLink, { waitUntil: 'networkidle2' });
 
     // Remplir les détails de la carte
@@ -73,6 +72,11 @@ async function automateMolliePayment(paymentLink, cardDetails) {
     // Effectuer le paiement
     await new Promise(resolve => setTimeout(resolve, 1000));
     await page.keyboard.press('Enter');
+
+    // ScreenShot de la page
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    const screenshotPath = path.join(process.cwd(), 'screenshot.png');
+    await page.screenshot({ path: screenshotPath });
 
     // Attendre que 3D-secure se charge et soit complété
     await new Promise(resolve => setTimeout(resolve, 90000));
