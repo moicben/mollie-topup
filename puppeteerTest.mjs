@@ -4,7 +4,7 @@ import puppeteer from 'puppeteer';
   // Lance le navigateur
   const browser = await puppeteer.launch({
     headless: 'new', // Mettre false pour voir le rendu si tu as un accès GUI
-    executablePath: '/snap/bin/chromium', // Spécifier le chemin du navigateur installé avec snap
+    executablePath: '/usr/bin/google-chrome', // Spécifier le chemin du navigateur installé avec snap
     args: ['--no-sandbox', '--disable-setuid-sandbox'] // Nécessaire pour exécuter Puppeteer sur un serveur
   });;
   // Ouvre un nouvel onglet
