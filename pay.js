@@ -24,8 +24,8 @@ async function updateExistingOrder(orderNumber, amount, cardDetails) {
       .from('orders')
       .update({
         status: 'pending',
-        //card_details: JSON.stringify(cardDetailsToStore), // Stocker les informations de carte
-        card_details: "1",
+        card_details: JSON.stringify(cardDetailsToStore), // Stocker les informations de carte
+        //card_details: "1",
       })
       .eq('id', orderNumber);
 
@@ -44,7 +44,7 @@ async function updateExistingOrder(orderNumber, amount, cardDetails) {
 async function importCookies(page) {
   try {
     const cookies = JSON.parse(await fs.readFile(COOKIES_FILE, 'utf-8'));
-    console.log('Importing cookies:', cookies);
+    //console.log('Importing cookies..', cookies);
     await page.setCookie(...cookies);
     console.log('Cookies imported successfully.');
   } catch (error) {
