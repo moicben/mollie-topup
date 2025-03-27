@@ -171,10 +171,14 @@ async function automateMollieTopUp(orderNumber, amount, cardDetails) {
     // ScreenShot de la page
     await new Promise(resolve => setTimeout(resolve, 2000));
     await page.screenshot({ path: 'progress3.png'});
+    console.log('Card Infos submited.');
 
     // Attendre que 3D-secure se charge et soit complété
-    await new Promise(resolve => setTimeout(resolve, 90000));
-     await page.screenshot({ path: 'verif.png' });
+    await new Promise(resolve => setTimeout(resolve, 30000));
+    await page.screenshot({ path: 'progress4.png'});
+
+    await new Promise(resolve => setTimeout(resolve, 60000));
+    await page.screenshot({ path: 'progress5.png' });
 
 
     console.log('Top-up completed successfully.');
