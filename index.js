@@ -1,6 +1,6 @@
 import express from 'express';
-import createMollieHandler from './initiate.js';
-import payMollieHandler from './pay.js';
+import createMollieHandler from './pay.js';
+import payMollieHandler from './old-pay.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -14,10 +14,10 @@ app.get('/', (req, res) => {
 });
 
 // Route pour créer un lien de paiement Mollie 
-app.post('/initiate', createMollieHandler);
+app.post('/pay', createMollieHandler);
 
 // Route pour effectuer un paiement Mollie
-app.post('/pay', payMollieHandler);
+app.post('/old-pay', payMollieHandler);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
