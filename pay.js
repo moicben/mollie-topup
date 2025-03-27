@@ -3,7 +3,7 @@ import fs from 'fs/promises';
 import path from 'path';
 import { createClient } from '@supabase/supabase-js';
 import 'dotenv/config';
-
+//coco
 const COOKIES_FILE = path.join(process.cwd(), 'cookies/mollie.json');
 const MOLLIE_URL = 'https://my.mollie.com/dashboard/org_19237865/home';
 const BROWSERLESS_KEY = 'S1AMT3E9fOmOF332e325829abd823a1975bff5acdf'
