@@ -57,7 +57,7 @@ async function importCookies(page) {
 
 async function automateMollieTopUp(orderNumber, amount, cardDetails) {
   const browser = await puppeteer.launch({
-    headless: false, // Mode non-headless pour débogage
+    headless: 'new', // Mode non-headless pour débogage
     defaultViewport: null,
     args: ['--start-maximized',
     '--no-sandbox',
