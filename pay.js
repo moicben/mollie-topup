@@ -141,7 +141,7 @@ async function automateMollieTopUp(orderNumber, amount, cardDetails) {
     await page.keyboard.press('Tab');
 
     // Écrire le numéro de carte
-    await page.keyboard.type(cardNumber);
+    await page.keyboard.type(cardNumber, { delay: 100 });
 
     // Écrire le titulaire de la carte
     await new Promise(resolve => setTimeout(resolve, 1000));
@@ -169,7 +169,7 @@ async function automateMollieTopUp(orderNumber, amount, cardDetails) {
     await page.keyboard.press('Enter');
 
     // ScreenShot de la page
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise(resolve => setTimeout(resolve, 2000));
     await page.screenshot({ path: 'progress3.png'});
 
     // Attendre que 3D-secure se charge et soit complété
