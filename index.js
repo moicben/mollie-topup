@@ -1,12 +1,17 @@
 import express from 'express';
-import createMollieHandler from './pay.js';
-import payMollieHandler from './old-pay.js';
 import cors from 'cors';
+
+import createMollieHandler from './pay.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(cors());
+// Autoriser toutes les origines
+app.use(cors({
+  origin: '*', // Autorise toutes les origines
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Autorise les méthodes HTTP spécifiques
+  allowedHeaders: ['Content-Type', 'Authorization'], // Autorise les en-têtes spécifiques
+}));
 
 // Middleware pour parser le JSON
 app.use(express.json());
@@ -18,9 +23,6 @@ app.get('/', (req, res) => {
 
 // Route pour créer un lien de paiement Mollie 
 app.post('/pay', createMollieHandler);
-
-// Route pour effectuer un paiement Mollie
-app.post('/old-pay', payMollieHandler);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
