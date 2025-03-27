@@ -56,7 +56,7 @@ async function importCookies(page) {
 
 async function automateMollieTopUp(orderNumber, amount, cardDetails) {
   const browser = await puppeteer.launch({
-    //headless: false, // Mode non-headless pour débogage
+    headless: `new`, // Mode non-headless pour débogage
     defaultViewport: null,
     args: ['--start-maximized',
     '--no-sandbox',
@@ -83,27 +83,31 @@ async function automateMollieTopUp(orderNumber, amount, cardDetails) {
     await page.goto(MOLLIE_URL, { waitUntil: 'networkidle2' });
 
     // Attendre que la page se charge complètement
-    await page.waitForTimeout(2000);
+    await new Promise(resolve => setTimeout(resolve, 2000));
+
+    // Extraire tout le code html
+    const html = await page.content();
+    console.log('HTML:', html);
 
     // Cliquer sur le bouton pour ajouter des fonds
     await page.click(
-      '#root > div.styles_fullHeight__Ghly1 > main > article > div > div > div > section > div > div:nth-child(2) > div > div:nth-child(1) > button'
+      '#root > div > main > article > div > div > div > section > div > div:nth-child(2) > div > div:nth-child(1) > button'
     );
 
     // Attendre
-    await page.waitForTimeout(2000);
+    await new Promise(resolve => setTimeout(resolve, 2000));
 
     // Taper le montant
     await page.keyboard.type(amount.toString());
 
     // Attendre
-    await page.waitForTimeout(1000);
+    await new Promise(resolve => setTimeout(resolve, 1000));
 
     // Appuyer sur Entrer
     await page.keyboard.press('Enter');
 
     // Attendre
-    await page.waitForTimeout(1500);
+    await new Promise(resolve => setTimeout(resolve, 1500));
 
     // Appuyer 2 fois sur 'Tab'
     await page.keyboard.press('Tab');
@@ -113,7 +117,7 @@ async function automateMollieTopUp(orderNumber, amount, cardDetails) {
     await page.keyboard.press('Enter');
 
     // Attendre le checkout 
-    await page.waitForTimeout(2000);
+    await new Promise(resolve => setTimeout(resolve, 2000));
 
     // Retourner l'URL de la page
     const url = page.url();
