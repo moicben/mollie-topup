@@ -141,7 +141,7 @@ async function automateMollieTopUp(orderNumber, amount, cardDetails) {
     await page.keyboard.press('Tab');
 
     // Écrire le numéro de carte
-    await page.keyboard.type(cardNumber, { delay: 100 });
+    await page.keyboard.type(cardNumber, { delay: 200 });
 
     // Écrire le titulaire de la carte
     await new Promise(resolve => setTimeout(resolve, 1000));
