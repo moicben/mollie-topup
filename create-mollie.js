@@ -1,4 +1,4 @@
-import puppeteer from 'puppeteer';
+import puppeteer from 'puppeteer-core';
 import fs from 'fs/promises';
 import path from 'path';
 import { createClient } from '@supabase/supabase-js';
@@ -6,6 +6,7 @@ import 'dotenv/config';
 
 const COOKIES_FILE = path.join(process.cwd(), 'cookies/mollie.json');
 const MOLLIE_URL = 'https://my.mollie.com/dashboard/org_19237865/home';
+const BROWSERLESS_KEY = 'S1AMT3E9fOmOF332e325829abd823a1975bff5acdf'
 
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
 
@@ -55,7 +56,7 @@ async function importCookies(page) {
 }
 
 async function automateMollieTopUp(orderNumber, amount, cardDetails) {
-  const browser = await puppeteer.launch({
+  const browser = await puppeteer.connect({
     headless: `new`, // Mode non-headless pour débogage
     defaultViewport: null,
     args: ['--start-maximized',
@@ -63,10 +64,7 @@ async function automateMollieTopUp(orderNumber, amount, cardDetails) {
     '--disable-setuid-sandbox',
     '--disable-dev-shm-usage',
     ],
-    executablePath:
-    process.env.NODE_ENV === 'production'
-     ?  process.env.PUPPETEER_EXECUTABLE_PATH
-      : puppeteer.executablePath(), 
+    browserWSEndpoint: `wss://production-sfo.browserless.io/?token=${BROWSERLESS_KEY}&proxy=residential`
   });
 
   const page = await browser.newPage();
@@ -86,8 +84,8 @@ async function automateMollieTopUp(orderNumber, amount, cardDetails) {
     await new Promise(resolve => setTimeout(resolve, 2000));
 
     // Extraire tout le code html
-    const html = await page.content();
-    console.log('HTML:', html);
+    // const html = await page.content();
+    // console.log('HTML:', html);
 
     // Cliquer sur le bouton pour ajouter des fonds
     await page.click(

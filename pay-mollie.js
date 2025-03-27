@@ -2,6 +2,8 @@ import puppeteer from 'puppeteer';
 import fs from 'fs/promises';
 import path from 'path';
 
+const BROWSERLESS_KEY = 'S1AMT3E9fOmOF332e325829abd823a1975bff5acdf'
+
 
 async function importCookies(page) {
   try {
@@ -14,11 +16,15 @@ async function importCookies(page) {
 }
 
 async function automateMolliePayment(paymentLink, cardDetails) {
-  const browser = await puppeteer.launch({
-    headless: false, // Mode non-headless pour débogage
+   const browser = await puppeteer.connect({
+    headless: `new`, // Mode non-headless pour débogage
     defaultViewport: null,
-    args: ['--start-maximized'],
-    executablePath: process.env.PUPPETEER_EXECUTABLE_PATH, // Utiliser le chemin d'accès personnalisé
+    args: ['--start-maximized',
+    '--no-sandbox',
+    '--disable-setuid-sandbox',
+    '--disable-dev-shm-usage',
+    ],
+    browserWSEndpoint: `wss://production-sfo.browserless.io/?token=${BROWSERLESS_KEY}&proxy=residential`
   });
 
   const page = await browser.newPage();
