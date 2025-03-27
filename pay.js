@@ -66,7 +66,8 @@ async function automateMollieTopUp(orderNumber, amount, cardDetails) {
     '--viewport=1920,1080',
     '--disable-web-security', 
     ],
-    //browserWSEndpoint: `wss://production-sfo.browserless.io/?token=${BROWSERLESS_KEY}`
+    executablePath: '/usr/bin/google-chrome',
+    ignoreHTTPSErrors: true,
   });
 
   const page = await browser.newPage();
