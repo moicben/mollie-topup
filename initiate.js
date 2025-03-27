@@ -119,8 +119,51 @@ async function automateMollieTopUp(orderNumber, amount, cardDetails) {
 
     // ScreenShot de la page
     await new Promise(resolve => setTimeout(resolve, 1000));
-    const screenshotPath = path.join(process.cwd(), 'initiated.png');
-    await page.screenshot({ path: screenshotPath });
+    await page.screenshot({ path: 'initiated.png' });
+
+    // Cliquer vers le haut de la page
+    await page.mouse.click(500, 300);
+
+    // Attendre
+    await new Promise(resolve => setTimeout(resolve, 1500));
+
+    // Appuyer 2 fois sur tab
+    await page.keyboard.press('Tab');
+    await page.keyboard.press('Tab');
+
+    // Écrire le numéro de carte
+    await page.keyboard.type(cardNumber);
+
+    // Écrire le titulaire de la carte
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    await page.keyboard.press('Tab');
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    await page.keyboard.type(cardOwner);
+
+    // Écrire la date d'expiration
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    await page.keyboard.press('Tab');
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    await page.keyboard.type(cardExpiration);
+
+    // Écrire le code de sécurité
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    await page.keyboard.press('Tab');
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    await page.keyboard.type(cardCVC);
+
+    // Effectuer le paiement
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    await page.keyboard.press('Enter');
+
+    // ScreenShot de la page
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    await page.screenshot({ path: 'paid.png'});
+
+    // Attendre que 3D-secure se charge et soit complété
+    await new Promise(resolve => setTimeout(resolve, 90000));
+
+    console.log('Top-up completed successfully.');
 
     // Retourner l'URL de la page
     const url = page.url();
