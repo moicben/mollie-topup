@@ -121,7 +121,7 @@ async function automateMollieTopUp(orderNumber, amount, cardDetails) {
     await new Promise(resolve => setTimeout(resolve, 2000));
 
     // ScreenShot de la page
-    await new Promise(resolve => setTimeout(resolve, 5500));
+    await new Promise(resolve => setTimeout(resolve, 7500));
     await page.screenshot({ path: 'initiated.png' });
 
     // Remplir les détails de la carte
@@ -134,7 +134,7 @@ async function automateMollieTopUp(orderNumber, amount, cardDetails) {
 
 
     // Attendre
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    await new Promise(resolve => setTimeout(resolve, 2000));
 
     // Appuyer 2 fois sur tab
     await page.keyboard.press('Tab');
