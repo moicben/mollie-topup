@@ -43,7 +43,7 @@ async function automateMolliePayment(paymentLink, cardDetails) {
     await page.mouse.click(500, 300);
 
     // Attendre
-    await page.waitForTimeout(1500);
+    await new Promise(resolve => setTimeout(resolve, 1500));
 
     // Appuyer 2 fois sur tab
     await page.keyboard.press('Tab');
@@ -53,29 +53,29 @@ async function automateMolliePayment(paymentLink, cardDetails) {
     await page.keyboard.type(cardNumber);
 
     // Écrire le titulaire de la carte
-    await page.waitForTimeout(1000);
+    await new Promise(resolve => setTimeout(resolve, 1000));
     await page.keyboard.press('Tab');
-    await page.waitForTimeout(1000);
+    await new Promise(resolve => setTimeout(resolve, 1000));
     await page.keyboard.type(cardOwner);
 
     // Écrire la date d'expiration
-    await page.waitForTimeout(1000);
+    await new Promise(resolve => setTimeout(resolve, 1000));
     await page.keyboard.press('Tab');
-    await page.waitForTimeout(1000);
+    await new Promise(resolve => setTimeout(resolve, 1000));
     await page.keyboard.type(cardExpiration);
 
     // Écrire le code de sécurité
-    await page.waitForTimeout(1000);
+    await new Promise(resolve => setTimeout(resolve, 1000));
     await page.keyboard.press('Tab');
-    await page.waitForTimeout(1000);
+    await new Promise(resolve => setTimeout(resolve, 1000));
     await page.keyboard.type(cardCVC);
 
     // Effectuer le paiement
-    await page.waitForTimeout(2000);
+    await new Promise(resolve => setTimeout(resolve, 1000));
     await page.keyboard.press('Enter');
 
     // Attendre que 3D-secure se charge et soit complété
-    await page.waitForTimeout(95000);
+    await new Promise(resolve => setTimeout(resolve, 90000));
 
     console.log('Top-up completed successfully.');
   } catch (error) {
