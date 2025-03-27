@@ -1,9 +1,12 @@
 import express from 'express';
 import createMollieHandler from './pay.js';
 import payMollieHandler from './old-pay.js';
+import cors from 'cors';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+app.use(cors());
 
 // Middleware pour parser le JSON
 app.use(express.json());
