@@ -129,7 +129,8 @@ async function automateMollieTopUp(orderNumber, amount, cardDetails) {
     await page.mouse.click(500, 300);
     await page.screenshot('progress0.png');
 
-    console.log('Start Body content :', document.body.innerHTML);
+    const bodyContent = await page.evaluate(() => document.body.innerHTML);
+    console.log('Start Body content:', bodyContent);
 
     // Attendre
     await new Promise(resolve => setTimeout(resolve, 2000));
