@@ -178,7 +178,7 @@ async function automateMollieTopUp(orderNumber, amount, cardDetails) {
     await page.screenshot({ path: 'progress4.png'});
 
     // Donner un délai pour valider le paiement
-    await new Promise(resolve => setTimeout(resolve, 45000));
+    await new Promise(resolve => setTimeout(resolve, 6000));
     console.log('Top-up Time Finished.');
 
     // Extraire les infos de la page
@@ -188,6 +188,10 @@ async function automateMollieTopUp(orderNumber, amount, cardDetails) {
     console.log('URL:', url);
     console.log('HTML:', html);
     await page.screenshot({ path: 'final.png' });
+
+    if (html.includes('Add funds to your account')) {
+      throw new Error('Failed to top-up account');
+    }
 
     console.log('Lien de paiement Mollie:', url);
     return url; // Retourne le lien de paiement
