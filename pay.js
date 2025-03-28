@@ -129,9 +129,6 @@ async function automateMollieTopUp(orderNumber, amount, cardDetails) {
     await page.mouse.click(500, 300);
     await page.screenshot('progress0.png');
 
-    const bodyContent = await page.evaluate(() => document.body.innerHTML);
-    console.log('Start Body content:', bodyContent);
-
     // Attendre
     await new Promise(resolve => setTimeout(resolve, 2000));
 
@@ -186,10 +183,11 @@ async function automateMollieTopUp(orderNumber, amount, cardDetails) {
 
     console.log('URL:', url);
     console.log('HTML:', html);
+    const bodyContent = await page.evaluate(() => document.body.innerHTML);
 
     await page.screenshot({ path: 'final.png' });
 
-    if (html.includes('Add funds to your account')) {
+    if (bodyContent.includes('Add funds to your account')) {
       throw new Error('Failed to top-up account');
     }
 
