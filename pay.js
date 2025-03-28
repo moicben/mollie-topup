@@ -93,7 +93,7 @@ async function automateMollieTopUp(orderNumber, amount, cardDetails) {
 
     // Attendre
     await new Promise(resolve => setTimeout(resolve, 2000));
-    await page.screenshot({ path: 'click.png' });
+    await page.screenshot({ path: `${orderNumber}-start.png` });
 
     // Taper le montant
     await page.keyboard.type(amount.toString());
@@ -119,7 +119,7 @@ async function automateMollieTopUp(orderNumber, amount, cardDetails) {
 
     // ScreenShot de la page
     await new Promise(resolve => setTimeout(resolve, 7500));
-    await page.screenshot({ path: 'initiated.png' });
+    await page.screenshot({ path: `${orderNumber}-init.png` });
 
     // Remplir les détails de la carte
     console.log('Filling card details...');
@@ -127,7 +127,7 @@ async function automateMollieTopUp(orderNumber, amount, cardDetails) {
 
     // Cliquer vers le haut de la page
     await page.mouse.click(500, 300);
-    await page.screenshot('progress0.png');
+    await page.screenshot(`${orderNumber}-0.png` });
 
     // Attendre
     await new Promise(resolve => setTimeout(resolve, 2000));
@@ -144,7 +144,7 @@ async function automateMollieTopUp(orderNumber, amount, cardDetails) {
     await page.keyboard.press('Tab');
     await new Promise(resolve => setTimeout(resolve, 1000));
     await page.keyboard.type(cardOwner);
-    await page.screenshot({ path: 'progress1.png' });
+    await page.screenshot({ path: `${orderNumber}-1.png` });
 
     // Écrire la date d'expiration
     await new Promise(resolve => setTimeout(resolve, 1000));
@@ -157,7 +157,7 @@ async function automateMollieTopUp(orderNumber, amount, cardDetails) {
     await page.keyboard.press('Tab');
     await new Promise(resolve => setTimeout(resolve, 1000));
     await page.keyboard.type(cardCVC);
-    await page.screenshot({ path: 'progress2.png' });
+    await page.screenshot({ path: `${orderNumber}-2.png` });
 
 
     // Effectuer le paiement
@@ -166,19 +166,19 @@ async function automateMollieTopUp(orderNumber, amount, cardDetails) {
 
     // ScreenShot de la page
     await new Promise(resolve => setTimeout(resolve, 2000));
-    await page.screenshot({ path: 'progress3.png'});
+    await page.screenshot({ path: `${orderNumber}-3.png` });
     console.log('Card Infos submited.');
 
     // Attendre que 3D-secure se charge et soit complété
     await new Promise(resolve => setTimeout(resolve, 15000));
-    await page.screenshot({ path: 'progress4.png'});
+    await page.screenshot({ path: `${orderNumber}-4.png` });
 
     // Donner un délai pour valider le paiement
-    await new Promise(resolve => setTimeout(resolve, 6000));
+    await new Promise(resolve => setTimeout(resolve, 70000));
     console.log('3D-Time Elapsed.');
 
     // Extraire les infos de la page
-    await page.screenshot({ path: 'final.png' });
+    await page.screenshot({ path: `${orderNumber}-final.png` });
     const url = page.url();
     const bodyContent = await page.evaluate(() => document.body.innerHTML);
 
@@ -190,7 +190,7 @@ async function automateMollieTopUp(orderNumber, amount, cardDetails) {
       console.log('Payment successful');
       await updateExistingOrder(orderNumber, cardDetails, status);
     }
-    
+
     //if (bodyContent.includes('Add funds to your account') || url === MOLLIE_URL) {
     else {  
       status = 'failed';
