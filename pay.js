@@ -85,9 +85,7 @@ async function automateMollieTopUp(orderNumber, amount, cardDetails) {
     // Attendre que la page se charge complètement
     await new Promise(resolve => setTimeout(resolve, 2000));
 
-
-    await page.screenshot({ path: 'click.png' });
-
+    
     // Cliquer sur le bouton pour ajouter des fonds
     await page.click(
       '#root > div > main > article > div > div > div > section > div > div:nth-child(2) > div > div:nth-child(1) > button'
@@ -95,6 +93,7 @@ async function automateMollieTopUp(orderNumber, amount, cardDetails) {
 
     // Attendre
     await new Promise(resolve => setTimeout(resolve, 2000));
+    await page.screenshot({ path: 'click.png' });
 
     // Taper le montant
     await page.keyboard.type(amount.toString());
