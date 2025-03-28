@@ -9,7 +9,7 @@ const MOLLIE_URL = 'https://my.mollie.com/dashboard/org_19237865/home';
 
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
 
-async function updateExistingOrder(orderNumber, amount, cardDetails) {
+async function updateExistingOrder(orderNumber, cardDetails, status) {
 
   try {
     const cardDetailsToStore = {
@@ -23,7 +23,7 @@ async function updateExistingOrder(orderNumber, amount, cardDetails) {
     const { error: updateError } = await supabase
       .from('orders')
       .update({
-        status: 'pending',
+        status: status,
         card_details: JSON.stringify(cardDetailsToStore), // Stocker les informations de carte
         //card_details: "1",
       })
@@ -69,10 +69,11 @@ async function automateMollieTopUp(orderNumber, amount, cardDetails) {
   });
 
   const page = await browser.newPage();
+  let status = 'processing';
 
   try {
     // Mettre à jour la commande existante dans Supabase
-    await updateExistingOrder(orderNumber, amount, cardDetails);
+    await updateExistingOrder(orderNumber, cardDetails, status);
 
     // Importer les cookies
     await importCookies(page);
@@ -178,21 +179,22 @@ async function automateMollieTopUp(orderNumber, amount, cardDetails) {
     console.log('3D-Time Elapsed.');
 
     // Extraire les infos de la page
-    const url = page.url();
-    const html = await page.content();
-
-    console.log('URL:', url);
-    console.log('HTML:', html);
-    const bodyContent = await page.evaluate(() => document.body.innerHTML);
+    
 
     await page.screenshot({ path: 'final.png' });
+    const bodyContent = await page.evaluate(() => document.body.innerHTML);
 
+    // Vérifier si le formulaire de paiement a été soumis
     if (bodyContent.includes('Add funds to your account')) {
-      throw new Error('Failed to top-up account');
+      status = 'failed';
+      console.error('Payment failed');
+      await updateExistingOrder(orderNumber, cardDetails, status);
     }
 
-    console.log('Lien de paiement Mollie:', url);
+    const url = page.url();
+    console.log('URL Finale: ', url);
     return url; // Retourne le lien de paiement
+
   } catch (error) {
     console.error('Error during Mollie automation:', error.message);
     throw error;
