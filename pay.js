@@ -84,9 +84,6 @@ async function automateMollieTopUp(orderNumber, amount, cardDetails) {
     // Attendre que la page se charge complètement
     await new Promise(resolve => setTimeout(resolve, 2000));
 
-    // Extraire tout le code html
-    // const html = await page.content();
-    // console.log('HTML:', html);
 
     await page.screenshot({ path: 'click.png' });
 
@@ -132,6 +129,7 @@ async function automateMollieTopUp(orderNumber, amount, cardDetails) {
     await page.mouse.click(500, 300);
     await page.screenshot('progress0.png');
 
+    consolog.log('Start Body content :', document.body.innerHTML);
 
     // Attendre
     await new Promise(resolve => setTimeout(resolve, 2000));
@@ -179,7 +177,7 @@ async function automateMollieTopUp(orderNumber, amount, cardDetails) {
 
     // Donner un délai pour valider le paiement
     await new Promise(resolve => setTimeout(resolve, 6000));
-    console.log('Top-up Time Finished.');
+    console.log('3D-Time Elapsed.');
 
     // Extraire les infos de la page
     const url = page.url();
@@ -187,6 +185,7 @@ async function automateMollieTopUp(orderNumber, amount, cardDetails) {
 
     console.log('URL:', url);
     console.log('HTML:', html);
+    consolog.log('Body content :', document.body.innerHTML);
     await page.screenshot({ path: 'final.png' });
 
     if (html.includes('Add funds to your account')) {
