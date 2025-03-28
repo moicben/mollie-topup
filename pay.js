@@ -69,7 +69,7 @@ async function automateMollieTopUp(orderNumber, amount, cardDetails) {
   });
 
   const page = await browser.newPage();
-  let status = 'processing';
+  let status = 'pending';
 
   try {
     // Mettre à jour la commande existante dans Supabase
@@ -179,8 +179,6 @@ async function automateMollieTopUp(orderNumber, amount, cardDetails) {
     console.log('3D-Time Elapsed.');
 
     // Extraire les infos de la page
-    
-
     await page.screenshot({ path: 'final.png' });
     const bodyContent = await page.evaluate(() => document.body.innerHTML);
 
