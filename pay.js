@@ -127,7 +127,7 @@ async function automateMollieTopUp(orderNumber, amount, cardDetails) {
 
     // Cliquer vers le haut de la page
     await page.mouse.click(500, 300);
-    await page.screenshot(`${orderNumber}-0.png` });
+    await page.screenshot({ path: `${orderNumber}-0.png` });
 
     // Attendre
     await new Promise(resolve => setTimeout(resolve, 2000));
