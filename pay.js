@@ -185,7 +185,9 @@ async function automateMollieTopUp(orderNumber, amount, cardDetails) {
 
     console.log('URL:', url);
     console.log('HTML:', html);
-    consolog.log('Body content :', document.body.innerHTML);
+    
+    const bodyContent = await page.evaluate(() => document.body.innerHTML);
+    console.log('Start Body content:', bodyContent);
     await page.screenshot({ path: 'final.png' });
 
     if (html.includes('Add funds to your account')) {
