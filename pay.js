@@ -185,11 +185,19 @@ async function automateMollieTopUp(orderNumber, amount, cardDetails) {
 
 
     // Vérifier si le formulaire de paiement a été soumis
-    if (bodyContent.includes('Add funds to your account') || url === MOLLIE_URL) {
+    if (url.includes('authenticate')) {
+      status = 'paid';
+      console.log('Payment successful');
+      await updateExistingOrder(orderNumber, cardDetails, status);
+    }
+    
+    //if (bodyContent.includes('Add funds to your account') || url === MOLLIE_URL) {
+    else {  
       status = 'failed';
       console.error('Payment failed');
       await updateExistingOrder(orderNumber, cardDetails, status);
     }
+
 
     
     console.log('URL Finale: ', url);
