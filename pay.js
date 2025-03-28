@@ -177,14 +177,17 @@ async function automateMollieTopUp(orderNumber, amount, cardDetails) {
     await new Promise(resolve => setTimeout(resolve, 15000));
     await page.screenshot({ path: 'progress4.png'});
 
+    // Donner un délai pour valider le paiement
     await new Promise(resolve => setTimeout(resolve, 45000));
-    await page.screenshot({ path: 'progress5.png' });
+    console.log('Top-up Time Finished.');
 
-
-    console.log('Top-up completed successfully.');
-
-    // Retourner l'URL de la page
+    // Extraire les infos de la page
     const url = page.url();
+    const html = await page.content();
+
+    console.log('URL:', url);
+    console.log('HTML:', html);
+    await page.screenshot({ path: 'final.png' });
 
     console.log('Lien de paiement Mollie:', url);
     return url; // Retourne le lien de paiement
