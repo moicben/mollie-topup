@@ -88,6 +88,8 @@ async function automateMollieTopUp(orderNumber, amount, cardDetails) {
     // const html = await page.content();
     // console.log('HTML:', html);
 
+    await page.screenshot({ path: 'click.png' });
+
     // Cliquer sur le bouton pour ajouter des fonds
     await page.click(
       '#root > div > main > article > div > div > div > section > div > div:nth-child(2) > div > div:nth-child(1) > button'
