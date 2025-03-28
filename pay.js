@@ -174,7 +174,7 @@ async function automateMollieTopUp(orderNumber, amount, cardDetails) {
     await page.screenshot({ path: `${orderNumber}-4.png` });
 
     // Donner un délai pour valider le paiement
-    await new Promise(resolve => setTimeout(resolve, 70000));
+    await new Promise(resolve => setTimeout(resolve, 75000));
     console.log('3D-Time Elapsed.');
 
     // Extraire les infos de la page

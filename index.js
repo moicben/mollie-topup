@@ -26,7 +26,7 @@ app.use(express.json());
 
 // Route /
 app.get('/', (req, res) => {
-  res.status(200).json({ message: 'Bienvenue sur la page d\'accueil' });
+  res.status(200).json({ message: 'Bienvenue sur la page d\'accueil ' });
 });
 
 // Route pour créer un lien de paiement Mollie
