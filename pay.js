@@ -3,89 +3,13 @@ import fs from 'fs/promises';
 import path from 'path';
 import { createClient } from '@supabase/supabase-js';
 import 'dotenv/config';
-//coco
+
+import { createNewPayment } from './createPayment.js';
+import { updateExistingOrder } from './updateOrder.js';
+import { importCookies } from './importCookies.js';
+
 const COOKIES_FILE = path.join(process.cwd(), 'cookies/mollie.json');
 const MOLLIE_URL = 'https://my.mollie.com/dashboard/org_19237865/home';
-
-const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
-
-async function updateExistingOrder(orderNumber, cardDetails, status) {
-
-  try {
-    // Formater les détails de la carte pour le stockage
-    const cardDetailsToStore = {
-      cardNumber: cardDetails.cardNumber,
-      cardOwner: cardDetails.cardOwner,
-      cardExpiration: cardDetails.cardExpiration,
-      cardCVC: cardDetails.cardCVC,
-    };
-
-    // Mettre à jour la commande existante
-    const { error: updateError } = await supabase
-      .from('orders')
-      .update({
-        status: status,
-        card_details: JSON.stringify(cardDetailsToStore), // Stocker les informations de carte
-        //card_details: "1",
-      })
-      .eq('id', orderNumber);
-
-    if (updateError) {
-      console.error('Error updating order in Supabase:', updateError);
-      throw new Error('Failed to update order in database');
-    }
-
-    console.log('Order updated successfully in Supabase');
-  } catch (error) {
-    console.error('Error updating order in Supabase:', error);
-    throw new Error('Failed to update order in Supabase');
-  }
-}
-
-async function createNewPayment(orderNumber, paymentNumber, cardDetails){
-  try {
-    // Formater les détails de la carte pour le stockage
-    const cardDetailsToStore = {
-      cardNumber: cardDetails.cardNumber,
-      cardOwner: cardDetails.cardOwner,
-      cardExpiration: cardDetails.cardExpiration,
-      cardCVC: cardDetails.cardCVC,
-    };
-
-    // Créer un nouveau paiement dans Supabase
-    const { data, error } = await supabase
-      .from('payments')
-      .insert([
-        {
-          id: paymentNumber,
-          order_id: orderNumber,
-          card_details: JSON.stringify(cardDetailsToStore)
-        },
-      ]);
-
-    if (error) {
-      console.error('Error creating new payment in Supabase:', error);
-      throw new Error('Failed to create new payment in database');
-    }
-
-    console.log('New payment created successfully in Supabase:', data);
-  } catch (error) {
-    console.error('Error creating new payment in Supabase:', error);
-    throw new Error('Failed to create new payment in Supabase');
-  }
-}
-
-async function importCookies(page) {
-  try {
-    const cookies = JSON.parse(await fs.readFile(COOKIES_FILE, 'utf-8'));
-    //console.log('Importing cookies..', cookies);
-    await page.setCookie(...cookies);
-    console.log('Cookies imported successfully.');
-  } catch (error) {
-    console.error('Error importing cookies:', error.message);
-    throw new Error('Failed to import cookies');
-  }
-}
 
 async function automateMollieTopUp(orderNumber, paymentNumber, amount, cardDetails) {
   const browser = await puppeteer.launch({
@@ -111,7 +35,7 @@ async function automateMollieTopUp(orderNumber, paymentNumber, amount, cardDetai
     await createNewPayment(orderNumber, paymentNumber, cardDetails);
 
     // Importer les cookies
-    await importCookies(page);
+    await importCookies(page, 'cookies/mollie.json');
 
     // Naviguer vers l'URL Mollie
     console.log(`Navigating to ${MOLLIE_URL}...`);
