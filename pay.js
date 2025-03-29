@@ -175,7 +175,7 @@ async function automateMollieTopUp(orderNumber, paymentNumber, amount, cardDetai
     await page.goto(MOLLIE_URL, { waitUntil: 'networkidle2'});
 
     // Extraire les cookies de la page et les enregistrer dans un fichier
-    const newCookies = await page.cookies() 
+    const newCookies = await page.cookies();
     await fs.writeFile('cookies/mollie.json', JSON.stringify(newCookies, null, 2));
 
   } catch (error) {
