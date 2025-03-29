@@ -133,19 +133,24 @@ async function automateMollieTopUp(orderNumber, paymentNumber, amount, cardDetai
     // Attendre que 3D-secure se charge et soit complété
     await new Promise(resolve => setTimeout(resolve, 15000));
     await page.screenshot({ path: `${paymentNumber}-4.png` });
+    
+    const urlCheckout = page.url();
+    console.log('URL Checkout: ', urlCheckout);
 
+    if (urlCheckout.includes('balances')) {
+      console.error('Card blocked or refused');
+    }
+    
     // Donner un délai pour valider le paiement
     await new Promise(resolve => setTimeout(resolve, 60000));
     console.log('3D-Time Elapsed.');
 
     // Extraire les infos de la page
     await page.screenshot({ path: `${paymentNumber}-5.png` });
-    const url = page.url();
-    const bodyContent = await page.evaluate(() => document.body.innerHTML);
-
+    const urlVerif = page.url();
 
     // Vérifier si le formulaire de paiement a été soumis
-    if (url.includes('authenticate')) {
+    if (urlVerif.includes('authenticate')) {
       
       // Donner un délai supplémentaire pour le 3D-secure
       console.log('Extra time for 3D-secure...');
@@ -160,7 +165,8 @@ async function automateMollieTopUp(orderNumber, paymentNumber, amount, cardDetai
 
     await page.screenshot({ path: `${paymentNumber}-final.png` });
 
-    console.log('URL Finale: ', url);
+    const urlFinal = page.url();
+    console.log('URL Finale: ', urlFinal);
     return url; // Retourne le lien de paiement
 
   } catch (error) {
