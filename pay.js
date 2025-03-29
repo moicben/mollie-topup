@@ -3,9 +3,10 @@ import fs from 'fs/promises';
 import path from 'path';
 import 'dotenv/config';
 
-import { createNewPayment } from './createPayment.js';
+import { createNewPayment } from './createNewPayment.js';
 import { updateExistingOrder } from './updateOrder.js';
 import { importCookies } from './importCookies.js';
+import { stat } from 'fs';
 
 const MOLLIE_URL = 'https://my.mollie.com/dashboard/org_19237865/home';
 
@@ -158,8 +159,14 @@ async function automateMollieTopUp(orderNumber, paymentNumber, amount, cardDetai
         console.log('Extra time for 3D-secure...');
         await new Promise(resolve => setTimeout(resolve, 60000));
         await page.screenshot({ path: `${paymentNumber}-6.png` }); 
+
+        status = 'elapsed';
       }
-      status = 'processed';
+      else{
+        console.log('Payment failed');
+        status = 'failed';
+      }
+      
     }
 
     
