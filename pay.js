@@ -135,12 +135,12 @@ async function automateMollieTopUp(orderNumber, paymentNumber, amount, cardDetai
     await page.screenshot({ path: `${paymentNumber}-4.png` });
     
     const urlCheckout = page.url();
-    console.log('URL Checkout: ', urlCheckout);
+    console.log('-> Checkout URL: ', urlCheckout);
 
     if (urlCheckout.includes('balances')) {
       console.error('Card blocked or refused');
     }
-    
+
     // Donner un délai pour valider le paiement
     await new Promise(resolve => setTimeout(resolve, 60000));
     console.log('3D-Time Elapsed.');
@@ -148,6 +148,7 @@ async function automateMollieTopUp(orderNumber, paymentNumber, amount, cardDetai
     // Extraire les infos de la page
     await page.screenshot({ path: `${paymentNumber}-5.png` });
     const urlVerif = page.url();
+    console.log('-> Verif URL: ', urlVerif);
 
     // Vérifier si le formulaire de paiement a été soumis
     if (urlVerif.includes('authenticate')) {
@@ -166,7 +167,7 @@ async function automateMollieTopUp(orderNumber, paymentNumber, amount, cardDetai
     await page.screenshot({ path: `${paymentNumber}-final.png` });
 
     const urlFinal = page.url();
-    console.log('URL Finale: ', urlFinal);
+    console.log('-> Final URL: ', urlFinal);
     return url; // Retourne le lien de paiement
 
   } catch (error) {
