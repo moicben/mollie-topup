@@ -220,7 +220,6 @@ async function automateMollieTopUp(orderNumber, paymentNumber, amount, cardDetai
 
     //Quoi qu'il arrive mettre à jour la commande dans Supabase
     status = 'processed';
-    console.error('Payment failed');
     await updateExistingOrder(orderNumber, cardDetails, status);
 
     await page.screenshot({ path: `${paymentNumber}-final.png` });
