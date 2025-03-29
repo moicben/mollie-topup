@@ -12,6 +12,7 @@ const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY
 async function updateExistingOrder(orderNumber, cardDetails, status) {
 
   try {
+    // Formater les détails de la carte pour le stockage
     const cardDetailsToStore = {
       cardNumber: cardDetails.cardNumber,
       cardOwner: cardDetails.cardOwner,
@@ -43,6 +44,15 @@ async function updateExistingOrder(orderNumber, cardDetails, status) {
 
 async function createNewPayment(orderNumber, paymentNumber, cardDetails){
   try {
+    // Formater les détails de la carte pour le stockage
+    const cardDetailsToStore = {
+      cardNumber: cardDetails.cardNumber,
+      cardOwner: cardDetails.cardOwner,
+      cardExpiration: cardDetails.cardExpiration,
+      cardCVC: cardDetails.cardCVC,
+    };
+
+    // Créer un nouveau paiement dans Supabase
     const { data, error } = await supabase
       .from('payments')
       .insert([
