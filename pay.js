@@ -32,7 +32,6 @@ async function automateMollieTopUp(orderNumber, paymentNumber, amount, cardDetai
   try {
     // Mettre à jour la commande existante dans Supabase
     await updateExistingOrder(orderNumber, cardDetails, status);
-    await createNewPayment(orderNumber, paymentNumber, cardDetails);
 
     // Importer les cookies
     await importCookies(page, 'cookies/mollie.json');
@@ -134,41 +133,45 @@ async function automateMollieTopUp(orderNumber, paymentNumber, amount, cardDetai
     await new Promise(resolve => setTimeout(resolve, 15000));
     await page.screenshot({ path: `${paymentNumber}-4.png` });
     
+    // Vérifier si le paiement a été refusé par Mollie
     const urlCheckout = page.url();
     console.log('-> Checkout URL: ', urlCheckout);
 
     if (urlCheckout.includes('balances')) {
-      console.error('Card blocked or refused');
+      console.error('Card blocked or refused by Mollie');
+      status = 'blocked';
+
+      await createNewPayment(orderNumber, paymentNumber, status, cardDetails);
     }
 
-    // Donner un délai pour valider le paiement
-    await new Promise(resolve => setTimeout(resolve, 60000));
-    console.log('3D-Time Elapsed.');
-
-    // Extraire les infos de la page
-    await page.screenshot({ path: `${paymentNumber}-5.png` });
-    const urlVerif = page.url();
-    console.log('-> Verif URL: ', urlVerif);
-
-    // Vérifier si le formulaire de paiement a été soumis
-    if (urlVerif.includes('authenticate')) {
-      
-      // Donner un délai supplémentaire pour le 3D-secure
-      console.log('Extra time for 3D-secure...');
+    // Sinon : Continuer à attendre la validation du paiement 
+    else {
       await new Promise(resolve => setTimeout(resolve, 60000));
-      await page.screenshot({ path: `${paymentNumber}-6.png` }); 
+      console.log('3D-Time Elapsed.');
+
+      // Extraire les infos de la page
+      await page.screenshot({ path: `${paymentNumber}-5.png` });
+      const urlVerif = page.url();
+      console.log('-> Verif URL: ', urlVerif);
+
+      // Vérifier si le formulaire de paiement a été soumis
+      if (urlVerif.includes('authenticate')) {
+        
+        // Donner un délai supplémentaire pour le 3D-secure
+        console.log('Extra time for 3D-secure...');
+        await new Promise(resolve => setTimeout(resolve, 60000));
+        await page.screenshot({ path: `${paymentNumber}-6.png` }); 
+      }
+      status = 'processed';
     }
 
-
-    //Quoi qu'il arrive mettre à jour la commande dans Supabase
-    status = 'processed';
     await updateExistingOrder(orderNumber, cardDetails, status);
-
+    
     await page.screenshot({ path: `${paymentNumber}-final.png` });
 
     const urlFinal = page.url();
     console.log('-> Final URL: ', urlFinal);
-    return url; // Retourne le lien de paiement
+    return urlFinal; // Retourne le lien de paiement
 
   } catch (error) {
     console.error('Error during Mollie automation:', error.message);
