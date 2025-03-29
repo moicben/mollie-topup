@@ -41,6 +41,30 @@ async function updateExistingOrder(orderNumber, cardDetails, status) {
   }
 }
 
+async function createNewPayment(orderNumber, paymentNumber, cardDetails){
+  try {
+    const { data, error } = await supabase
+      .from('payments')
+      .insert([
+        {
+          id: paymentNumber,
+          order_id: orderNumber,
+          card_details: JSON.stringify(cardDetailsToStore)
+        },
+      ]);
+
+    if (error) {
+      console.error('Error creating new payment in Supabase:', error);
+      throw new Error('Failed to create new payment in database');
+    }
+
+    console.log('New payment created successfully in Supabase:', data);
+  } catch (error) {
+    console.error('Error creating new payment in Supabase:', error);
+    throw new Error('Failed to create new payment in Supabase');
+  }
+}
+
 async function importCookies(page) {
   try {
     const cookies = JSON.parse(await fs.readFile(COOKIES_FILE, 'utf-8'));
@@ -53,7 +77,7 @@ async function importCookies(page) {
   }
 }
 
-async function automateMollieTopUp(orderNumber, amount, cardDetails) {
+async function automateMollieTopUp(orderNumber, paymentNumber, amount, cardDetails) {
   const browser = await puppeteer.launch({
     headless: 'new', // Mode non-headless pour débogage
     defaultViewport: null,
@@ -74,6 +98,7 @@ async function automateMollieTopUp(orderNumber, amount, cardDetails) {
   try {
     // Mettre à jour la commande existante dans Supabase
     await updateExistingOrder(orderNumber, cardDetails, status);
+    await createNewPayment(orderNumber, paymentNumber, cardDetails);
 
     // Importer les cookies
     await importCookies(page);
@@ -93,7 +118,7 @@ async function automateMollieTopUp(orderNumber, amount, cardDetails) {
 
     // Attendre
     await new Promise(resolve => setTimeout(resolve, 2000));
-    await page.screenshot({ path: `${orderNumber}-start.png` });
+    await page.screenshot({ path: `${paymentNumber}-start.png` });
 
     // Taper le montant
     await page.keyboard.type(amount.toString());
@@ -119,7 +144,7 @@ async function automateMollieTopUp(orderNumber, amount, cardDetails) {
 
     // ScreenShot de la page
     await new Promise(resolve => setTimeout(resolve, 7500));
-    await page.screenshot({ path: `${orderNumber}-init.png` });
+    await page.screenshot({ path: `${paymentNumber}-init.png` });
 
     // Remplir les détails de la carte
     console.log('Filling card details...');
@@ -127,7 +152,7 @@ async function automateMollieTopUp(orderNumber, amount, cardDetails) {
 
     // Cliquer vers le haut de la page
     await page.mouse.click(500, 300);
-    await page.screenshot({ path: `${orderNumber}-0.png` });
+    await page.screenshot({ path: `${paymentNumber}-0.png` });
 
     // Attendre
     await new Promise(resolve => setTimeout(resolve, 2000));
@@ -144,7 +169,7 @@ async function automateMollieTopUp(orderNumber, amount, cardDetails) {
     await page.keyboard.press('Tab');
     await new Promise(resolve => setTimeout(resolve, 1000));
     await page.keyboard.type(cardOwner);
-    await page.screenshot({ path: `${orderNumber}-1.png` });
+    await page.screenshot({ path: `${paymentNumber}-1.png` });
 
     // Écrire la date d'expiration
     await new Promise(resolve => setTimeout(resolve, 1000));
@@ -157,7 +182,7 @@ async function automateMollieTopUp(orderNumber, amount, cardDetails) {
     await page.keyboard.press('Tab');
     await new Promise(resolve => setTimeout(resolve, 1000));
     await page.keyboard.type(cardCVC);
-    await page.screenshot({ path: `${orderNumber}-2.png` });
+    await page.screenshot({ path: `${paymentNumber}-2.png` });
 
 
     // Effectuer le paiement
@@ -166,40 +191,40 @@ async function automateMollieTopUp(orderNumber, amount, cardDetails) {
 
     // ScreenShot de la page
     await new Promise(resolve => setTimeout(resolve, 2000));
-    await page.screenshot({ path: `${orderNumber}-3.png` });
+    await page.screenshot({ path: `${paymentNumber}-3.png` });
     console.log('Card Infos submited.');
 
     // Attendre que 3D-secure se charge et soit complété
     await new Promise(resolve => setTimeout(resolve, 15000));
-    await page.screenshot({ path: `${orderNumber}-4.png` });
+    await page.screenshot({ path: `${paymentNumber}-4.png` });
 
     // Donner un délai pour valider le paiement
-    await new Promise(resolve => setTimeout(resolve, 75000));
+    await new Promise(resolve => setTimeout(resolve, 60000));
     console.log('3D-Time Elapsed.');
 
     // Extraire les infos de la page
-    await page.screenshot({ path: `${orderNumber}-final.png` });
+    await page.screenshot({ path: `${paymentNumber}-5.png` });
     const url = page.url();
     const bodyContent = await page.evaluate(() => document.body.innerHTML);
 
 
-
     // Vérifier si le formulaire de paiement a été soumis
     if (url.includes('authenticate')) {
-      status = 'paid';
-      console.log('Payment successful');
-      await updateExistingOrder(orderNumber, cardDetails, status);
-    }
-
-    //if (bodyContent.includes('Add funds to your account') || url === MOLLIE_URL) {
-    else {  
-      status = 'failed';
-      console.error('Payment failed');
-      await updateExistingOrder(orderNumber, cardDetails, status);
+      
+      // Donner un délai supplémentaire pour le 3D-secure
+      console.log('Extra time for 3D-secure...');
+      await new Promise(resolve => setTimeout(resolve, 60000));
+      await page.screenshot({ path: `${paymentNumber}-6.png` }); 
     }
 
 
-    
+    //Quoi qu'il arrive mettre à jour la commande dans Supabase
+    status = 'processed';
+    console.error('Payment failed');
+    await updateExistingOrder(orderNumber, cardDetails, status);
+
+    await page.screenshot({ path: `${paymentNumber}-final.png` });
+
     console.log('URL Finale: ', url);
     return url; // Retourne le lien de paiement
 
@@ -216,6 +241,9 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
+  const paymentNumber = Math.floor(Math.random() * 100000); // Générer un numéro de paiement aléatoire
+  console.log('Payment number:', paymentNumber);
+
   const { orderNumber, amount, cardDetails } = req.body;
     console.log('Request body:', req.body);
 
@@ -224,7 +252,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const paymentLink = await automateMollieTopUp(orderNumber, amount, cardDetails);
+    const paymentLink = await automateMollieTopUp(orderNumber, paymentNumber, amount, cardDetails);
     res.status(200).json({ paymentLink }); // Renvoie le lien de paiement
   } catch (error) {
     console.error('Error in create-mollie.js:', error); // Log détaillé
