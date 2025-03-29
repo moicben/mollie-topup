@@ -1,33 +1,7 @@
 [
 {
     "domain": ".mollie.com",
-    "hostOnly": false,
-    "httpOnly": false,
-    "name": "__sf_c_campaign_url_",
-    "path": "/",
-    "sameSite": "strict",
-    "secure": true,
-    "session": true,
-    "storeId": "0",
-    "value": "https://www.mollie.com/fr/growth/securite-paiements-en-ligne",
-    "id": 1
-},
-{
-    "domain": ".mollie.com",
-    "hostOnly": false,
-    "httpOnly": false,
-    "name": "__sf_c_referral_",
-    "path": "/",
-    "sameSite": "strict",
-    "secure": true,
-    "session": true,
-    "storeId": "0",
-    "value": "localhost",
-    "id": 2
-},
-{
-    "domain": ".mollie.com",
-    "expirationDate": 1777697996.888691,
+    "expirationDate": 1777785887.888707,
     "hostOnly": false,
     "httpOnly": false,
     "name": "_ga",
@@ -37,7 +11,7 @@
     "session": false,
     "storeId": "0",
     "value": "GA1.2.502970286.1740676985",
-    "id": 3
+    "id": 1
 },
 {
     "domain": ".mollie.com",
@@ -51,11 +25,11 @@
     "session": false,
     "storeId": "0",
     "value": "GS1.1.1742559735.7.1.1742559922.0.0.0",
-    "id": 4
+    "id": 2
 },
 {
     "domain": ".mollie.com",
-    "expirationDate": 1777697996.665247,
+    "expirationDate": 1777785887.809818,
     "hostOnly": false,
     "httpOnly": false,
     "name": "_ga_QYNYB1T4G2",
@@ -64,8 +38,22 @@
     "secure": false,
     "session": false,
     "storeId": "0",
-    "value": "GS1.1.1743137941.41.1.1743137996.0.0.0",
-    "id": 5
+    "value": "GS1.1.1743225886.45.1.1743225887.0.0.0",
+    "id": 3
+},
+{
+    "domain": ".mollie.com",
+    "expirationDate": 1743225947,
+    "hostOnly": false,
+    "httpOnly": false,
+    "name": "_gat_gtag_UA_8558488_2",
+    "path": "/",
+    "sameSite": "unspecified",
+    "secure": false,
+    "session": false,
+    "storeId": "0",
+    "value": "1",
+    "id": 4
 },
 {
     "domain": ".mollie.com",
@@ -79,11 +67,11 @@
     "session": false,
     "storeId": "0",
     "value": "1.1.865404684.1742560250",
-    "id": 6
+    "id": 5
 },
 {
     "domain": ".mollie.com",
-    "expirationDate": 1743224396,
+    "expirationDate": 1743312287,
     "hostOnly": false,
     "httpOnly": false,
     "name": "_gid",
@@ -93,7 +81,7 @@
     "session": false,
     "storeId": "0",
     "value": "GA1.2.333575324.1743009441",
-    "id": 7
+    "id": 6
 },
 {
     "domain": ".mollie.com",
@@ -107,7 +95,7 @@
     "session": false,
     "storeId": "0",
     "value": "1742560250201.2061e293-05b9-4727-9151-e8abf8fa8b5f",
-    "id": 8
+    "id": 7
 },
 {
     "domain": ".mollie.com",
@@ -121,7 +109,7 @@
     "session": false,
     "storeId": "0",
     "value": "52b63c90065011f087c4bfcb9f0168c2",
-    "id": 9
+    "id": 8
 },
 {
     "domain": ".mollie.com",
@@ -135,7 +123,7 @@
     "session": false,
     "storeId": "0",
     "value": "{\"analytics\":true,\"marketing\":true,\"necessary\":true,\"preferences\":true}",
-    "id": 10
+    "id": 9
 },
 {
     "domain": ".mollie.com",
@@ -149,11 +137,11 @@
     "session": false,
     "storeId": "0",
     "value": "{\"analytics\":true,\"marketing\":true,\"necessary\":true,\"preferences\":true}",
-    "id": 11
+    "id": 10
 },
 {
     "domain": ".my.mollie.com",
-    "expirationDate": 1777697992.553945,
+    "expirationDate": 1777779335.830389,
     "hostOnly": false,
     "httpOnly": false,
     "name": "mollieUserAuthentication",
@@ -163,7 +151,7 @@
     "session": false,
     "storeId": "0",
     "value": "%7B%22loggedIn%22%3Atrue%7D",
-    "id": 12
+    "id": 11
 },
 {
     "domain": ".my.mollie.com",
@@ -177,7 +165,7 @@
     "session": false,
     "storeId": "0",
     "value": "153a8faa-ea50-4e45-b229-45f8bf22844c",
-    "id": 13
+    "id": 12
 },
 {
     "domain": ".my.mollie.com",
@@ -189,12 +177,12 @@
     "secure": true,
     "session": true,
     "storeId": "0",
-    "value": "t6k0osn6dlugpo0qur8vgt22eq",
-    "id": 14
+    "value": "sbsjv08a7du125cs624ip29a72",
+    "id": 13
 },
 {
     "domain": ".my.mollie.com",
-    "expirationDate": 1745729962.815413,
+    "expirationDate": 1745811335.830456,
     "hostOnly": false,
     "httpOnly": true,
     "name": "switched_to",
@@ -203,12 +191,12 @@
     "secure": true,
     "session": false,
     "storeId": "0",
-    "value": "xEKQrCbYP8AcLzpP-eHxqClzAgcuvblXc3ibuEMUPI0ZTxy9fK-YneTKkCdIrz9aDCdaVa8kPAWBYb4n4OuEuVgTbRJSKovxPeM_HccW",
-    "id": 15
+    "value": "IbCKmHsg5-muvKnaiAZCJ2LREGZrdn8A6mJSCrw65opdCYFKRYKzIWe_Q_1v7viU3UlabQIVbA4OQJBZiYpSvjwAcZ4GzkJsM2Bs9-nH",
+    "id": 14
 },
 {
     "domain": "my.mollie.com",
-    "expirationDate": 1743138914,
+    "expirationDate": 1743226824,
     "hostOnly": true,
     "httpOnly": false,
     "name": "_dd_s",
@@ -217,12 +205,12 @@
     "secure": false,
     "session": false,
     "storeId": "0",
-    "value": "rum=0&expire=1743138912598",
-    "id": 16
+    "value": "rum=0&expire=1743226823533",
+    "id": 15
 },
 {
     "domain": "my.mollie.com",
-    "expirationDate": 1743742792.553973,
+    "expirationDate": 1743824135.83031,
     "hostOnly": true,
     "httpOnly": true,
     "name": "REMEMBERME",
@@ -231,7 +219,7 @@
     "secure": true,
     "session": false,
     "storeId": "0",
-    "value": "98257b09083129c074a3c8a31028c41a02bd8b6a157045043e1ecc62708d868a%7Cba4d353beba2a5c6b6c2bc59e0103933%7C19c0977fa2a5fa930929fd8c30ca51e5",
-    "id": 17
+    "value": "98257b09083129c074a3c8a31028c41a02bd8b6a157045043e1ecc62708d868a%7C1ce9a3830e42cdc84d0e2c9eb2c82d75%7C19c0977fa2a5fa930929fd8c30ca51e5",
+    "id": 16
 }
 ]
