@@ -18,6 +18,8 @@
     "https": "^1.0.0",
     "puppeteer": "^24.4.0",
     "puppeteer-core": "^24.4.0",
+    "puppeteer-extra": "^3.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2",
     "render": "^0.1.4",
     "sudo": "^1.0.3"
   }

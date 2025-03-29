@@ -1,14 +1,10 @@
 import puppeteer from 'puppeteer';
-import fs from 'fs/promises';
-import path from 'path';
-import { createClient } from '@supabase/supabase-js';
 import 'dotenv/config';
 
 import { createNewPayment } from './createPayment.js';
 import { updateExistingOrder } from './updateOrder.js';
 import { importCookies } from './importCookies.js';
 
-const COOKIES_FILE = path.join(process.cwd(), 'cookies/mollie.json');
 const MOLLIE_URL = 'https://my.mollie.com/dashboard/org_19237865/home';
 
 async function automateMollieTopUp(orderNumber, paymentNumber, amount, cardDetails) {
@@ -165,13 +161,20 @@ async function automateMollieTopUp(orderNumber, paymentNumber, amount, cardDetai
       status = 'processed';
     }
 
-    await updateExistingOrder(orderNumber, cardDetails, status);
     
-    await page.screenshot({ path: `${paymentNumber}-final.png` });
-
+    // Informations Finales
     const urlFinal = page.url();
     console.log('-> Final URL: ', urlFinal);
-    return urlFinal; // Retourne le lien de paiement
+
+    await updateExistingOrder(orderNumber, cardDetails, status);
+    await page.screenshot({ path: `${paymentNumber}-final.png` });
+    
+    // Retourner à la page initiale de Mollie
+    await page.goto(MOLLIE_URL, { waitUntil: 'networkidle2'});
+
+    // Extraire les cookies de la page et les enregistrer dans un fichier
+    const newCookies = await page.cookies() 
+    await fs.writeFile('cookies/mollie.json', JSON.stringify(newCookies, null, 2));
 
   } catch (error) {
     console.error('Error during Mollie automation:', error.message);
