@@ -1,4 +1,6 @@
 import puppeteer from 'puppeteer';
+import fs from 'fs/promises';
+import path from 'path';
 import 'dotenv/config';
 
 import { createNewPayment } from './createPayment.js';
@@ -137,7 +139,6 @@ async function automateMollieTopUp(orderNumber, paymentNumber, amount, cardDetai
       console.error('Card blocked or refused by Mollie');
       status = 'blocked';
 
-      await createNewPayment(orderNumber, paymentNumber, status, cardDetails);
     }
 
     // Sinon : Continuer à attendre la validation du paiement 
@@ -167,6 +168,7 @@ async function automateMollieTopUp(orderNumber, paymentNumber, amount, cardDetai
     console.log('-> Final URL: ', urlFinal);
 
     await updateExistingOrder(orderNumber, cardDetails, status);
+    await createNewPayment(orderNumber, paymentNumber, status, cardDetails);
     await page.screenshot({ path: `${paymentNumber}-final.png` });
     
     // Retourner à la page initiale de Mollie
