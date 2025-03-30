@@ -1,7 +1,7 @@
 [
 {
     "domain": ".mollie.com",
-    "expirationDate": 1777870949.416043,
+    "expirationDate": 1777901662.244242,
     "hostOnly": false,
     "httpOnly": false,
     "name": "_ga",
@@ -29,7 +29,7 @@
 },
 {
     "domain": ".mollie.com",
-    "expirationDate": 1777888524.651582,
+    "expirationDate": 1777901661.259246,
     "hostOnly": false,
     "httpOnly": false,
     "name": "_ga_QYNYB1T4G2",
@@ -38,8 +38,22 @@
     "secure": false,
     "session": false,
     "storeId": "0",
-    "value": "GS1.1.1743328519.48.1.1743328524.0.0.0",
+    "value": "GS1.1.1743341661.49.0.1743341661.0.0.0",
     "id": 3
+},
+{
+    "domain": ".mollie.com",
+    "expirationDate": 1743341722,
+    "hostOnly": false,
+    "httpOnly": false,
+    "name": "_gat_gtag_UA_8558488_2",
+    "path": "/",
+    "sameSite": "unspecified",
+    "secure": false,
+    "session": false,
+    "storeId": "0",
+    "value": "1",
+    "id": 4
 },
 {
     "domain": ".mollie.com",
@@ -53,11 +67,11 @@
     "session": false,
     "storeId": "0",
     "value": "1.1.865404684.1742560250",
-    "id": 4
+    "id": 5
 },
 {
     "domain": ".mollie.com",
-    "expirationDate": 1743397349,
+    "expirationDate": 1743428062,
     "hostOnly": false,
     "httpOnly": false,
     "name": "_gid",
@@ -67,7 +81,7 @@
     "session": false,
     "storeId": "0",
     "value": "GA1.2.333575324.1743009441",
-    "id": 5
+    "id": 6
 },
 {
     "domain": ".mollie.com",
@@ -81,7 +95,7 @@
     "session": false,
     "storeId": "0",
     "value": "1742560250201.2061e293-05b9-4727-9151-e8abf8fa8b5f",
-    "id": 6
+    "id": 7
 },
 {
     "domain": ".mollie.com",
@@ -95,7 +109,7 @@
     "session": false,
     "storeId": "0",
     "value": "52b63c90065011f087c4bfcb9f0168c2",
-    "id": 7
+    "id": 8
 },
 {
     "domain": ".mollie.com",
@@ -109,7 +123,7 @@
     "session": false,
     "storeId": "0",
     "value": "{\"analytics\":true,\"marketing\":true,\"necessary\":true,\"preferences\":true}",
-    "id": 8
+    "id": 9
 },
 {
     "domain": ".mollie.com",
@@ -123,11 +137,11 @@
     "session": false,
     "storeId": "0",
     "value": "{\"analytics\":true,\"marketing\":true,\"necessary\":true,\"preferences\":true}",
-    "id": 9
+    "id": 10
 },
 {
     "domain": ".my.mollie.com",
-    "expirationDate": 1777870798.478642,
+    "expirationDate": 1777901660.293322,
     "hostOnly": false,
     "httpOnly": false,
     "name": "mollieUserAuthentication",
@@ -137,7 +151,7 @@
     "session": false,
     "storeId": "0",
     "value": "%7B%22loggedIn%22%3Atrue%7D",
-    "id": 10
+    "id": 11
 },
 {
     "domain": ".my.mollie.com",
@@ -151,7 +165,7 @@
     "session": false,
     "storeId": "0",
     "value": "153a8faa-ea50-4e45-b229-45f8bf22844c",
-    "id": 11
+    "id": 12
 },
 {
     "domain": ".my.mollie.com",
@@ -163,8 +177,8 @@
     "secure": true,
     "session": true,
     "storeId": "0",
-    "value": "c43gcr31co49imjae4mme693d4",
-    "id": 12
+    "value": "ei9chumqfava6ttver9erkkku8",
+    "id": 13
 },
 {
     "domain": ".my.mollie.com",
@@ -178,11 +192,11 @@
     "session": false,
     "storeId": "0",
     "value": "u8hw2oMr-7w8mFqe36rFCdfYhdtgiq-TuPGFUNySYKYhqXp3wFDmSRsNNzvsdiw_mvTK7XmUVpgkZaJEVFt_nTKNkzLsXMreP8POpdgY",
-    "id": 13
+    "id": 14
 },
 {
     "domain": "my.mollie.com",
-    "expirationDate": 1743329510,
+    "expirationDate": 1743342564,
     "hostOnly": true,
     "httpOnly": false,
     "name": "_dd_s",
@@ -191,12 +205,12 @@
     "secure": false,
     "session": false,
     "storeId": "0",
-    "value": "rum=1&id=de687a40-f22d-4946-b4a4-cc98d873ef35&created=1743328517426&expire=1743329509644",
-    "id": 14
+    "value": "rum=1&id=8d3985bc-580d-4610-a6e9-7dfce088cdab&created=1743341660595&expire=1743342560595",
+    "id": 15
 },
 {
     "domain": "my.mollie.com",
-    "expirationDate": 1743915598.478665,
+    "expirationDate": 1743946460.29324,
     "hostOnly": true,
     "httpOnly": true,
     "name": "REMEMBERME",
@@ -205,7 +219,7 @@
     "secure": true,
     "session": false,
     "storeId": "0",
-    "value": "98257b09083129c074a3c8a31028c41a02bd8b6a157045043e1ecc62708d868a%7Cdfcc0acc44327b50ccb7de20131788bb%7C84a9c19cb36e080ccea3f0df1aecbc6d",
-    "id": 15
+    "value": "98257b09083129c074a3c8a31028c41a02bd8b6a157045043e1ecc62708d868a%7Cbfd65acd598f2fd56aa2df2329a41890%7C84a9c19cb36e080ccea3f0df1aecbc6d",
+    "id": 16
 }
 ]
