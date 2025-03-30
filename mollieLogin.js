@@ -27,6 +27,8 @@ async function loginToMollie() {
     // Attendre
     await new Promise(resolve => setTimeout(resolve, 2000));
 
+    await page.screenshot({ path: 'mollie-start.png' });
+
     // Taper l'email
     console.log('Typing email...');
     await page.keyboard.type('benedikt.strokin@gmail.com', { delay: 100 });
