@@ -7,6 +7,7 @@ async function loginToMollie() {
     headless: `new`, // Mode non-headless pour voir le processus
     defaultViewport: null,
     args: ['--start-maximized', '--no-sandbox', '--disable-setuid-sandbox'],
+    executablePath: '/usr/bin/google-chrome',
   });
 
   const page = await browser.newPage();
