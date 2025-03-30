@@ -74,4 +74,4 @@ async function loginToMollie() {
   }
 }
 
-loginToMollie();
+export default loginToMollie;
