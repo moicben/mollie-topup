@@ -7,7 +7,7 @@ const MOLLIE_LOGIN_URL = 'https://my.mollie.com/dashboard/login?lang=en';
 
 // Configure le plugin capsolver avec votre clé API
 const solverPlugin = new SolverPlugin({
-  apiKey: process.env.CAPSOLVER_KEY, // Assurez-vous que votre clé API est définie dans les variables d'environnement
+  apiKey: 'CAP-043FC4EFDF3624A5DA0B9010AD0B2DBB', // Assurez-vous que votre clé API est définie dans les variables d'environnement
   useExtension: true, // Utilise l'extension pour résoudre les captchas
 });
 puppeteer.use(solverPlugin);
