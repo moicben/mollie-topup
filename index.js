@@ -3,7 +3,8 @@ import cors from 'cors';
 import fs from 'fs';
 import https from 'https';
 
-import createMollieHandler from './pay.js';
+import payMollie from './pay.js';
+import mollieLogin from './mollieLogin.js';
 
 const app = express();
 const PORT = 443; // Port par défaut pour HTTPS
@@ -30,7 +31,12 @@ app.get('/', (req, res) => {
 });
 
 // Route pour créer un lien de paiement Mollie
-app.post('/pay', createMollieHandler);
+app.post('/pay', payMollie);
+
+// Route pour se connecter à Mollie
+app.post('/mollie-login', mollieLogin);
+
+
 
 // Démarrer le serveur HTTPS
 https.createServer(sslOptions, app).listen(PORT, () => {
