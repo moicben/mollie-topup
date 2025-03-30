@@ -2,6 +2,8 @@ import puppeteer from 'puppeteer';
 import fs from 'fs';
 import path from 'path';
 
+import { importCookies } from './importCookies.js';
+
 const MOLLIE_LOGIN_URL = 'https://my.mollie.com/dashboard/login?lang=en';
 
 async function loginToMollie() {
