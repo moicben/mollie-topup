@@ -59,12 +59,21 @@ async function loginToMollie() {
     console.log('Submitting login form...');
     await page.keyboard.press('Enter');
 
+    // Attendre
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    await page.screenshot({path: 'mollie-entered.png'});
+
+    // Attendre 
+    await new Promise(resolve => setTimeout(resolve, 6000));
+    await page.screenshot({ path: 'mollie-pending.png' });
+
     // Attendre que je confirme la connexion
     await new Promise(resolve => setTimeout(resolve, 30000));
 
+
     // Attendre que la page de tableau de bord se charge
     await page.waitForNavigation({ waitUntil: 'networkidle2' });
-    console.log('Login successful!');
+    console.log('Login elapsed!');
 
     // Attendre
     await new Promise(resolve => setTimeout(resolve, 2000));
