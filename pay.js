@@ -140,35 +140,45 @@ async function automateMollieTopUp(orderNumber, paymentNumber, amount, cardDetai
       console.error('Card blocked or refused by Mollie');
       status = 'blocked';
 
+      await page.screenshot({ path: `${paymentNumber}-5-blocked.png` });
+
     }
 
-    // Sinon : Continuer à attendre la validation du paiement 
-    else {
+    else if (page.url().includes('authenticate')) {
+      console.log('3D-secure page detected.');
+      status = 'pending';
+
+      // Allowing 60 seconds for 3D-secure
       await new Promise(resolve => setTimeout(resolve, 60000));
       console.log('3D-Time Elapsed.');
 
-      // Extraire les infos de la page
-      await page.screenshot({ path: `${paymentNumber}-5.png` });
+      await page.screenshot({ path: `${paymentNumber}-5-secure.png` });
+
+      if (page.url().includes('authenticate')) {
+
+        console.log('3D-secure still pending...');
+
+        // Allowing extrat time for 3D-secure
+        await new Promise(resolve => setTimeout(resolve, 60000));
+        status = 'elapsed';
+        await page.screenshot({ path: `${paymentNumber}-5-elapsed.png` });
+      }
+        
+      else {
+        console.log('Payment completed.');
+        await page.screenshot({ path: `${paymentNumber}-5-paid.png` });
+        status = 'paid';
+      }
+    }
+    else {
+      // Extraire failed info from page
+      await page.screenshot({ path: `${paymentNumber}-5-failed.png` });
       const urlVerif = page.url();
       console.log('-> Verif URL: ', urlVerif);
-
-      // Vérifier si le formulaire de paiement a été soumis
-      if (urlVerif.includes('authenticate')) {
-        
-        // Donner un délai supplémentaire pour le 3D-secure
-        console.log('Extra time for 3D-secure...');
-        await new Promise(resolve => setTimeout(resolve, 60000));
-        await page.screenshot({ path: `${paymentNumber}-6.png` }); 
-
-        status = 'elapsed';
-      }
-      else{
-        console.log('Payment failed');
-        status = 'failed';
-      }
-      
+      status = 'failed';
     }
 
+    await new Promise(resolve => setTimeout(resolve, 5000));
     
     // Informations Finales
     const urlFinal = page.url();
