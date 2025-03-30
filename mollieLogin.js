@@ -1,4 +1,6 @@
 import puppeteer from 'puppeteer';
+import fs from 'fs';
+import path from 'path';
 
 const MOLLIE_LOGIN_URL = 'https://my.mollie.com/dashboard/login?lang=en';
 
@@ -17,55 +19,63 @@ async function loginToMollie() {
     console.log(`Navigating to ${MOLLIE_LOGIN_URL}...`);
     await page.goto(MOLLIE_LOGIN_URL, { waitUntil: 'networkidle2' });
 
-    // Attendre que le champ email soit visible
-    await page.waitForSelector('input[type="email"]', { visible: true });
+    // Attendre
+    await new Promise(resolve => setTimeout(resolve, 2000));
 
     // Taper l'email
     console.log('Typing email...');
-    await page.type('input[type="email"]', 'benedikt.strokin@gmail.com', { delay: 100 });
+    await page.keyboard.type('benedikt.strokin@gmail.com', { delay: 100 });
 
-    // Attendre 1 seconde
+    // Attendre
     await new Promise(resolve => setTimeout(resolve, 1000));
 
     // Appuyer sur Tab pour passer au champ mot de passe
     await page.keyboard.press('Tab');
 
-    // Attendre 1 seconde
+    // Attendre
     await new Promise(resolve => setTimeout(resolve, 1000));
 
     // Taper le mot de passe
     console.log('Typing password...');
-    await page.type('input[type="password"]', 'D&veloppe2018!', { delay: 100 });
+    await page.keyboard.type('D&veloppe2018!', { delay: 100 });
 
-    // Attendre 1 seconde
+    // Attendre
     await new Promise(resolve => setTimeout(resolve, 1000));
 
     // Appuyer sur Tab pour passer au bouton "Se souvenir de moi"
     await page.keyboard.press('Tab');
 
-    // Attendre 1 seconde
+    // Attendre
     await new Promise(resolve => setTimeout(resolve, 1000));
 
     // Appuyer sur Espace pour cocher la case "Se souvenir de moi"
     console.log('Checking "Remember me"...');
     await page.keyboard.press('Space');
 
-    // Attendre 1 seconde
+    // Attendre
     await new Promise(resolve => setTimeout(resolve, 1000));
 
     // Appuyer sur Entrée pour soumettre le formulaire
     console.log('Submitting login form...');
     await page.keyboard.press('Enter');
 
+    // Attendre que je confirme la connexion
+    await new Promise(resolve => setTimeout(resolve, 30000));
+
     // Attendre que la page de tableau de bord se charge
     await page.waitForNavigation({ waitUntil: 'networkidle2' });
     console.log('Login successful!');
 
-    // Attendre 1 seconde
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    // Attendre
+    await new Promise(resolve => setTimeout(resolve, 2000));
 
     // Prendre une capture d'écran après la connexion
     await page.screenshot({ path: 'mollie-dashboard.png' });
+
+    // Exporter les cookies
+    const cookies = await page.cookies();
+    const cookiesPath = path.join(__dirname, 'cookies', 'mollie.json');
+    fs.writeFileSync(cookiesPath, JSON.stringify(cookies, null, 2));
     
 
   } catch (error) {
