@@ -187,6 +187,13 @@ async function automateMollieTopUp(orderNumber, paymentNumber, amount, cardDetai
 
   } catch (error) {
     console.error('Error during Mollie automation:', error.message);
+    status = 'intern error';
+
+    await updateExistingOrder(orderNumber, cardDetails, status);
+    await createNewPayment(orderNumber, paymentNumber, status, cardDetails);
+    await page.screenshot({ path: `${paymentNumber}-error.png` });
+
+    
     throw error;
   } finally {
     await browser.close();
