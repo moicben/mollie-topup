@@ -15,6 +15,9 @@ async function loginToMollie() {
   const page = await browser.newPage();
 
   try {
+    // Importer les cookies
+      await importCookies(page, 'cookies/mollie.json');
+
     // Naviguer vers la page de connexion Mollie
     console.log(`Navigating to ${MOLLIE_LOGIN_URL}...`);
     await page.goto(MOLLIE_LOGIN_URL, { waitUntil: 'networkidle2' });
