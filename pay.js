@@ -170,6 +170,12 @@ async function automateMollieTopUp(orderNumber, paymentNumber, amount, cardDetai
         status = 'paid';
       }
     }
+    else if (page.url().includes('login')) {
+      console.log('Login page detected.');
+      status = 'not-logged';
+
+      await page.screenshot({ path: `${paymentNumber}-5-login.png` });
+    }
     else {
       // Extraire failed info from page
       await page.screenshot({ path: `${paymentNumber}-5-failed.png` });
