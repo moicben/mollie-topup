@@ -19,10 +19,7 @@ async function loginToMollie() {
       '--disable-setuid-sandbox',
       '--disable-blink-features=AutomationControlled', // Désactiver les détections d'automatisation
       '--disable-infobars', // Supprimer la barre d'information
-      '--enable-automation', // Activer l'automatisation
-      '--disable-extensions', // Désactiver les extensions
-      '--disable-dev-shm-usage', // Réduire l'utilisation de /dev/shm
-      '--disable-gpu', // Désactiver le GPU
+
     ],
     executablePath: '/usr/bin/google-chrome',
   });
@@ -40,7 +37,6 @@ async function loginToMollie() {
       Object.defineProperty(navigator, 'webdriver', { get: () => false });
       Object.defineProperty(navigator, 'languages', { get: () => ['en-US', 'en'] });
       Object.defineProperty(navigator, 'plugins', { get: () => [1, 2, 3] });
-      Object.defineProperty(navigator, 'platform', { get: () => 'Win32' });
       window.chrome = { runtime: {} };
     });
 
