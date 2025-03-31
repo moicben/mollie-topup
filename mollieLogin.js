@@ -1,16 +1,12 @@
-import puppeteer from 'puppeteer-extra';
+import puppeteer from 'puppeteer';
 import fs from 'fs';
 import path from 'path';
-import { SolverPlugin } from 'puppeteer-extra-plugin-capsolver';
+import axios from 'axios';
 
 const MOLLIE_LOGIN_URL = 'https://my.mollie.com/dashboard/login?lang=en';
+const SITE_KEY = '6LfX9K0jAAAAAIscWCtaqoe7OqSb98EYskj-eOXa';
+const CAPSOLVER_KEY= 'CAP-043FC4EFDF3624A5DA0B9010AD0B2DBB'
 
-// Configure le plugin capsolver avec votre clé API
-const solverPlugin = new SolverPlugin({
-  apiKey: 'CAP-043FC4EFDF3624A5DA0B9010AD0B2DBB', // Assurez-vous que votre clé API est définie dans les variables d'environnement
-  useExtension: false, // Utilise l'extension pour résoudre les captchas
-});
-puppeteer.use(solverPlugin);
 
 async function loginToMollie() {
   const browser = await puppeteer.launch({
@@ -62,15 +58,70 @@ async function loginToMollie() {
     await new Promise(resolve => setTimeout(resolve, 6000));
     await page.screenshot({ path: 'mollie-pending.png' });
 
-
-    // Extraire le code html de la balise body
-    const bodyHTML = await page.evaluate(() => document.body.innerHTML);
-    console.log('Body HTML:', bodyHTML);
-
     // Résoudre le captcha
-    // console.log('Solving captcha...');
+    console.log('Solving captcha...');
 
-    // console.log('Captcha solved!');
+    const PAGE_URL = page.url(); // URL de la page actuelle
+    
+    async function createTask(payload) {
+      try {
+        const res = await axios.post('https://api.capsolver.com/createTask', {
+          clientKey: CAPSOLVER_KEY,
+          task: payload
+        });
+        return res.data;
+      } catch (error) {
+        console.error('Error creating task:', error);
+      }
+    }
+    
+    async function getTaskResult(taskId) {
+      try {
+        let success = false;
+        while (!success) {
+          await new Promise(resolve => setTimeout(resolve, 1000)); // Attendre 1 seconde
+          console.log("Getting task result for task ID: " + taskId);
+          const res = await axios.post('https://api.capsolver.com/getTaskResult', {
+            clientKey: CAPSOLVER_KEY,
+            taskId: taskId
+          });
+          if (res.data.status === "ready") {
+            success = true;
+            console.log('Captcha solved:', res.data);
+            return res.data;
+          }
+        }
+      } catch (error) {
+        console.error('Error getting task result:', error);
+        return null;
+      }
+    }
+    
+    async function solveReCaptcha(pageURL, sitekey) {
+      const taskPayload = {
+        type: "ReCaptchaV2TaskProxyless",
+        websiteURL: pageURL,
+        websiteKey: sitekey,
+      };
+      const taskData = await createTask(taskPayload);
+      return await getTaskResult(taskData.taskId);
+    }
+    
+    try {
+      const response = await solveReCaptcha(PAGE_URL, SITE_KEY);
+      const captchaToken = response.solution.gRecaptchaResponse;
+      console.log(`Received captcha token: ${captchaToken}`);
+    
+      // Injecter le token dans le champ captcha et soumettre
+      await page.evaluate((token) => {
+        document.querySelector('textarea[name="g-recaptcha-response"]').value = token;
+      }, captchaToken);
+      console.log('Captcha token injected.');
+    } catch (error) {
+      console.error('Error solving captcha:', error);
+    }
+
+    console.log('Captcha solved!');
 
     // Attendre que la page de tableau de bord se charge
     await page.waitForNavigation({ waitUntil: 'networkidle2' });
