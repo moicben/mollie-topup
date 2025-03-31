@@ -1,5 +1,5 @@
 import puppeteer from 'puppeteer';
-import fs from 'fs';
+import fs from 'fs/promises'; // Remplacez l'importation précédente
 import path from 'path';
 import axios from 'axios';
 
