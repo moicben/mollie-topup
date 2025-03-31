@@ -89,6 +89,10 @@ async function loginToMollie() {
     await new Promise(resolve => setTimeout(resolve, 6000));
     await page.screenshot({ path: 'mollie-pending.png' });
 
+    // Export le htmldans la balise body et console log 
+    const bodyHTML = await page.evaluate(() => document.body.innerHTML);
+    console.log('body HTML : ' + bodyHTML);
+
     // Résoudre le captcha
     console.log('Solving captcha...');
 
