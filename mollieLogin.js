@@ -62,10 +62,20 @@ async function loginToMollie() {
     await new Promise(resolve => setTimeout(resolve, 6000));
     await page.screenshot({ path: 'mollie-pending.png' });
 
+
+    // Extraire le code html de div.g-captcha
+    const captchaElement = await page.$('.g-captcha');
+    if (captchaElement) {
+      const captchaHtml = await page.evaluate(element => element.innerHTML, captchaElement);
+      console.log('Captcha HTML:', captchaHtml);
+    } else {
+      console.log('Captcha not found on the page.');
+    }
+
     // Résoudre le captcha
-    console.log('Solving captcha...');
-    await page.waitForSolverCallback({ timeout: 120000 }); // Attendre que le captcha soit résolu
-    console.log('Captcha solved!');
+    // console.log('Solving captcha...');
+
+    // console.log('Captcha solved!');
 
     // Attendre que la page de tableau de bord se charge
     await page.waitForNavigation({ waitUntil: 'networkidle2' });
