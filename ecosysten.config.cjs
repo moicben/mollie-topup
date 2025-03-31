@@ -2,12 +2,12 @@ module.exports = {
   apps: [
     {
       name: "mollie-topup",
-      script: "./index.js", // ou le script qui lance Puppeteer
+      script: "./index.js",
       env: {
         NODE_ENV: "production",
-        DISPLAY: ":10", // indique le display pour Xvnc
-        PUPPETEER_EXECUTABLE_PATH: "/usr/bin/google-chrome", // ou le chemin approprié
-        // autres variables d'environnement...
+        DISPLAY: ":11",
+        XAUTHORITY: "/root/.Xauthority", // ou le chemin approprié pour l'utilisateur exécutant la session
+        PUPPETEER_EXECUTABLE_PATH: "/usr/bin/google-chrome"
       }
     }
   ]
