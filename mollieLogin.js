@@ -9,7 +9,7 @@ const MOLLIE_LOGIN_URL = 'https://my.mollie.com/dashboard/login?lang=en';
 const SITE_KEY = '6LfX9K0jAAAAAIscWCtaqoe7OqSb98EYskj-eOXa';
 const CAPSOLVER_KEY= 'CAP-043FC4EFDF3624A5DA0B9010AD0B2DBB'
 
-process.env.DISPLAY = ':10'; 
+//process.env.DISPLAY = ':10'; 
 
 async function loginToMollie() {
   const browser = await puppeteer.launch({
@@ -230,6 +230,6 @@ async function loginToMollie() {
   }
 }
 
-export default loginToMollie;
+//export default loginToMollie;
 
-//loginToMollie()
+loginToMollie()
