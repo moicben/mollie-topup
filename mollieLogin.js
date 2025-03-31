@@ -96,11 +96,11 @@ async function loginToMollie() {
     console.log('body HTML : ' + bodyHTML);
 
     // Cliquer sur le bouton de reedirection manuel : div.cqQpAf > a'
-    console.log('Clicking on the manual redirect button...');
-    await page.click('div.cqQpAf > a');
-    await new Promise(resolve => setTimeout(resolve, 6000));
+    // console.log('Clicking on the manual redirect button...');
+    // await page.click('div.cqQpAf > a');
+    // await new Promise(resolve => setTimeout(resolve, 6000));
 
-    await page.screenshot({ path: 'mollie-clicked.png' });
+    // await page.screenshot({ path: 'mollie-clicked.png' });
 
 
     // await new Promise(resolve => setTimeout(resolve, 6000));
@@ -115,98 +115,98 @@ async function loginToMollie() {
     // Résoudre le captcha
     console.log('Solving captcha...');
 
-    const PAGE_URL = page.url(); // URL de la page actuelle
-    async function createTask(payload) {
-      try {
-        const res = await axios.post('https://api.capsolver.com/createTask', {
-          clientKey: CAPSOLVER_KEY,
-          task: payload
-        });
-        return res.data;
-      } catch (error) {
-        console.error('Error creating task:', error);
-      }
-    }
+    // const PAGE_URL = page.url(); // URL de la page actuelle
+    // async function createTask(payload) {
+    //   try {
+    //     const res = await axios.post('https://api.capsolver.com/createTask', {
+    //       clientKey: CAPSOLVER_KEY,
+    //       task: payload
+    //     });
+    //     return res.data;
+    //   } catch (error) {
+    //     console.error('Error creating task:', error);
+    //   }
+    // }
     
-    async function getTaskResult(taskId) {
-      try {
-        let success = false;
-        while (!success) {
-          await new Promise(resolve => setTimeout(resolve, 1000)); // Attendre 1 seconde
-          console.log("Getting task result for task ID: " + taskId);
-          const res = await axios.post('https://api.capsolver.com/getTaskResult', {
-            clientKey: CAPSOLVER_KEY,
-            taskId: taskId
-          });
-          if (res.data.status === "ready") {
-            success = true;
-            console.log('Captcha solved:', res.data);
-            return res.data;
-          }
-        }
-      } catch (error) {
-        console.error('Error getting task result:', error);
-        return null;
-      }
-    }
+    // async function getTaskResult(taskId) {
+    //   try {
+    //     let success = false;
+    //     while (!success) {
+    //       await new Promise(resolve => setTimeout(resolve, 1000)); // Attendre 1 seconde
+    //       console.log("Getting task result for task ID: " + taskId);
+    //       const res = await axios.post('https://api.capsolver.com/getTaskResult', {
+    //         clientKey: CAPSOLVER_KEY,
+    //         taskId: taskId
+    //       });
+    //       if (res.data.status === "ready") {
+    //         success = true;
+    //         console.log('Captcha solved:', res.data);
+    //         return res.data;
+    //       }
+    //     }
+    //   } catch (error) {
+    //     console.error('Error getting task result:', error);
+    //     return null;
+    //   }
+    // }
     
-    async function solveReCaptcha(pageURL, sitekey) {
-      const taskPayload = {
-        type: "ReCaptchaV2TaskProxyless",
-        websiteURL: pageURL,
-        websiteKey: sitekey,
-      };
-      const taskData = await createTask(taskPayload);
-      return await getTaskResult(taskData.taskId);
-    }
+    // async function solveReCaptcha(pageURL, sitekey) {
+    //   const taskPayload = {
+    //     type: "ReCaptchaV2TaskProxyless",
+    //     websiteURL: pageURL,
+    //     websiteKey: sitekey,
+    //   };
+    //   const taskData = await createTask(taskPayload);
+    //   return await getTaskResult(taskData.taskId);
+    // }
     
-    try {
-      const response = await solveReCaptcha(PAGE_URL, SITE_KEY);
-      const captchaToken = response.solution.gRecaptchaResponse;
-      console.log(`Received captcha token: ${captchaToken}`);
+    // try {
+    //   const response = await solveReCaptcha(PAGE_URL, SITE_KEY);
+    //   const captchaToken = response.solution.gRecaptchaResponse;
+    //   console.log(`Received captcha token: ${captchaToken}`);
     
-      // Injecter le token dans le champ captcha
-      await page.evaluate((token) => {
-        const captchaField = document.querySelector('textarea[name="g-recaptcha-response"]');
-        if (captchaField) {
-          captchaField.value = token;
-        } else {
-          throw new Error('Captcha field not found on the page.');
-        }
-      }, captchaToken);
-      console.log('Captcha token injected.');
+    //   // Injecter le token dans le champ captcha
+    //   await page.evaluate((token) => {
+    //     const captchaField = document.querySelector('textarea[name="g-recaptcha-response"]');
+    //     if (captchaField) {
+    //       captchaField.value = token;
+    //     } else {
+    //       throw new Error('Captcha field not found on the page.');
+    //     }
+    //   }, captchaToken);
+    //   console.log('Captcha token injected.');
     
-      // Soumettre le formulaire après l'injection du token
-      await page.evaluate(() => {
-        const form = document.querySelector('form'); // Assurez-vous que le sélecteur correspond au formulaire
-        if (form) {
-          form.submit();
-        } else {
-          throw new Error('Login form not found on the page.');
-        }
-      });
-      console.log('Login form submitted.');
-    } catch (error) {
-      console.error('Error solving captcha or submitting form:', error);
-    }
+    //   // Soumettre le formulaire après l'injection du token
+    //   await page.evaluate(() => {
+    //     const form = document.querySelector('form'); // Assurez-vous que le sélecteur correspond au formulaire
+    //     if (form) {
+    //       form.submit();
+    //     } else {
+    //       throw new Error('Login form not found on the page.');
+    //     }
+    //   });
+    //   console.log('Login form submitted.');
+    // } catch (error) {
+    //   console.error('Error solving captcha or submitting form:', error);
+    // }
     
     // Attendre que la page se charge après la soumission
     console.log(`Current URL: ${page.url()}`);
     
     // Vérifiez si la connexion a réussi ou si vous êtes toujours sur la page de challenge
-    if (page.url().includes('challengePage=true')) {
-      console.error('Captcha challenge not passed.');
+    // if (page.url().includes('challengePage=true')) {
+    //   console.error('Captcha challenge not passed.');
 
-      // Attendre quelques secondes pour que la page se charge
-      //await new Promise(resolve => setTimeout(resolve, 4000));
-      // aller vers la page : https://my.mollie.com/dashboard/login?lang=en&challengePage=false
-      //await page.goto(`${MOLLIE_LOGIN_URL}&challengePage=false`, { waitUntil: 'networkidle2' });
+    //   // Attendre quelques secondes pour que la page se charge
+    //   //await new Promise(resolve => setTimeout(resolve, 4000));
+    //   // aller vers la page : https://my.mollie.com/dashboard/login?lang=en&challengePage=false
+    //   //await page.goto(`${MOLLIE_LOGIN_URL}&challengePage=false`, { waitUntil: 'networkidle2' });
 
-      //await page.screenshot({ path: 'mollie-redirect.png' });
+    //   //await page.screenshot({ path: 'mollie-redirect.png' });
 
-    } else {
-      console.log('Login successful!');
-    }
+    // } else {
+    //   console.log('Login successful!');
+    // }
 
     console.log('Captcha time finished.');
 
