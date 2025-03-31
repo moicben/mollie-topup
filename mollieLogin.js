@@ -159,7 +159,7 @@ async function loginToMollie() {
       console.log('Login successful!');
     }
 
-    console.log('Captcha solved!');
+    console.log('Captcha time finished.');
 
     // Attendre 4 secondes pour que la page se charge
     await new Promise(resolve => setTimeout(resolve, 4000));
