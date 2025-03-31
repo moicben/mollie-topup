@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import axios from 'axios';
 
-import { importCookies } from './importCookies';
+import { importCookies } from './importCookies.js';
 
 const MOLLIE_LOGIN_URL = 'https://my.mollie.com/dashboard/login?lang=en';
 const SITE_KEY = '6LfX9K0jAAAAAIscWCtaqoe7OqSb98EYskj-eOXa';
