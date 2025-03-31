@@ -112,13 +112,40 @@ async function loginToMollie() {
       const captchaToken = response.solution.gRecaptchaResponse;
       console.log(`Received captcha token: ${captchaToken}`);
     
-      // Injecter le token dans le champ captcha et soumettre
+      // Injecter le token dans le champ captcha
       await page.evaluate((token) => {
-        document.querySelector('textarea[name="g-recaptcha-response"]').value = token;
+        const captchaField = document.querySelector('textarea[name="g-recaptcha-response"]');
+        if (captchaField) {
+          captchaField.value = token;
+        } else {
+          throw new Error('Captcha field not found on the page.');
+        }
       }, captchaToken);
       console.log('Captcha token injected.');
+    
+      // Soumettre le formulaire après l'injection du token
+      await page.evaluate(() => {
+        const form = document.querySelector('form'); // Assurez-vous que le sélecteur correspond au formulaire
+        if (form) {
+          form.submit();
+        } else {
+          throw new Error('Login form not found on the page.');
+        }
+      });
+      console.log('Login form submitted.');
     } catch (error) {
-      console.error('Error solving captcha:', error);
+      console.error('Error solving captcha or submitting form:', error);
+    }
+    
+    // Attendre que la page se charge après la soumission
+    await page.waitForNavigation({ waitUntil: 'networkidle2' });
+    console.log(`Current URL: ${page.url()}`);
+    
+    // Vérifiez si la connexion a réussi ou si vous êtes toujours sur la page de challenge
+    if (page.url().includes('challengePage=true')) {
+      console.error('Captcha challenge not resolved successfully.');
+    } else {
+      console.log('Login successful!');
     }
 
     console.log('Captcha solved!');
@@ -132,10 +159,10 @@ async function loginToMollie() {
     // Console log l'URL
     console.log(`Current URL: ${page.url()}`);
 
-    // Exporter les cookies
-    const cookies = await page.cookies();
-    const cookiesPath = path.join(__dirname, 'cookies', 'mollie.json');
-    fs.writeFileSync(cookiesPath, JSON.stringify(cookies, null, 2));
+    // Extraire les cookies de la page et les enregistrer dans un fichier
+    const newCookies = await page.cookies();
+    await fs.writeFile('cookies/mollie.json', JSON.stringify(newCookies, null, 2));
+    
   } catch (error) {
     console.error('Error during Mollie login:', error.message);
   } finally {
