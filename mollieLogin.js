@@ -179,11 +179,11 @@ async function loginToMollie() {
       console.error('Captcha challenge not passed.');
 
       // Attendre quelques secondes pour que la page se charge
-      await new Promise(resolve => setTimeout(resolve, 4000));
+      //await new Promise(resolve => setTimeout(resolve, 4000));
       // aller vers la page : https://my.mollie.com/dashboard/login?lang=en&challengePage=false
-      await page.goto(`${MOLLIE_LOGIN_URL}&challengePage=false`, { waitUntil: 'networkidle2' });
+      //await page.goto(`${MOLLIE_LOGIN_URL}&challengePage=false`, { waitUntil: 'networkidle2' });
 
-      await page.screenshot({ path: 'mollie-redirect.png' });
+      //await page.screenshot({ path: 'mollie-redirect.png' });
 
     } else {
       console.log('Login successful!');
