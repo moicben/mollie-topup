@@ -93,6 +93,18 @@ async function loginToMollie() {
     const bodyHTML = await page.evaluate(() => document.body.innerHTML);
     console.log('body HTML : ' + bodyHTML);
 
+    // Cliquer sur le bouton de reedirection manuel : div.cqQpAf > a'
+    console.log('Clicking on the manual redirect button...');
+    await page.click('div.cqQpAf > a');
+    await new Promise(resolve => setTimeout(resolve, 6000));
+
+    await page.screenshot({ path: 'mollie-clicked.png' });
+
+    
+
+    
+
+
     // Résoudre le captcha
     console.log('Solving captcha...');
 
