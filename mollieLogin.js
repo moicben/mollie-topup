@@ -212,6 +212,6 @@ async function loginToMollie() {
   }
 }
 
-//export default loginToMollie;
+export default loginToMollie;
 
-loginToMollie()
+//loginToMollie()
