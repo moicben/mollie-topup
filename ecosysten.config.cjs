@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: "mollie-topup",
+      name: "app",
       script: "./index.js",
       env: {
         NODE_ENV: "production",
