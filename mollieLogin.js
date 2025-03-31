@@ -33,7 +33,7 @@ async function loginToMollie() {
 
 
     // Importer les cookies
-    importCookies(page, 'cookies/mollie.json');
+    //importCookies(page, 'cookies/mollie.json');
 
     // Naviguer vers la page de connexion Mollie
     console.log(`Navigating to ${MOLLIE_LOGIN_URL}...`);
