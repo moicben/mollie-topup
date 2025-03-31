@@ -11,7 +11,7 @@ const CAPSOLVER_KEY= 'CAP-043FC4EFDF3624A5DA0B9010AD0B2DBB'
 
 async function loginToMollie() {
   const browser = await puppeteer.launch({
-    headless: `new`, // Mode non-headless pour voir le processus
+    headless: false, // Mode non-headless pour voir le processus
     defaultViewport: null,
     args: [
       '--start-maximized',
