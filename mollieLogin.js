@@ -13,7 +13,7 @@ process.env.DISPLAY = ':10'; // définit le display pour Xvnc
 
 async function loginToMollie() {
   const browser = await puppeteer.launch({
-    headless: true, // Mode non-headless pour voir le processus
+    headless: false, // Mode non-headless pour voir le processus
     defaultViewport: null,
     args: [
       '--start-maximized',
