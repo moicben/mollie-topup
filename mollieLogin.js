@@ -63,14 +63,9 @@ async function loginToMollie() {
     await page.screenshot({ path: 'mollie-pending.png' });
 
 
-    // Extraire le code html de div.g-captcha
-    const captchaElement = await page.$('.g-captcha');
-    if (captchaElement) {
-      const captchaHtml = await page.evaluate(element => element.innerHTML, captchaElement);
-      console.log('Captcha HTML:', captchaHtml);
-    } else {
-      console.log('Captcha not found on the page.');
-    }
+    // Extraire le code html de la balise body
+    const bodyHTML = await page.evaluate(() => document.body.innerHTML);
+    console.log('Body HTML:', bodyHTML);
 
     // Résoudre le captcha
     // console.log('Solving captcha...');
