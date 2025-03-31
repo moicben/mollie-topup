@@ -14,7 +14,7 @@ puppeteer.use(solverPlugin);
 
 async function loginToMollie() {
   const browser = await puppeteer.launch({
-    headless: true, // Mode non-headless pour voir le processus
+    headless: `new`, // Mode non-headless pour voir le processus
     defaultViewport: null,
     args: ['--start-maximized', '--no-sandbox', '--disable-setuid-sandbox'],
     executablePath: '/usr/bin/google-chrome',
