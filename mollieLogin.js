@@ -100,6 +100,11 @@ async function loginToMollie() {
 
     await page.screenshot({ path: 'mollie-clicked.png' });
 
+
+    await new Promise(resolve => setTimeout(resolve, 6000));
+    await page.click('div.cqQpAf > a');
+    
+
     
 
     
