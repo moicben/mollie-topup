@@ -146,7 +146,15 @@ async function loginToMollie() {
     
     // Vérifiez si la connexion a réussi ou si vous êtes toujours sur la page de challenge
     if (page.url().includes('challengePage=true')) {
-      console.error('Captcha challenge not resolved successfully.');
+      console.error('Captcha challenge not passed.');
+
+      // Attendre quelques secondes pour que la page se charge
+      await new Promise(resolve => setTimeout(resolve, 4000));
+      // aller vers la page : https://my.mollie.com/dashboard/login?lang=en&challengePage=false
+      await page.goto(`${MOLLIE_LOGIN_URL}&challengePage=false`, { waitUntil: 'networkidle2' });
+
+      await page.screenshot({ path: 'mollie-redirect.png' });
+
     } else {
       console.log('Login successful!');
     }
