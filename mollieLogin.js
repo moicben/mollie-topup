@@ -27,31 +27,13 @@ async function loginToMollie() {
   });
 
   // Ajouter des modifications pour masquer l'automatisation
- const page = await browser.newPage();
-
-
-
+  const page = await browser.newPage();
   
-
   try {
-
-    await page.evaluateOnNewDocument(() => {
-      Object.defineProperty(navigator, 'webdriver', { get: () => false });
-      Object.defineProperty(navigator, 'languages', { get: () => ['en-US', 'en'] });
-      Object.defineProperty(navigator, 'plugins', { get: () => [1, 2, 3] });
-      window.chrome = { runtime: {} };
-    });
 
 
     // Importer les cookies
     importCookies(page, 'cookies/mollie.json');
-
-    // Fake un vrai navigateur
-    await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36');
-    await page.setViewport({ width: 1920, height: 1080 });
-    await page.setJavaScriptEnabled(true);
-    await page.setGeolocation({ latitude: 48.8566, longitude: 2.3522 }); // Paris, France
-
 
     // Naviguer vers la page de connexion Mollie
     console.log(`Navigating to ${MOLLIE_LOGIN_URL}...`);
