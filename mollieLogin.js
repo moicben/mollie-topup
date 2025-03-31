@@ -9,7 +9,7 @@ const MOLLIE_LOGIN_URL = 'https://my.mollie.com/dashboard/login?lang=en';
 const SITE_KEY = '6LfX9K0jAAAAAIscWCtaqoe7OqSb98EYskj-eOXa';
 const CAPSOLVER_KEY= 'CAP-043FC4EFDF3624A5DA0B9010AD0B2DBB'
 
-//process.env.DISPLAY = ':10'; 
+process.env.DISPLAY = ':10'; // définit le display pour Xvnc
 
 async function loginToMollie() {
   const browser = await puppeteer.launch({
@@ -23,7 +23,7 @@ async function loginToMollie() {
       '--disable-infobars', // Supprimer la barre d'information
 
     ],
-    executablePath: '/usr/bin/google-chrome',
+    executablePath: process.env.PUPPETEER_EXECUTABLE_PATH, // assure-toi que le chemin est correct
   });
 
   // Ajouter des modifications pour masquer l'automatisation
