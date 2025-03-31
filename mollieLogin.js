@@ -10,7 +10,7 @@ const SITE_KEY = '6LfX9K0jAAAAAIscWCtaqoe7OqSb98EYskj-eOXa';
 const CAPSOLVER_KEY= process.env.CAPSOLVER_KEY; 
 
 async function loginToMollie() {
-  const browser = await puppeteer.connect({
+  const browser = await puppeteer.launch({
     headless: `new`, // Mode non-headless pour voir le processus
     defaultViewport: null,
     args: ['--start-maximized', '--no-sandbox', '--disable-setuid-sandbox'],
