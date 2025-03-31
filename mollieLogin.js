@@ -123,12 +123,14 @@ async function loginToMollie() {
 
     console.log('Captcha solved!');
 
-    // Attendre que la page de tableau de bord se charge
-    await page.waitForNavigation({ waitUntil: 'networkidle2' });
-    console.log('Login successful!');
+    // Attendre 4 secondes pour que la page se charge
+    await new Promise(resolve => setTimeout(resolve, 4000));
 
     // Prendre une capture d'écran après la connexion
     await page.screenshot({ path: 'mollie-dashboard.png' });
+
+    // Console log l'URL
+    console.log(`Current URL: ${page.url()}`);
 
     // Exporter les cookies
     const cookies = await page.cookies();
