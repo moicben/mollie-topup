@@ -74,9 +74,10 @@ async function loginToMollie() {
     await page.screenshot({ path: 'mollie-pending.png' });
 
     // Export le htmldans la balise body et console log 
-    const bodyHTML = await page.evaluate(() => document.body.innerHTML);
-    console.log('body HTML : ' + bodyHTML);
+    // const bodyHTML = await page.evaluate(() => document.body.innerHTML);
+    // console.log('body HTML : ' + bodyHTML);
 
+    
     // Cliquer sur le bouton de reedirection manuel : div.cqQpAf > a'
     // console.log('Clicking on the manual redirect button...');
     // await page.click('div.cqQpAf > a');
@@ -204,6 +205,8 @@ async function loginToMollie() {
     // Extraire les cookies de la page et les enregistrer dans un fichier
     const newCookies = await page.cookies();
     await fs.writeFile('cookies/mollie.json', JSON.stringify(newCookies, null, 2));
+
+    return newCookies;
     
   } catch (error) {
     console.error('Error during Mollie login:', error.message);
