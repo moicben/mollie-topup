@@ -8,7 +8,7 @@ import { updateExistingOrder } from './updateOrder.js';
 import { importCookies } from './importCookies.js';
 import { stat } from 'fs';
 
-const MOLLIE_URL = 'https://my.mollie.com/dashboard/org_19237865/home';
+const MOLLIE_URL = 'https://my.mollie.com/dashboard/org_19240931/balances/bal_KpKzxFFwLcM8MX4AGXU5J';
 
 async function automateMollieTopUp(orderNumber, paymentNumber, amount, cardDetails) {
   const browser = await puppeteer.launch({

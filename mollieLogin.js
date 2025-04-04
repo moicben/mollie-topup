@@ -77,7 +77,7 @@ async function loginToMollie() {
     // const bodyHTML = await page.evaluate(() => document.body.innerHTML);
     // console.log('body HTML : ' + bodyHTML);
 
-    
+
     // Cliquer sur le bouton de reedirection manuel : div.cqQpAf > a'
     // console.log('Clicking on the manual redirect button...');
     // await page.click('div.cqQpAf > a');
@@ -174,7 +174,7 @@ async function loginToMollie() {
     // }
     
     // Attendre que la page se charge après la soumission
-    console.log(`Current URL: ${page.url()}`);
+    console.log(`Pending URL: ${page.url()}`);
     
     // Vérifiez si la connexion a réussi ou si vous êtes toujours sur la page de challenge
     // if (page.url().includes('challengePage=true')) {
@@ -200,7 +200,7 @@ async function loginToMollie() {
     await page.screenshot({ path: 'mollie-dashboard.png' });
 
     // Console log l'URL
-    console.log(`Current URL: ${page.url()}`);
+    console.log(`Dashboard URL: ${page.url()}`);
 
     // Extraire les cookies de la page et les enregistrer dans un fichier
     const newCookies = await page.cookies();
