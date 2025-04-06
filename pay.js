@@ -30,24 +30,15 @@ async function automateMollieTopUp(orderNumber, paymentNumber, amount, cardDetai
   let status = 'pending';
 
   // Tracker "Achat" Google Ads Conversion
-  await page.evaluate(() => {
-    function gtag_report_conversion(url) {
-      var callback = function () {
-        if (typeof(url) != 'undefined') {
-          window.location = url;
-        }
-      };
-      gtag('event', 'conversion', {
-          'send_to': 'AW-16883090550/gaFaCMfZ27QaEPaIvvI-',
-          'value': 1.0,
-          'currency': 'EUR',
-          'transaction_id': '',
-          'event_callback': callback
-      });
-      return false;
-    }
-    gtag_report_conversion();
-  });
+
+
+  // gtag('event', 'conversion', {
+  //     'send_to': 'AW-16883090550/gaFaCMfZ27QaEPaIvvI-',
+  //     'value': 1.0,
+  //     'currency': 'EUR',
+  //     'transaction_id': '',
+  //     'event_callback': callback
+  // });
 
 
 
