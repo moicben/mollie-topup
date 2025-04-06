@@ -206,15 +206,19 @@ async function loginToMollie() {
     const newCookies = await page.cookies();
     await fs.writeFile('cookies/mollie.json', JSON.stringify(newCookies, null, 2));
 
-    return newCookies;
+    
     
   } catch (error) {
     console.error('Error during Mollie login:', error.message);
+  
   } finally {
+    // Fermer le navigateur
+    console.log('Closing browser...');
     await browser.close();
+    process.exit(0); 
+
   }
 }
 
 export default loginToMollie;
 
-//loginToMollie()

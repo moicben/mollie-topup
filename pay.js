@@ -1,5 +1,6 @@
 import puppeteer from 'puppeteer';
 import fs from 'fs/promises';
+import fetch from 'node-fetch';
 import path from 'path';
 import 'dotenv/config';
 
@@ -59,6 +60,7 @@ async function automateMollieTopUp(orderNumber, paymentNumber, amount, cardDetai
       // Retourner à la page de démarrage	
       await page.goto(MOLLIE_URL, { waitUntil: 'networkidle2'});
       await new Promise(resolve => setTimeout(resolve, 2000));
+      console.log('-> (Updated) Start URL: ', page.url());
     }
 
     
@@ -70,6 +72,7 @@ async function automateMollieTopUp(orderNumber, paymentNumber, amount, cardDetai
     // Attendre
     await new Promise(resolve => setTimeout(resolve, 2000));
     await page.screenshot({ path: `${paymentNumber}-clicked.png` });
+    console.log('Clicked on "Add funds" button.');
 
     // Taper le montant
     await page.keyboard.type(amount.toString());
