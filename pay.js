@@ -66,7 +66,7 @@ async function automateMollieTopUp(orderNumber, paymentNumber, amount, cardDetai
     
     // Cliquer sur le bouton pour ajouter des fonds
     await page.click(
-      '#root > div > main > article > div > div > div > section > div > div:nth-child(2) > div > div:nth-child(1) > button'
+      'button.mollie-ui-box.mollie-ui-button.mollie-ui-button--medium.mollie-ui-button--secondary'
     );
 
     // Attendre
