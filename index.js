@@ -5,21 +5,22 @@ import https from 'https';
 
 import payMollie from './pay.js';
 import mollieLogin from './mollieLogin.js';
+import scheduleMollieLogin from './scheduleLogin.js';
 
 const app = express();
 const PORT = 443; // Port par défaut pour HTTPS
 
 // Charger les certificats SSL
 const sslOptions = {
-  key: fs.readFileSync('/etc/letsencrypt/live/api.christopeit-france.shop/privkey.pem'), // Chemin vers la clé privée
-  cert: fs.readFileSync('/etc/letsencrypt/live/api.christopeit-france.shop/fullchain.pem'), // Chemin vers le certificat
+  key: fs.readFileSync('/etc/letsencrypt/live/api.christopeit-france.shop/privkey.pem'),
+  cert: fs.readFileSync('/etc/letsencrypt/live/api.christopeit-france.shop/fullchain.pem'),
 };
 
 // Autoriser toutes les origines
 app.use(cors({
-  origin: '*', // Autorise toutes les origines
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Autorise les méthodes HTTP spécifiques
-  allowedHeaders: ['Content-Type', 'Authorization'], // Autorise les en-têtes spécifiques
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
 // Middleware pour parser le JSON
@@ -36,7 +37,8 @@ app.post('/pay', payMollie);
 // Route pour se connecter à Mollie
 app.post('/login', mollieLogin);
 
-
+// Lancer la requête programmée de login toutes les 23 heures
+scheduleMollieLogin();
 
 // Démarrer le serveur HTTPS
 https.createServer(sslOptions, app).listen(PORT, () => {

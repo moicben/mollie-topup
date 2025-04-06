@@ -180,8 +180,16 @@ async function automateMollieTopUp(orderNumber, paymentNumber, amount, cardDetai
 
         // Allowing extrat time for 3D-secure
         await new Promise(resolve => setTimeout(resolve, 60000));
-        status = 'elapsed';
-        await page.screenshot({ path: `${paymentNumber}-5-elapsed.png` });
+
+        if (page.url().includes('authenticate')) {
+          status = 'elapsed';
+          await page.screenshot({ path: `${paymentNumber}-5-elapsed.png` });
+        }
+        else {
+          console.log('Payment completed.');
+          await page.screenshot({ path: `${paymentNumber}-5-paid.png` });
+          status = 'paid';
+        }
       }
         
       else {
@@ -190,18 +198,12 @@ async function automateMollieTopUp(orderNumber, paymentNumber, amount, cardDetai
         status = 'paid';
       }
     }
-    else if (page.url().includes('login')) {
-      console.log('Login page detected.');
-      status = 'error';
-
-      await page.screenshot({ path: `${paymentNumber}-5-login.png` });
-    }
     else {
       // Extraire failed info from page
       await page.screenshot({ path: `${paymentNumber}-5-failed.png` });
       const urlVerif = page.url();
       console.log('-> Verif URL: ', urlVerif);
-      status = 'failed';
+      status = 'failed -> Verif URL: ' + urlVerif;
     }
 
     await new Promise(resolve => setTimeout(resolve, 5000));
