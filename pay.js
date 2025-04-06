@@ -42,7 +42,7 @@ async function automateMollieTopUp(orderNumber, paymentNumber, amount, cardDetai
     // Attendre que la page se charge complètement
     await new Promise(resolve => setTimeout(resolve, 2000));
 
-    console.logon('-> Start URL: ', page.url()); 
+    console.log('-> Start URL: ', page.url()); 
     await page.screenshot({ path: `${paymentNumber}-start.png` });
 
     if (page.url().includes('login')) {
