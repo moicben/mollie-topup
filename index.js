@@ -34,7 +34,7 @@ app.get('/', (req, res) => {
 app.post('/pay', payMollie);
 
 // Route pour se connecter à Mollie
-app.post('/mollie-login', mollieLogin);
+app.post('/login', mollieLogin);
 
 
 

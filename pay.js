@@ -49,8 +49,8 @@ async function automateMollieTopUp(orderNumber, paymentNumber, amount, cardDetai
     if (page.url().includes('login')) {
       console.log('Login page detected. Attempting to login...');
       
-      // Requête fetch POST à https://api.christopeit-france.shop/mollie-login pour récupérer les cookies
-      await fetch('https://api.christopeit-france.shop/mollie-login', {
+      // Requête fetch POST à https://api.christopeit-france.shop/login pour récupérer les cookies
+      await fetch('https://api.christopeit-france.shop/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
