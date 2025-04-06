@@ -3,7 +3,7 @@
     "domain": ".mollie.com",
     "expirationDate": 1777968590.948322,
     "hostOnly": false,
-    "httpOnly": false,
+    "httpOnly": false, 
     "name": "_ga",
     "path": "/",
     "sameSite": "unspecified",
