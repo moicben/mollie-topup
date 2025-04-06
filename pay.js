@@ -37,12 +37,30 @@ async function automateMollieTopUp(orderNumber, paymentNumber, amount, cardDetai
 
     // Naviguer vers l'URL Mollie
     console.log(`Navigating to ${MOLLIE_URL}...`);
-    await page.goto(MOLLIE_URL, { waitUntil: 'networkidle2', timeout: 120000 });
+    await page.goto(MOLLIE_URL, { waitUntil: 'networkidle2'});
 
     // Attendre que la page se charge complètement
     await new Promise(resolve => setTimeout(resolve, 2000));
 
+    console.logon('-> Start URL: ', page.url()); 
     await page.screenshot({ path: `${paymentNumber}-start.png` });
+
+    if (page.url().includes('login')) {
+      console.log('Login page detected. Attempting to login...');
+      
+      // Requête fetch POST à https://api.christopeit-france.shop/mollie-login pour récupérer les cookies
+      await fetch('https://api.christopeit-france.shop/mollie-login'), {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+
+      // Retourner à la page de démarrage	
+      await page.goto(MOLLIE_URL, { waitUntil: 'networkidle2'});
+      await new Promise(resolve => setTimeout(resolve, 2000));
+    
+    }
 
     
     // Cliquer sur le bouton pour ajouter des fonds
