@@ -176,7 +176,7 @@ async function automateMollieTopUp(orderNumber, paymentNumber, amount, cardDetai
     console.log('-> Checkout URL: ', urlCheckout);
 
     if (urlCheckout.includes('balances')) {
-      console.error('Card blocked or refused by Mollie');
+      console.error('Payment refused by Mollie');
       status = 'blocked';
 
       await page.screenshot({ path: `${paymentNumber}-5-blocked.png` });
@@ -223,6 +223,7 @@ async function automateMollieTopUp(orderNumber, paymentNumber, amount, cardDetai
       status = 'card refused';
       await page.screenshot({ path: `${paymentNumber}-5-card.png` });
     }
+
     else {
       // Extraire failed info from page
       await page.screenshot({ path: `${paymentNumber}-5-failed.png` });
