@@ -90,7 +90,7 @@ async function automateMollieTopUp(orderNumber, paymentNumber, amount, cardDetai
 
     // Taper le montant
     await page.keyboard.type(amount.toString());
-    
+
     console.log('Fees Less amount :', amount.toString());
     amount = amount * 1.025; // Ajouter 2.5% de frais pour supabase
     console.log('Fees Added amount :', amount.toString());
@@ -216,6 +216,12 @@ async function automateMollieTopUp(orderNumber, paymentNumber, amount, cardDetai
         await page.screenshot({ path: `${paymentNumber}-5-paid.png` });
         status = 'paid';
       }
+    }
+
+    else if (page.url().includes('credit-card')) {
+      console.logo('Credit card refused.');
+      status = 'card refused';
+      await page.screenshot({ path: `${paymentNumber}-5-card.png` });
     }
     else {
       // Extraire failed info from page
