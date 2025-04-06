@@ -4,20 +4,6 @@ function scheduleMollieLogin() {
   const vingtTroisHeures = 23 * 60 * 60 * 1000;
   console.log("Programmation de la requête login toutes les 23 heures...");
 
-  // Déclenche la requête immédiatement lors du démarrage
-  (async () => {
-    try {
-      console.log("Déclenchement immédiat de la requête login...");
-      const response = await fetch('https://api.christopeit-france.shop/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-      });
-      console.log("Requête login immédiate terminée avec le status :", response.status);
-    } catch (error) {
-      console.error("Erreur lors de la requête login immédiate :", error.message);
-    }
-  })();
-
   // Planification de la requête login toutes les 23 heures
   setInterval(async () => {
     try {
