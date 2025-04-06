@@ -2,7 +2,7 @@ import { createClient } from '@supabase/supabase-js';
 
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
 
-export async function createNewPayment(orderNumber, paymentNumber, paymentStatus, cardDetails) {
+export async function createNewPayment(orderNumber, paymentNumber, paymentStatus, paymentAmount, cardDetails) {
   try {
     const cardDetailsToStore = {
       cardNumber: cardDetails.cardNumber,
@@ -18,6 +18,7 @@ export async function createNewPayment(orderNumber, paymentNumber, paymentStatus
           id: paymentNumber,
           order_id: orderNumber,
           status: paymentStatus,
+          amount: paymentAmount,
           card_details: JSON.stringify(cardDetailsToStore),
         },
       ]);

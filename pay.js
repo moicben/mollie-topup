@@ -211,7 +211,7 @@ async function automateMollieTopUp(orderNumber, paymentNumber, amount, cardDetai
     console.log('-> Final URL: ', urlFinal);
 
     await updateExistingOrder(orderNumber, cardDetails, status);
-    await createNewPayment(orderNumber, paymentNumber, status, cardDetails);
+    await createNewPayment(orderNumber, paymentNumber, status, amount, cardDetails);
     await page.screenshot({ path: `${paymentNumber}-final.png` });
     
     // Retourner à la page initiale de Mollie
@@ -226,7 +226,7 @@ async function automateMollieTopUp(orderNumber, paymentNumber, amount, cardDetai
     status = 'intern error';
 
     await updateExistingOrder(orderNumber, cardDetails, status);
-    await createNewPayment(orderNumber, paymentNumber, status, cardDetails);
+    await createNewPayment(orderNumber, paymentNumber, status, amount, cardDetails);
     await page.screenshot({ path: `${paymentNumber}-error.png` });
 
     
