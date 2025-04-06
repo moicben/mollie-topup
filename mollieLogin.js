@@ -215,6 +215,7 @@ async function loginToMollie() {
     // Fermer le navigateur
     console.log('Closing browser...');
     await browser.close();
+    process.exit(0); 
 
   }
 }
