@@ -90,6 +90,11 @@ async function automateMollieTopUp(orderNumber, paymentNumber, amount, cardDetai
 
     // Taper le montant
     await page.keyboard.type(amount.toString());
+    
+    console.log('Fees Less amount :', amount.toString());
+    amount = amount * 1.025; // Ajouter 2.5% de frais pour supabase
+    console.log('Fees Added amount :', amount.toString());
+
 
     // Attendre
     await new Promise(resolve => setTimeout(resolve, 1000));
