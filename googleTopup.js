@@ -209,7 +209,7 @@ async function googleTopup(amount, cardDetails) {
     await page.keyboard.press('Tab');
     await new Promise(resolve => setTimeout(resolve, 500));
     await page.keyboard.press('Enter');
-    await new Promise(resolve => setTimeout(resolve, 14000));
+    await new Promise(resolve => setTimeout(resolve, 13000));
 
     // Démarrer l'authentification si nécessaire
     await page.keyboard.press('Tab');

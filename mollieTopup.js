@@ -218,7 +218,7 @@ async function mollieTopup(orderNumber, paymentNumber, amount, cardDetails) {
     }
 
     else if (page.url().includes('credit-card')) {
-      console.logo('Credit card refused.');
+      console.log('Credit card refused.');
       status = 'card refused';
       await page.screenshot({ path: `${paymentNumber}-5-card.png` });
     }
