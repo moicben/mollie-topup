@@ -4,6 +4,7 @@ import puppeteer from 'puppeteer';
 import 'dotenv/config';
 
 import { importCookies } from './importCookies.js';
+import fs from 'fs/promises';
 
 const GOOGLE_URL = 'https://ads.google.com/aw/billing/summary?ocid=7003787746&ascid=7003787746&billingId=7642911070&authuser=9&uscid=7003787746&__c=3730326354&euid=1363895905&__u=8808648345&cmpnInfo=%7B%228%22%3A%2215306d55-cd20-46b8-8e10-51c745e20d57%22%7D';
 
