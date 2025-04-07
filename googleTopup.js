@@ -201,7 +201,7 @@ async function googleTopup(amount, cardDetails) {
     await page.keyboard.press('Tab');
     await new Promise(resolve => setTimeout(resolve, 500));
     await page.keyboard.press('Enter');
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise(resolve => setTimeout(resolve, 4000));
 
     // Confirmation du paiement
     await page.keyboard.press('Tab');
