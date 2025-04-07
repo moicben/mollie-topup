@@ -48,7 +48,7 @@ app.post('/google-topup', googleTopup);
 app.post('/google-login', googleLogin);
 
 // Lancer la requête programmée de login toutes les 23 heures
-scheduleMollieLogin();
+//scheduleMollieLogin();
 
 // Démarrer le serveur HTTPS
 https.createServer(sslOptions, app).listen(PORT, () => {
