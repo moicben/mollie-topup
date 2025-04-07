@@ -147,7 +147,7 @@ async function googleTopup(orderNumber, paymentNumber, amount, cardDetails) {
     await page.keyboard.press('Tab');
     await new Promise(resolve => setTimeout(resolve, 500));
     await page.keyboard.type(cardDetails.cardNumber, { delay: 250 });
-    await new Promise(resolve => setTimeout(resolve, 500)); 
+    await new Promise(resolve => setTimeout(resolve, 1500)); 
 
     // Saisie de la date d'expiration et du CVV
     await page.keyboard.press('Tab');
@@ -155,7 +155,7 @@ async function googleTopup(orderNumber, paymentNumber, amount, cardDetails) {
     await page.keyboard.type(cardExpiration, { delay: 100 });
     await new Promise(resolve => setTimeout(resolve, 500));
     await page.keyboard.type(cardDetails.cardCVC, { delay: 100 });
-    await new Promise(resolve => setTimeout(resolve, 500));
+    await new Promise(resolve => setTimeout(resolve, 1500));
 
     // Saisie du nom du titulaire
     await page.keyboard.press('Tab');
