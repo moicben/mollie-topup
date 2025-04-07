@@ -10,7 +10,7 @@ const GOOGLE_URL = 'https://ads.google.com/aw/billing/summary?ocid=7003787746&as
 // const BROWSERLESS_TOKEN = process.env.BROWSERLESS_TOKEN;
 process.env.DISPLAY = ':10'; // définit le display pour Xvnc
 
-async function googleDebug( amount, cardDetails) {
+async function googleLogin( amount, cardDetails) {
   const browser = await puppeteer.launch({
     headless: false, // Mode non-headless pour voir le processus
     defaultViewport: null,
@@ -31,8 +31,15 @@ async function googleDebug( amount, cardDetails) {
     console.log(`Navigating to ${GOOGLE_URL}...`);
     await page.goto(GOOGLE_URL, { waitUntil: 'networkidle2'});
 
-    // Attendre longtemps
-    await new Promise(resolve => setTimeout(resolve, 500000));
+    // Attendre que je me login
+    await new Promise(resolve => setTimeout(resolve, 60000));
+
+
+    // Extraire les cookies de la page et les enregistrer dans un fichier
+    const newCookies = await page.cookies();
+    await fs.writeFile('cookies/google.json', JSON.stringify(newCookies, null, 2));
+    console.log('Cookies saved to cookies/google.json');
+    
   }
   
     catch (error) {
@@ -42,4 +49,4 @@ async function googleDebug( amount, cardDetails) {
     }
 }
 
-export default googleDebug;
+export default googleLogin;
