@@ -197,7 +197,7 @@ const cardDetails = {
 };
 const amount = 100; // Amount to top up
 
-await automateGoogleTopup(amount, cardDetails)
+export default automateGoogleTopup(amount, cardDetails); 
 
 
     
