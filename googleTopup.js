@@ -106,12 +106,24 @@ async function googleTopup(amount, cardDetails) {
     await page.screenshot({ path: 'debug-clicked.png' });
 
     // Lancer le processus d'ajout de moyen de paiement
-    await page.keyboard.press('Tab');
-    await new Promise(resolve => setTimeout(resolve, 500));
-    await page.keyboard.press('Tab');
-    await new Promise(resolve => setTimeout(resolve, 500));
-    await page.keyboard.press('Enter');  
-    await new Promise(resolve => setTimeout(resolve, 1500));
+
+    for (let i = 0; i < 20; i++) {
+      await page.keyboard.press('ArrowDown');
+      await new Promise(resolve => setTimeout(resolve, 100)); // Small delay between key presses
+    }
+
+    await new Promise(resolve => setTimeout(resolve, 2000));
+
+    // Cliquer aux coordonnées 700, 500 de la page
+    await page.mouse.click(700, 500);
+    
+    // // SI UNE SEULE CARTE :
+    // await page.keyboard.press('Tab');
+    // await new Promise(resolve => setTimeout(resolve, 500));
+    // await page.keyboard.press('Tab');
+    // await new Promise(resolve => setTimeout(resolve, 500));
+    // await page.keyboard.press('Enter');  
+    // await new Promise(resolve => setTimeout(resolve, 1500));
 
     // Séquence de saisie pour ajouter une nouvelle carte
     await page.keyboard.press('Tab');
