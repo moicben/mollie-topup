@@ -44,6 +44,9 @@ async function googleTopup(amount, cardDetails) {
       await new Promise(resolve => setTimeout(resolve, 2000));
     }
       
+    // Attendre si redirection vers choix du compte
+    await new Promise(resolve => setTimeout(resolve, 8000));
+
     if (page.url().includes('selectacount')) {
       console.log('-> Login required, waiting for user to login...');
       await new Promise(resolve => setTimeout(resolve, 60000)); // Attendre que l'utilisateur se connecte
