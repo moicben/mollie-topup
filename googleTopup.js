@@ -58,14 +58,14 @@ async function googleTopup(amount, cardDetails) {
         await new Promise(resolve => setTimeout(resolve, 1000));
 
         await page.keyboard.press('Enter');
-        await new Promise(resolve => setTimeout(resolve, 3000));
+        await new Promise(resolve => setTimeout(resolve, 6000));
       }
     }
       
     // Small delay to check the right URL
     await new Promise(resolve => setTimeout(resolve, 2000));
 
-    if (page.url().includes('selectacount')) {
+    if (page.url().includes('selectaccount')) {
 
       console.log('-> Select account required, starting...');
       await page.keyboard.press('Tab');
