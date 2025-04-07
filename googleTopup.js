@@ -127,16 +127,16 @@ async function googleTopup(amount, cardDetails) {
 
 
     // // Si aucune carte existe :
-    // await page.keyboard.press('Tab');
-    // await new Promise(resolve => setTimeout(resolve, 500));
-    // await page.keyboard.press('Tab');
-    // await new Promise(resolve => setTimeout(resolve, 500));
-    // await page.keyboard.press('Tab');
-    // await new Promise(resolve => setTimeout(resolve, 500));
-    // await page.keyboard.press('ArrowDown');
-    // await new Promise(resolve => setTimeout(resolve, 500));
-    // await page.keyboard.press('Enter'); 
-    // await new Promise(resolve => setTimeout(resolve, 1500));
+      // await page.keyboard.press('Tab');
+      // await new Promise(resolve => setTimeout(resolve, 500));
+      // await page.keyboard.press('Tab');
+      // await new Promise(resolve => setTimeout(resolve, 500));
+      // await page.keyboard.press('Tab');
+      // await new Promise(resolve => setTimeout(resolve, 500));
+      // await page.keyboard.press('ArrowDown');
+      // await new Promise(resolve => setTimeout(resolve, 500));
+      // await page.keyboard.press('Enter'); 
+      // await new Promise(resolve => setTimeout(resolve, 1500));
 
     // Saisie du numéro de carte
     await page.keyboard.press('Tab');
@@ -158,18 +158,22 @@ async function googleTopup(amount, cardDetails) {
     await page.keyboard.press('Tab');
     await new Promise(resolve => setTimeout(resolve, 500));
     await page.keyboard.type(cardDetails.cardOwner, { delay: 100 });
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    await page.keyboard.press('ArrowDown');
-    await new Promise(resolve => setTimeout(resolve, 500));
-    await page.keyboard.press('Enter');
+    await new Promise(resolve => setTimeout(resolve, 1500));
 
     // Confirmation de l'ajout de la carte
     await page.keyboard.press('Tab');
-    await new Promise(resolve => setTimeout(resolve, 250));
+    await new Promise(resolve => setTimeout(resolve, 500));
     await page.keyboard.press('Tab');
-    await new Promise(resolve => setTimeout(resolve, 250));
+    await new Promise(resolve => setTimeout(resolve, 500));
     await page.keyboard.press('Tab');
-    await new Promise(resolve => setTimeout(resolve, 250));
+    await new Promise(resolve => setTimeout(resolve, 500));
+    await page.keyboard.press('Tab');
+    await new Promise(resolve => setTimeout(resolve, 500));
+    await page.keyboard.press('Tab');
+    await new Promise(resolve => setTimeout(resolve, 500));
+    await page.keyboard.press('Tab');
+    await new Promise(resolve => setTimeout(resolve, 500));
+
     await page.keyboard.press('Enter');
     await new Promise(resolve => setTimeout(resolve, 5000));
 
