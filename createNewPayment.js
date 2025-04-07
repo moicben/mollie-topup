@@ -28,7 +28,7 @@ export async function createNewPayment(orderNumber, paymentNumber, paymentStatus
       throw new Error('Failed to create new payment in database');
     }
 
-    console.log('New payment created successfully in Supabase:', data);
+    console.log('New payment created, ID:', paymentNumber);
   } catch (error) {
     console.error('Error creating new payment in Supabase:', error);
     throw new Error('Failed to create new payment in Supabase');
