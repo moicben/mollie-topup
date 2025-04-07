@@ -1,8 +1,10 @@
 import puppeteer from 'puppeteer';
 import 'dotenv/config';
 import { importCookies } from './importCookies.js';
+import fs from 'fs/promises';
 
-const GOOGLE_URL = 'https://ads.google.com/aw/billing/summary?ocid=7003787746&ascid=7003787746&billingId=7642911070&authuser=9&uscid=7003787746&__c=3730326354&euid=1363895905&__u=8808648345&cmpnInfo=%7B%228%22%3A%2215306d55-cd20-46b8-8e10-51c745e20d57%22%7D';
+
+const GOOGLE_URL = 'https://ads.google.com/aw/billing/summary?ocid=6921193135';
 
 process.env.DISPLAY = ':10'; // définit le display pour Xvnc
 
@@ -63,7 +65,7 @@ async function googleTopup(amount, cardDetails) {
     }
       
     // Small delay to check the right URL
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise(resolve => setTimeout(resolve, 3000));
 
     if (page.url().includes('selectaccount')) {
 
@@ -72,10 +74,10 @@ async function googleTopup(amount, cardDetails) {
       await new Promise(resolve => setTimeout(resolve, 1000));
 
       await page.keyboard.press('Enter');
-      await new Promise(resolve => setTimeout(resolve, 6000));
+      await new Promise(resolve => setTimeout(resolve, 9000));
 
       await page.keyboard.press('Enter');
-      await new Promise(resolve => setTimeout(resolve, 6000));
+      await new Promise(resolve => setTimeout(resolve, 7000));
 
       await page.keyboard.press('Tab');
       await new Promise(resolve => setTimeout(resolve, 1000));
@@ -83,8 +85,13 @@ async function googleTopup(amount, cardDetails) {
       await page.keyboard.press('Enter');
       await new Promise(resolve => setTimeout(resolve, 6000));
 
+      // Extraire les cookies de la page 
+      const newCookies = await page.cookies();
+      await fs.writeFile('cookies/mollie.json', JSON.stringify(newCookies, null, 2));
 
-      await new Promise(resolve => setTimeout(resolve, 60000)); // Attendre que l'utilisateur se connecte
+      // Retourner à l'URL de départ
+      await page.goto(GOOGLE_URL, { waitUntil: 'networkidle2' });
+      await new Promise(resolve => setTimeout(resolve, 2000)); 
     }
 
 
