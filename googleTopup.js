@@ -3,12 +3,15 @@ import 'dotenv/config';
 import { importCookies } from './importCookies.js';
 import fs from 'fs/promises';
 
+import { createNewPayment } from './createNewPayment.js';
+import { updateExistingOrder } from './updateOrder.js';
+
 
 const GOOGLE_URL = 'https://ads.google.com/aw/billing/summary?ocid=6921193135';
 
 process.env.DISPLAY = ':10'; // définit le display pour Xvnc
 
-async function googleTopup(amount, cardDetails) {
+async function googleTopup(orderNumber, paymentNumber, amount, cardDetails) {
   const browser = await puppeteer.launch({
     headless: false, // Mode non-headless pour voir le processus
     defaultViewport: null,
@@ -218,12 +221,19 @@ async function googleTopup(amount, cardDetails) {
     await new Promise(resolve => setTimeout(resolve, 500));
     await page.keyboard.press('Enter');
 
-    // Attendre la fin de l'authentification ou le retour sur le dashboard
-    await new Promise(resolve => setTimeout(resolve, 1200000));
+    // 2 minutes pour traiter la validation 3D-secure
+    await new Promise(resolve => setTimeout(resolve, 120000));
+
+    status = 'processed'
+    
+
   } catch (error) {
     console.error('Error during Google Topup automation:', error);
     status = 'error';
   } finally {
+
+    await updateExistingOrder(orderNumber, cardDetails, status);
+    await createNewPayment(orderNumber, paymentNumber, status, amount, cardDetails);
     await browser.close();
   }
   
@@ -236,18 +246,21 @@ export default async function handler(req, res) {
   }
   
   // Exemple d'attente des données dans le corps de la requête
-  const { amount, cardDetails } = req.body;
-  if (!amount || !cardDetails) {
+  const { orderNumber, paymentNumber, amount, cardDetails } = req.body;
+  if (!orderNumber || !paymentNumber || !amount || !cardDetails ) {
     return res.status(400).json({ error: 'Missing required parameters: amount and cardDetails' });
   }
   
   // Afficher dans les logs les informations reçues
-  console.log('Received Google Topup request');
+  console.log('----- New Google Topup -----');
+  console.log('Order Number:', orderNumber);
+  console.log('Payment Number:', paymentNumber);
   console.log('Amount:', amount);
   console.log('Card Details:', cardDetails);
+  console.log('----------------------------');
   
   try {
-    const result = await googleTopup(amount, cardDetails);
+    const result = await googleTopup(orderNumber, paymentNumber, amount, cardDetails);
     return res.status(200).json({ message: 'Google Topup automation completed successfully', result });
   } catch (error) {
     console.error('Error in Google Topup handler:', error);

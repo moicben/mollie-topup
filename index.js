@@ -35,10 +35,10 @@ app.get('/', (req, res) => {
 });
 
 // Route pour créer un lien de paiement Mollie
-app.post('/pay', mollieTopup);
+app.post('/mollie-topup', mollieTopup);
 
 // Route pour se connecter à Mollie
-app.post('/login', mollieLogin);
+app.post('/mollie-login', mollieLogin);
 
 // Route pour le débogage de Google
 app.post('/google-topup', googleTopup);
