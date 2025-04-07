@@ -180,7 +180,6 @@ async function automateMollieTopUp(orderNumber, paymentNumber, amount, cardDetai
       status = 'blocked';
 
       await page.screenshot({ path: `${paymentNumber}-5-blocked.png` });
-
     }
 
     else if (page.url().includes('authenticate')) {
