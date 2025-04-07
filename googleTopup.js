@@ -38,7 +38,7 @@ async function googleTopup(amount, cardDetails) {
     console.log('-> Start URL: ', page.url());
     await page.screenshot({ path: 'debug-start.png' });
 
-    if (page.url().includes('login')) {
+    if (page.url().includes('signin')) {
       console.log('-> Login required, cookies not valid, retry go to page');
       await page.goto(GOOGLE_URL, { waitUntil: 'networkidle2' });
       await new Promise(resolve => setTimeout(resolve, 2000));
