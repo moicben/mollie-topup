@@ -21,7 +21,6 @@ async function googleTopup(orderNumber, paymentNumber, amount, cardDetails) {
       '--disable-setuid-sandbox',
       '--disable-blink-features=AutomationControlled', // Désactiver les détections d'automatisation
       '--disable-infobars', // Supprimer la barre d'information
-      '--viewport=1440,900',
     ],
     executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,  
   });
