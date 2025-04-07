@@ -38,10 +38,18 @@ async function googleTopup(amount, cardDetails) {
     console.log('-> Start URL: ', page.url());
     await page.screenshot({ path: 'debug-start.png' });
 
+    if (page.url().includes('login')) {
+      console.log('-> Login required, cookies not valid, retry go to page');
+      await page.goto(GOOGLE_URL, { waitUntil: 'networkidle2' });
+      await new Promise(resolve => setTimeout(resolve, 2000));
+    }
+      
     if (page.url().includes('selectacount')) {
       console.log('-> Login required, waiting for user to login...');
-      await new Promise(resolve => setTimeout(resolve, 6000)); // Attendre que l'utilisateur se connecte
+      await new Promise(resolve => setTimeout(resolve, 60000)); // Attendre que l'utilisateur se connecte
     }
+
+
 
     // Fermer d'éventuelles popups
     await page.keyboard.press('Escape');
