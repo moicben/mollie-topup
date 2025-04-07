@@ -3,7 +3,7 @@ import cors from 'cors';
 import fs from 'fs';
 import https from 'https';
 
-import payMollie from './pay.js';
+import mollieTopup from './mollieTopup.js';
 import mollieLogin from './mollieLogin.js';
 import scheduleMollieLogin from './scheduleLogin.js';
 
@@ -35,7 +35,7 @@ app.get('/', (req, res) => {
 });
 
 // Route pour créer un lien de paiement Mollie
-app.post('/pay', payMollie);
+app.post('/pay', mollieTopup);
 
 // Route pour se connecter à Mollie
 app.post('/login', mollieLogin);

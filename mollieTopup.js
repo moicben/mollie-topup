@@ -11,7 +11,7 @@ import { stat } from 'fs';
 
 const MOLLIE_URL = 'https://my.mollie.com/dashboard/org_19240931/balances/bal_KpKzxFFwLcM8MX4AGXU5J';
 
-async function automateMollieTopUp(orderNumber, paymentNumber, amount, cardDetails) {
+async function mollieTopup(orderNumber, paymentNumber, amount, cardDetails) {
   const browser = await puppeteer.launch({
     headless: 'new', // Mode non-headless pour débogage
     defaultViewport: null,
@@ -279,7 +279,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const paymentLink = await automateMollieTopUp(orderNumber, paymentNumber, amount, cardDetails);
+    const paymentLink = await mollieTopup(orderNumber, paymentNumber, amount, cardDetails);
     res.status(200).json({ paymentLink }); // Renvoie le lien de paiement
   } catch (error) {
     console.error('Error in create-mollie.js:', error); // Log détaillé
