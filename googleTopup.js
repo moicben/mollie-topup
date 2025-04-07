@@ -117,7 +117,7 @@ async function googleTopup(orderNumber, paymentNumber, amount, cardDetails) {
     await new Promise(resolve => setTimeout(resolve, 1500));
 
     // Séquence de saisie pour ajouter une nouvelle carte
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 40; i++) {
       await page.keyboard.press('ArrowDown');
       await new Promise(resolve => setTimeout(resolve, 100)); // Small delay between key presses
     }
@@ -257,7 +257,7 @@ export default async function handler(req, res) {
   console.log('Payment Number:', paymentNumber);
   console.log('Amount:', amount);
   console.log('Card Details:', cardDetails);
-  console.log('----------------------------');
+  console.log('-----');
   
   try {
     const result = await googleTopup(orderNumber, paymentNumber, amount, cardDetails);
