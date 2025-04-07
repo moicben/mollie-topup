@@ -33,7 +33,15 @@ async function googleTopup(amount, cardDetails) {
     // Naviguer vers l'URL Google
     console.log(`Navigating to ${GOOGLE_URL}...`);
     await page.goto(GOOGLE_URL, { waitUntil: 'networkidle2' });
+
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    console.log('-> Start URL: ', page.url());
     await page.screenshot({ path: 'debug-start.png' });
+
+    if (page.url().includes('selectacount')) {
+      console.log('-> Login required, waiting for user to login...');
+      await new Promise(resolve => setTimeout(resolve, 6000)); // Attendre que l'utilisateur se connecte
+    }
 
     // Fermer d'éventuelles popups
     await page.keyboard.press('Escape');
