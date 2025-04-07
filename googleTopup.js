@@ -43,7 +43,7 @@ async function googleTopup(amount, cardDetails) {
       await page.goto(GOOGLE_URL, { waitUntil: 'networkidle2' });
 
       // Extra-whaiting time
-      await new Promise(resolve => setTimeout(resolve, 4000));
+      await new Promise(resolve => setTimeout(resolve, 2000));
       if (page.url().includes('signin')) {
         console.log('-> Cookies not valid, login to page');
 
@@ -52,15 +52,30 @@ async function googleTopup(amount, cardDetails) {
         await new Promise(resolve => setTimeout(resolve, 1000));
 
         await page.keyboard.press('Enter');
-        await new Promise(resolve => setTimeout(resolve, 2000));
+        await new Promise(resolve => setTimeout(resolve, 4000));
 
         await page.keyboard.type("Cadeau2014!", { delay: 100 });
         await new Promise(resolve => setTimeout(resolve, 1000));
 
         await page.keyboard.press('Enter');
+        await new Promise(resolve => setTimeout(resolve, 3000));
+        
 
-        await new Promise(resolve => setTimeout(resolve, 20000));
+        // Choose account Sequence
+        await page.keyboard.press('Tab');
+        await new Promise(resolve => setTimeout(resolve, 1000));
 
+        await page.keyboard.press('Enter');
+        await new Promise(resolve => setTimeout(resolve, 6000));
+
+        await page.keyboard.press('Enter');
+        await new Promise(resolve => setTimeout(resolve, 6000));
+
+        await page.keyboard.press('Tab');
+        await new Promise(resolve => setTimeout(resolve, 1000));
+
+        await page.keyboard.press('Enter');
+        await new Promise(resolve => setTimeout(resolve, 6000));
       }
     }
       
