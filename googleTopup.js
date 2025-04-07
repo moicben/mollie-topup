@@ -123,6 +123,7 @@ async function googleTopup(amount, cardDetails) {
 
     // Cliquer aux coordonnées 700, 500 de la page
     await page.mouse.click(700, 440);
+    await new Promise(resolve => setTimeout(resolve, 2000));
 
 
     // // Si aucune carte existe :
