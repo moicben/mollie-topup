@@ -42,7 +42,7 @@ async function googleTopup(amount, cardDetails) {
       console.log('-> Cookies not valid, retrying...');
       await page.goto(GOOGLE_URL, { waitUntil: 'networkidle2' });
 
-      // Extra-whaiting time
+      // Extra-whaiting time to rerify if still on signin
       await new Promise(resolve => setTimeout(resolve, 2000));
       if (page.url().includes('signin')) {
         console.log('-> Cookies not valid, login to page');
@@ -59,31 +59,31 @@ async function googleTopup(amount, cardDetails) {
 
         await page.keyboard.press('Enter');
         await new Promise(resolve => setTimeout(resolve, 3000));
-        
-
-        // Choose account Sequence
-        await page.keyboard.press('Tab');
-        await new Promise(resolve => setTimeout(resolve, 1000));
-
-        await page.keyboard.press('Enter');
-        await new Promise(resolve => setTimeout(resolve, 6000));
-
-        await page.keyboard.press('Enter');
-        await new Promise(resolve => setTimeout(resolve, 6000));
-
-        await page.keyboard.press('Tab');
-        await new Promise(resolve => setTimeout(resolve, 1000));
-
-        await page.keyboard.press('Enter');
-        await new Promise(resolve => setTimeout(resolve, 6000));
       }
     }
       
-    // Attendre si redirection vers choix du compte
-    await new Promise(resolve => setTimeout(resolve, 8000));
+    // Small delay to check the right URL
+    await new Promise(resolve => setTimeout(resolve, 2000));
 
     if (page.url().includes('selectacount')) {
+
       console.log('-> Select account required, starting...');
+      await page.keyboard.press('Tab');
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      await page.keyboard.press('Enter');
+      await new Promise(resolve => setTimeout(resolve, 6000));
+
+      await page.keyboard.press('Enter');
+      await new Promise(resolve => setTimeout(resolve, 6000));
+
+      await page.keyboard.press('Tab');
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      await page.keyboard.press('Enter');
+      await new Promise(resolve => setTimeout(resolve, 6000));
+
+
       await new Promise(resolve => setTimeout(resolve, 60000)); // Attendre que l'utilisateur se connecte
     }
 
