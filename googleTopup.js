@@ -184,6 +184,12 @@ async function googleTopup(amount, cardDetails) {
     await new Promise(resolve => setTimeout(resolve, 500));
     await page.keyboard.press('Tab');
     await new Promise(resolve => setTimeout(resolve, 500));
+
+    await page.keyboard.press('ArrowDown');
+    await new Promise(resolve => setTimeout(resolve, 500));
+    await page.keyboard.press('Space');
+    await new Promise(resolve => setTimeout(resolve, 500));
+
     await page.keyboard.type(formattedAmount, { delay: 100 });
     await new Promise(resolve => setTimeout(resolve, 500));
 
