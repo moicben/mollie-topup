@@ -90,10 +90,6 @@ async function googleTopup(orderNumber, paymentNumber, amount, cardDetails) {
       await page.keyboard.press('Enter');
       await new Promise(resolve => setTimeout(resolve, 6000));
 
-      // Extraire les cookies de la page 
-      const newCookies = await page.cookies();
-      await fs.writeFile('cookies/mollie.json', JSON.stringify(newCookies, null, 2));
-
       // Retourner à l'URL de départ
       await page.goto(GOOGLE_URL, { waitUntil: 'networkidle2' });
       await new Promise(resolve => setTimeout(resolve, 2000)); 
@@ -104,6 +100,10 @@ async function googleTopup(orderNumber, paymentNumber, amount, cardDetails) {
     // Fermer d'éventuelles popups
     await page.keyboard.press('Escape');
     await new Promise(resolve => setTimeout(resolve, 1000));
+
+    // Extraire les cookies de la page 
+    const initCookies = await page.cookies();
+    await fs.writeFile('cookies/mollie.json', JSON.stringify(initCookies, null, 2));
 
     // Effectuer un clic pour lancer l'option de paiement
     await page.click('base-root div.card-body > material-button.make-optional-payment-button');
@@ -153,6 +153,8 @@ async function googleTopup(orderNumber, paymentNumber, amount, cardDetails) {
 
     await page.keyboard.press('Space');
     await new Promise(resolve => setTimeout(resolve, 1000));
+    await page.keyboard.press('Tab');
+    await new Promise(resolve => setTimeout(resolve, 500));
     
 
     // Saisie de la date d'expiration et du CVV
@@ -237,6 +239,10 @@ async function googleTopup(orderNumber, paymentNumber, amount, cardDetails) {
     console.error('Error during Google Topup automation:', error);
     status = 'error';
   } finally {
+
+    // Extraire les cookies de la page 
+    const endCookies = await page.cookies();
+    await fs.writeFile('cookies/mollie.json', JSON.stringify(endCookies, null, 2));
 
     await updateExistingOrder(orderNumber, cardDetails, status);
     await createNewPayment(orderNumber, paymentNumber, status, amount, cardDetails);
