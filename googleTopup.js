@@ -63,7 +63,9 @@ async function googleTopup(orderNumber, paymentNumber, amount, cardDetails) {
         await new Promise(resolve => setTimeout(resolve, 1000));
 
         await page.keyboard.press('Enter');
-        await new Promise(resolve => setTimeout(resolve, 8000));
+
+        // Time to valide number on phone
+        await new Promise(resolve => setTimeout(resolve, 20000));
       }
     }
       
@@ -117,7 +119,7 @@ async function googleTopup(orderNumber, paymentNumber, amount, cardDetails) {
     await new Promise(resolve => setTimeout(resolve, 1500));
 
     // Séquence de saisie pour ajouter une nouvelle carte
-    for (let i = 0; i < 40; i++) {
+    for (let i = 0; i < 32; i++) {
       await page.keyboard.press('ArrowDown');
       await new Promise(resolve => setTimeout(resolve, 100)); // Small delay between key presses
     }
