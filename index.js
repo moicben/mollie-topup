@@ -7,7 +7,7 @@ import payMollie from './pay.js';
 import mollieLogin from './mollieLogin.js';
 import scheduleMollieLogin from './scheduleLogin.js';
 
-import googleDebug from './googleDebug.js';
+import automateGoogleTopup from './googleDebug.js';
 
 const app = express();
 const PORT = 443; // Port par défaut pour HTTPS
@@ -40,7 +40,7 @@ app.post('/pay', payMollie);
 app.post('/login', mollieLogin);
 
 // Route pour le débogage de Google
-app.post('/google', googleDebug);
+app.post('/google', automateGoogleTopup);
 
 
 // Lancer la requête programmée de login toutes les 23 heures
