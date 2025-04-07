@@ -39,16 +39,36 @@ async function googleTopup(amount, cardDetails) {
     await page.screenshot({ path: 'debug-start.png' });
 
     if (page.url().includes('signin')) {
-      console.log('-> Login required, cookies not valid, retry go to page');
+      console.log('-> Cookies not valid, retrying...');
       await page.goto(GOOGLE_URL, { waitUntil: 'networkidle2' });
-      await new Promise(resolve => setTimeout(resolve, 2000));
+
+      // Extra-whaiting time
+      await new Promise(resolve => setTimeout(resolve, 4000));
+      if (page.url().includes('signin')) {
+        console.log('-> Cookies not valid, login to page');
+
+        // Login Sequence
+        await page.keyboard.type("macfix.dijon@gmail.com", { delay: 100 });
+        await new Promise(resolve => setTimeout(resolve, 1000));
+
+        await page.keyboard.press('Enter');
+        await new Promise(resolve => setTimeout(resolve, 2000));
+
+        await page.keyboard.type("Cadeau2014!", { delay: 100 });
+        await new Promise(resolve => setTimeout(resolve, 1000));
+
+        await page.keyboard.press('Enter');
+
+        await new Promise(resolve => setTimeout(resolve, 20000));
+
+      }
     }
       
     // Attendre si redirection vers choix du compte
     await new Promise(resolve => setTimeout(resolve, 8000));
 
     if (page.url().includes('selectacount')) {
-      console.log('-> Login required, waiting for user to login...');
+      console.log('-> Select account required, starting...');
       await new Promise(resolve => setTimeout(resolve, 60000)); // Attendre que l'utilisateur se connecte
     }
 
