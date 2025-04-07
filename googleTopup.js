@@ -189,15 +189,15 @@ async function googleTopup( amount, cardDetails) {
   }
 }
 
-const cardDetails = {
-  cardNumber: '5355 8520 9247 9488',
-  cardOwner: 'John Doe',
-  cardExpiration: '02/30',
-  cardCVC: '379',
-};
-const amount = 100; // Amount to top up
+// const cardDetails = {
+//   cardNumber: '5355 8520 9247 9488',
+//   cardOwner: 'John Doe',
+//   cardExpiration: '02/30',
+//   cardCVC: '379',
+// };
+// const amount = 100; // Amount to top up
 
-export default googleTopup(amount, cardDetails); 
+export default googleTopup; 
 
 
     
