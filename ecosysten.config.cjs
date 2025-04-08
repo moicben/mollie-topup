@@ -7,7 +7,7 @@ module.exports = {
         NODE_ENV: "production",
         DISPLAY: ":10",
         XAUTHORITY: "/root/.Xauthority", // ou le chemin approprié pour l'utilisateur exécutant la session
-        PUPPETEER_EXECUTABLE_PATH: "/root/Desktop/google-chrome"
+        '//PUPPETEER_EXECUTABLE_PATH: "/root/Desktop/google-chrome"
       }
     }
   ]
