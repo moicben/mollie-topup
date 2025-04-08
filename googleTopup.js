@@ -7,7 +7,7 @@ import { createNewPayment } from './createNewPayment.js';
 import { updateExistingOrder } from './updateOrder.js';
 
 
-const GOOGLE_URL = 'https://ads.google.com/aw/billing/summary?ocid=6921193135';
+const GOOGLE_URL = 'https://ads.google.com/aw/billing/summary?ocid=6921193135&euid=1339874804&__u=2216928596&uscid=6921193135&__c=8869146615&authuser=0';
 
 process.env.DISPLAY = ':10'; // définit le display pour Xvnc
 
@@ -33,7 +33,7 @@ async function googleTopup(orderNumber, paymentNumber, amount, cardDetails) {
     const formattedAmount = amount.toString().replace('.', ',');
 
     // Importer les cookies sauvegardés
-    await importCookies(page, 'cookies/google.json');
+    //await importCookies(page, 'cookies/google.json');
 
     // Naviguer vers l'URL Google
     console.log(`Navigating to ${GOOGLE_URL}...`);
