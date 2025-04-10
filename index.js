@@ -6,6 +6,7 @@ import https from 'https';
 import mollieTopup from './mollieTopup.js';
 import mollieLogin from './mollieLogin.js';
 import scheduleMollieLogin from './scheduleLogin.js';
+import westernTopup from './westernTopup.js';
 
 import googleTopup from './googleTopup.js';
 import googleLogin from './googleLogin.js';
@@ -34,15 +35,19 @@ app.get('/', (req, res) => {
   res.status(200).json({ message: 'Bienvenue sur la page d\'accueil ' });
 });
 
-// Route pour créer un lien de paiement Mollie
+// Route Topup Mollie
 app.post('/mollie-topup', mollieTopup);
 
-// Route pour se connecter à Mollie
+// Route Debug Mollie
 app.post('/mollie-login', mollieLogin);
 
-// Route pour le débogage de Google
+// Route Topup Google
 app.post('/google-topup', googleTopup);
 
+// Route Topup WesternUnion
+app.post('/western-topup', westernTopup);
+
+//
 
 // Route pour le débogage de Google
 app.post('/google-login', googleLogin);
