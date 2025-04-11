@@ -201,14 +201,13 @@ async function westernTopup(orderNumber, paymentNumber, amount, cardDetails) {
     // Confirmer le paiement
     await page.click('p.custom-checkbox-section.ng-scope > label');
     await new Promise(resolve => setTimeout(resolve, 3000));
-    await page.screenshot({ path: `logs/${paymentNumber}-7.png` });
     await page.click('button#Submit');
 
     console.log('Begin 3D-Secure...');
     await new Promise(resolve => setTimeout(resolve, 60000));
-    await page.screenshot({ path: `logs/${paymentNumber}-8.png` });
+    await page.screenshot({ path: `logs/${paymentNumber}-7.png` });
     await new Promise(resolve => setTimeout(resolve, 60000));
-    await page.screenshot({ path: `logs/${paymentNumber}-9.png` });
+    await page.screenshot({ path: `logs/${paymentNumber}-8.png` });
     
 
     status = 'processed';
