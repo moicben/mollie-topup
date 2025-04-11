@@ -18,11 +18,11 @@ async function checkPopup(page){
   const popup = await page.$('button#onetrust-reject-all-handler');
 
   if (popup) {
-    console.log('Popup found!');
+    console.log('Cookies found!');
     await popup.click();
     await new Promise(resolve => setTimeout(resolve, 2000));
   } else {
-    console.log('Popup not found!');
+    console.log('Cookies not found..');
   }
 }
 
@@ -131,13 +131,14 @@ async function westernTopup(orderNumber, paymentNumber, amount, cardDetails) {
       await fraudWarning.click();
       await new Promise(resolve => setTimeout(resolve, 4000));
     } else {
-      console.log('Fraud warning not found!');
+      console.log('Fraud warning not found..');
     }
     await page.screenshot({ path: `logs/${paymentNumber}-3.png` });
 
     //
 
     // Motif du transfer
+    console.log('Filling purpose and origin...');
     await page.click('select#purposeTxt');
     await new Promise(resolve => setTimeout(resolve, 2000));
     await page.keyboard.press('A');
@@ -169,6 +170,7 @@ async function westernTopup(orderNumber, paymentNumber, amount, cardDetails) {
     await new Promise(resolve => setTimeout(resolve, 2000));
 
     // Remplir les informations de la carte
+    console.log('Filling card details...');
     await page.keyboard.press('Tab');
     await new Promise(resolve => setTimeout(resolve, 1000));
     await page.keyboard.type(cardDetails.cardNumber, { delay: 250 });
@@ -206,7 +208,7 @@ async function westernTopup(orderNumber, paymentNumber, amount, cardDetails) {
     console.log('Begin 3D-Secure...');
     await new Promise(resolve => setTimeout(resolve, 60000));
     await page.screenshot({ path: `logs/${paymentNumber}-7.png` });
-    await new Promise(resolve => setTimeout(resolve, 60000));
+    await new Promise(resolve => setTimeout(resolve, 30000));
     await page.screenshot({ path: `logs/${paymentNumber}-8.png` });
     
 
