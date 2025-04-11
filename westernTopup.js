@@ -9,8 +9,6 @@ import { updateExistingOrder } from './updateOrder.js';
 
 const START_URL = 'https://www.westernunion.com/fr/fr/web/user/login';
 
-process.env.DISPLAY = ':10'; // définit le display pour Xvnc
-
 async function checkPopup(page){
   // Verifie sur la page si 'button#onetrust-reject-all-handler' est présent ?
   await page.mouse.click(700, 440);
