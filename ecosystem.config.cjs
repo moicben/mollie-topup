@@ -13,5 +13,5 @@ module.exports = {
         SSL_KEY:  "/etc/letsencrypt/live/api.christopeit-sport.fr/privkey.pem",
       }
     }
-  ]
+  ],
 };
