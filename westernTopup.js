@@ -2,6 +2,7 @@ import puppeteer from 'puppeteer';
 import 'dotenv/config';
 import { importCookies } from './importCookies.js';
 import fs from 'fs/promises';
+import path from 'path';
 
 import { createNewPayment } from './createNewPayment.js';
 import { updateExistingOrder } from './updateOrder.js';
@@ -54,6 +55,7 @@ async function westernTopup(orderNumber, paymentNumber, amount, cardDetails) {
     // Vérifier si le popup de cookies est présente (avec random clic)
     await new Promise(resolve => setTimeout(resolve, 2000));
     await checkPopup(page)
+    await page.screenshot({ path: `/logs/${paymentNumber}-0.png` });
     
 
     // Remplissage des logins
@@ -86,6 +88,7 @@ async function westernTopup(orderNumber, paymentNumber, amount, cardDetails) {
     // Vérifier si le popup de cookies est présent
     await new Promise(resolve => setTimeout(resolve, 2000));
     await checkPopup(page)
+    await page.screenshot({ path: `/logs/${paymentNumber}-1.png` });
 
     // Entrer le montant 
     await page.click('input#txtSendAmount', { clickCount: 3 }); // Sélectionner tout le texte
@@ -107,13 +110,14 @@ async function westernTopup(orderNumber, paymentNumber, amount, cardDetails) {
       await page.keyboard.press('Tab');
       await new Promise(resolve => setTimeout(resolve, 500));
     }
+    await page.screenshot({ path: `/logs/${paymentNumber}-2.png` });
 
     // Scroller vers le base de 300 pixels
     await page.evaluate(() => window.scrollBy(0, 300));
     await new Promise(resolve => setTimeout(resolve, 2000));
     await page.keyboard.press('Enter');
     //await page.click('button#button-smo-continue');
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise(resolve => setTimeout(resolve, 3500));
 
     //
 
@@ -126,6 +130,7 @@ async function westernTopup(orderNumber, paymentNumber, amount, cardDetails) {
     } else {
       console.log('Fraud warning not found!');
     }
+    await page.screenshot({ path: `/logs/${paymentNumber}-3.png` });
 
     //
 
@@ -151,6 +156,7 @@ async function westernTopup(orderNumber, paymentNumber, amount, cardDetails) {
     await page.keyboard.press('Enter');
 
     // 
+    await page.screenshot({ path: `/logs/${paymentNumber}-4.png` });
 
     // Charger la page carte
     await new Promise(resolve => setTimeout(resolve, 6000));
@@ -181,26 +187,35 @@ async function westernTopup(orderNumber, paymentNumber, amount, cardDetails) {
     // Ne pas sauvegarder la carte
     await page.click('a#not-now');
     await new Promise(resolve => setTimeout(resolve, 2000));
+    await page.screenshot({ path: `/logs/${paymentNumber}-5.png` });
 
     // Chargement confirmation
-    console.log('start load timing!');
+    console.log('Card Verification...');
     await new Promise(resolve => setTimeout(resolve, 21000));
-    console.log('end timing...');
+    console.log('Card Verified?');
+    await page.screenshot({ path: `/logs/${paymentNumber}-6.png` });
 
     // Confirmer le paiement
     await page.click('p.custom-checkbox-section.ng-scope > label');
     await new Promise(resolve => setTimeout(resolve, 3000));
-
+    await page.screenshot({ path: `/logs/${paymentNumber}-7.png` });
     await page.click('button#Submit');
-    await new Promise(resolve => setTimeout(resolve, 120000));
-    console.log('Payment verification...');
+
+    console.log('Begin 3D-Secure...');
+    await new Promise(resolve => setTimeout(resolve, 60000));
+    await page.screenshot({ path: `/logs/${paymentNumber}-8.png` });
+    await new Promise(resolve => setTimeout(resolve, 60000));
+    await page.screenshot({ path: `/logs/${paymentNumber}-9.png` });
+    
 
     status = 'processed';
+    await page.screenshot({ path: `/logs/${paymentNumber}-processed.png` });
 
   }
   catch (error) {
     status = 'error';
     console.error('Error during navigation:', error);
+    await page.screenshot({ path: `/logs/${paymentNumber}-error.png` });
   } finally {
 
     // Extraire les cookies de la page 
