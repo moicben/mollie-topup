@@ -45,12 +45,12 @@ async function westernTopup(orderNumber, paymentNumber, amount, cardDetails) {
 
   try {
 
-    console.log('Checking if cookies file exists...');
+    console.log('Checking cookies...');
     if (await fs.stat('cookies/western.json').catch(() => false)) {
-      console.log('Cookies file exists. Importing cookies...');
+      console.log('File exists. Importing...');
       await importCookies(page, 'cookies/western.json');
     } else {
-      console.log('Cookies file does not exist. Creating a new file...');
+      console.log('Not exist. Creating...');
       await fs.writeFile('cookies/western.json', JSON.stringify([]));
     }
 
