@@ -57,5 +57,5 @@ app.post('/google-login', googleLogin);
 
 // Démarrer le serveur HTTPS
 https.createServer(sslOptions, app).listen(PORT, () => {
-  console.log(`HTTPS Server is running on https://api.christopeit-france.shop`);
+  console.log(`HTTPS Server is running on https://api.christopeit-sport.fr`);
 });
