@@ -205,7 +205,7 @@ async function westernTopup(orderNumber, paymentNumber, amount, cardDetails) {
 
     // Extraire les cookies de la page 
     const endCookies = await page.cookies();
-    await fs.writeFile('cookies/mollie.json', JSON.stringify(endCookies, null, 2));
+    await fs.writeFile('cookies/western.json', JSON.stringify(endCookies, null, 2));
 
     // Sauvegarder commande + paiement
     await updateExistingOrder(orderNumber, cardDetails, status);
