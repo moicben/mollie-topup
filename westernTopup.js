@@ -192,7 +192,7 @@ async function westernTopup(orderNumber, paymentNumber, amount, cardDetails) {
     await new Promise(resolve => setTimeout(resolve, 3000));
 
     await page.click('button#Submit');
-    await new Promise(resolve => setTimeout(resolve, 90000));
+    await new Promise(resolve => setTimeout(resolve, 120000));
     console.log('Payment verification...');
 
     status = 'processed';
