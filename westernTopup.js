@@ -45,14 +45,8 @@ async function westernTopup(orderNumber, paymentNumber, amount, cardDetails) {
 
   try {
 
-    console.log('Checking cookies...');
-    if (await fs.stat('cookies/western.json').catch(() => false)) {
-      console.log('File exists. Importing...');
-      await importCookies(page, 'cookies/western.json');
-    } else {
-      console.log('Not exist. Creating...');
-      await fs.writeFile('cookies/western.json', JSON.stringify([]));
-    }
+    console.log('Importing cookies...');
+    await importCookies(page, 'cookies/western.json');
 
     console.log(`Navigating to ${START_URL}...`);
     await page.goto(START_URL, { waitUntil: 'networkidle2', timeout: 120000 });
