@@ -12,12 +12,12 @@ import googleTopup from './googleTopup.js';
 import googleLogin from './googleLogin.js';
 
 const app = express();
-const PORT = 443; // Port par défaut pour HTTPS
+const port = process.env.PORT;
 
 // Charger les certificats SSL
 const sslOptions = {
-  key: fs.readFileSync('/etc/letsencrypt/live/api.christopeit-france.shop/privkey.pem'),
-  cert: fs.readFileSync('/etc/letsencrypt/live/api.christopeit-france.shop/fullchain.pem'),
+  key: process.env.SSL_KEY,
+  cert: process.env.SSL_CERT,
 };
 
 // Autoriser toutes les origines
@@ -56,6 +56,5 @@ app.post('/google-login', googleLogin);
 //scheduleMollieLogin();
 
 // Démarrer le serveur HTTPS
-https.createServer(sslOptions, app).listen(PORT, () => {
-  console.log(`HTTPS Server is running on https://api.christopeit-sport.fr`);
-});
+https.createServer({ key, cert }, app)
+     .listen(port, () => console.log(`API HTTPS sur ${port}`));
