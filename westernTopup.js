@@ -69,7 +69,7 @@ async function westernTopup(orderNumber, paymentNumber, amount, cardDetails) {
       await new Promise(resolve => setTimeout(resolve, 1000));
       await page.keyboard.press('Space');
     } else {
-      console.log('Email is already set to bstrokin78@gmail.com, skipping input steps.');
+      console.log('Email is already set to bstrokin78@gmail.com');
     }
     await new Promise(resolve => setTimeout(resolve, 1000));
     await page.type('input#txtKey', "Cadeau2014!", { delay: 100 });
@@ -80,9 +80,12 @@ async function westernTopup(orderNumber, paymentNumber, amount, cardDetails) {
     // Attendre que la connexion s'effectue
     await page.waitForNavigation({ waitUntil: 'networkidle2' });
 
+    await new Promise(resolve => setTimeout(resolve, 3000));
+
     // 
 
     // Se rendre sur la page de paiement
+    console.log(`Navigating to: /send-money/start...`);
     await page.goto('https://www.westernunion.com/fr/fr/web/send-money/start', { waitUntil: 'networkidle2', timeout: 120000 });
 
     // Vérifier si le popup de cookies est présent
