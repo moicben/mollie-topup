@@ -12,7 +12,7 @@ import googleTopup from './googleTopup.js';
 import googleLogin from './googleLogin.js';
 
 const app = express();
-const PORT = process.env.PORT || 3000; // Port par défaut pour HTTPS
+const PORT = process.env.PORT || 443; // Port par défaut pour HTTPS
 
 // Charger les certificats SSL
 const sslOptions = {
