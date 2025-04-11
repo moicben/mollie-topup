@@ -56,5 +56,5 @@ app.post('/google-login', googleLogin);
 //scheduleMollieLogin();
 
 // Démarrer le serveur HTTPS
-https.createServer({ key, cert }, app)
+https.createServer(sslOptions, app)
      .listen(port, () => console.log(`API HTTPS sur ${port}`));
