@@ -80,7 +80,7 @@ async function westernTopup(orderNumber, paymentNumber, amount, cardDetails) {
     // Attendre que la connexion s'effectue
     await page.waitForNavigation({ waitUntil: 'networkidle2' });
 
-    await new Promise(resolve => setTimeout(resolve, 3000));
+    await new Promise(resolve => setTimeout(resolve, 300000));
 
     // 
 
