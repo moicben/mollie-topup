@@ -81,8 +81,8 @@ async function westernTopup(orderNumber, paymentNumber, amount, cardDetails) {
     // 
 
     // Se rendre sur la page de paiement
-    console.log(`Navigating to Transfer page...`);
-    await new Promise(resolve => setTimeout(resolve, 2000));;
+    console.log(`Navigating to Home...`);
+    await new Promise(resolve => setTimeout(resolve, 4000));;
     
     await page.click('button#button-start-new-transfer');
     await page.waitForNavigation({ waitUntil: 'networkidle2' });
@@ -90,6 +90,7 @@ async function westernTopup(orderNumber, paymentNumber, amount, cardDetails) {
     // 
 
     // Vérifier si le popup de cookies est présent
+    console.log(`Navigating to Transfer Page...`);
     await new Promise(resolve => setTimeout(resolve, 2000));
     await checkPopup(page)
     await page.screenshot({ path: `logs/${paymentNumber}-1.png` });
