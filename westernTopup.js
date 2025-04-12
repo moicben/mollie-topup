@@ -82,8 +82,7 @@ async function westernTopup(orderNumber, paymentNumber, amount, cardDetails) {
 
     // Se rendre sur la page de paiement
     console.log(`Navigating to Transfer page...`);
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    await page.waitForelSelector('button#button-start-new-transfer', { timeout: 10000 });
+    await new Promise(resolve => setTimeout(resolve, 2000));;
     
     await page.click('button#button-start-new-transfer');
     await page.waitForNavigation({ waitUntil: 'networkidle2' });
