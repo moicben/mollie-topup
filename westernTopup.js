@@ -76,16 +76,22 @@ async function westernTopup(orderNumber, paymentNumber, amount, cardDetails) {
     await new Promise(resolve => setTimeout(resolve, 1000));
 
     await page.keyboard.press('Enter');
+    await new Promise(resolve => setTimeout(resolve, 8000));
 
     // Attendre que la connexion s'effectue
     await page.waitForNavigation({ waitUntil: 'networkidle2' });
-    await new Promise(resolve => setTimeout(resolve, 6000));
-
+    
     // 
 
     // Se rendre sur la page de paiement
-    console.log(`Navigating to: /send-money/start...`);
-    await page.goto('https://www.westernunion.com/fr/fr/web/send-money/start', { waitUntil: 'networkidle2', timeout: 120000 });
+    console.log(`Navigating to Transfer page...`);
+    await page.waitForelSelector('button#button-start-new-transfer', { timeout: 10000 });
+    await page.click('button#button-start-new-transfer');
+
+    await new Promise(resolve => setTimeout(resolve, 3000));
+    await page.waitForNavigation({ waitUntil: 'networkidle2' });
+
+    // 
 
     // Vérifier si le popup de cookies est présent
     await new Promise(resolve => setTimeout(resolve, 2000));
