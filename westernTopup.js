@@ -36,6 +36,8 @@ async function westernTopup(orderNumber, paymentNumber, amount, cardDetails) {
       '--disable-setuid-sandbox',
       '--disable-blink-features=AutomationControlled', // Désactiver les détections d'automatisation
       '--disable-infobars', // Supprimer la barre d'information
+      '--disable-features=IsolateOrigins,site-per-process', // Désactiver certaines fonctionnalités de sécurité
+      '--disable-notifications', // Désactiver les notifications
     ],
     executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,  
   });
