@@ -128,7 +128,7 @@ async function westernTopup(orderNumber, paymentNumber, amount, cardDetails) {
     const fraudWarning = await page.$('button#button-fraud-warning-accept');
     if (fraudWarning) {
       console.log('Fraud warning found!');
-      await fraudWarning.click();
+      await fraudWarning.click({ clickCount: 2 }); // Sélectionner tout le texte
       await new Promise(resolve => setTimeout(resolve, 4000));
     } else {
       console.log('Fraud warning not found..');
