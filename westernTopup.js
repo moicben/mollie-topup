@@ -89,7 +89,7 @@ async function westernTopup(orderNumber, paymentNumber, amount, cardDetails) {
     await page.goto('https://www.westernunion.com/fr/fr/web/send-money/start', { waitUntil: 'networkidle2', timeout: 120000 });
 
     // Vérifier si le popup de cookies est présent
-    await new Promise(resolve => setTimeout(resolve, 4000));
+    await new Promise(resolve => setTimeout(resolve, 8000));
     await checkPopup(page)
     await page.screenshot({ path: `logs/${paymentNumber}-1.png` });
 
