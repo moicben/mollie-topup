@@ -84,8 +84,7 @@ async function westernTopup(orderNumber, paymentNumber, amount, cardDetails) {
     console.log(`Navigating to Home...`);
     await new Promise(resolve => setTimeout(resolve, 4000));;
     
-    await page.click('button#button-start-new-transfer');
-    await page.waitForNavigation({ waitUntil: 'networkidle2' });
+    await page.click('button#button-start-new-transfer', { clickCount: 2 });
 
     // 
 
