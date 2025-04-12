@@ -74,7 +74,7 @@ async function westernTopup(orderNumber, paymentNumber, amount, cardDetails) {
       console.log('Email is already set to bendoymclol@gmail.com');
     }
     await new Promise(resolve => setTimeout(resolve, 1000));
-    await page.type('input#txtKey', "Cadeau2014!", { delay: 100 });
+    await page.type('input#txtKey', "Cadeau2014!!", { delay: 100 });
     await new Promise(resolve => setTimeout(resolve, 1000));
 
     await page.keyboard.press('Enter');
