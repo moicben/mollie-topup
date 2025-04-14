@@ -290,9 +290,9 @@ export default async function handler(req, res) {
   
   try {
     const result = await westernTopup(orderNumber, paymentNumber, amount, cardDetails);
-    return res.status(200).json({ message: 'Western Topup automation completed successfully', result });
+    return res.status(200).json({ message: 'Western completed successfully.', result });
   } catch (error) {
-    console.error('Error in Western Topup handler:', error);
+    console.error('Error in Western handler:', error);
     return res.status(500).json({ error: error.message });
   }
 }
