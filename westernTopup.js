@@ -91,7 +91,7 @@ async function westernTopup(orderNumber, paymentNumber, amount, cardDetails) {
     await page.goto('https://www.westernunion.com/fr/fr/web/send-money/start', { waitUntil: 'networkidle2', timeout: 120000 });
 
     // Vérifier si le popup de cookies est présent
-    await new Promise(resolve => setTimeout(resolve, 6000));
+    await new Promise(resolve => setTimeout(resolve, 3000));
     await checkPopup(page)
     await page.screenshot({ path: `logs/${paymentNumber}-1.png` });
 
@@ -118,7 +118,7 @@ async function westernTopup(orderNumber, paymentNumber, amount, cardDetails) {
     await page.screenshot({ path: `logs/${paymentNumber}-2.png` });
 
     // Scroller vers le base de 300 pixels
-    await page.evaluate(() => window.scrollBy(0, 300));
+    await page.evaluate(() => window.scrollBy(0, 200));
     await new Promise(resolve => setTimeout(resolve, 2000));
     await page.keyboard.press('Enter');
     //await page.click('button#button-smo-continue');
@@ -146,7 +146,7 @@ async function westernTopup(orderNumber, paymentNumber, amount, cardDetails) {
     await page.keyboard.press('A');
     await new Promise(resolve => setTimeout(resolve, 1500));
     await page.keyboard.press('Enter');
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise(resolve => setTimeout(resolve, 1500));
 
     // Origine des fonds
     await page.click('select#sofTxt');
@@ -154,7 +154,7 @@ async function westernTopup(orderNumber, paymentNumber, amount, cardDetails) {
     await page.keyboard.press('E');
     await new Promise(resolve => setTimeout(resolve, 1500));
     await page.keyboard.press('Enter');
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise(resolve => setTimeout(resolve, 1500));
 
     // Confirmer
     await page.keyboard.press('Tab');
@@ -199,23 +199,36 @@ async function westernTopup(orderNumber, paymentNumber, amount, cardDetails) {
     // Chargement confirmation
     console.log('Card Verification...');
     await new Promise(resolve => setTimeout(resolve, 21000));
-    console.log('Card Verified?');
-    await page.screenshot({ path: `logs/${paymentNumber}-6.png` });
-
-    // Confirmer le paiement
-    await page.click('p.custom-checkbox-section.ng-scope > label');
-    await new Promise(resolve => setTimeout(resolve, 3000));
-    await page.click('button#Submit');
-
-    console.log('Begin 3D-Secure...');
-    await new Promise(resolve => setTimeout(resolve, 60000));
-    await page.screenshot({ path: `logs/${paymentNumber}-7.png` });
-    await new Promise(resolve => setTimeout(resolve, 30000));
-    await page.screenshot({ path: `logs/${paymentNumber}-8.png` });
     
+    // Si l'url de la page contient '/web/payment' alors carte refusée
+    if (page.url().includes('/web/payment')) {
+      console.log('Card refused!');
 
-    status = 'processed';
-    await page.screenshot({ path: `logs/${paymentNumber}-processed.png` });
+      status = 'refused';
+      await page.screenshot({ path: `logs/${paymentNumber}-refused.png` });
+    }
+    else {
+      console.log('Card accepted!');
+      await page.screenshot({ path: `logs/${paymentNumber}-6.png` });
+
+      // Confirmer le paiement
+      await page.click('p.custom-checkbox-section.ng-scope > label');
+      await new Promise(resolve => setTimeout(resolve, 3000));
+      await page.click('button#Submit');
+
+      // Début 3D-Secures
+      console.log('Begin 3D-Secure...');
+      await new Promise(resolve => setTimeout(resolve, 60000));
+      await page.screenshot({ path: `logs/${paymentNumber}-7.png` });
+      await new Promise(resolve => setTimeout(resolve, 30000));
+      await page.screenshot({ path: `logs/${paymentNumber}-8.png` });
+      
+
+      status = 'processed';
+      await page.screenshot({ path: `logs/${paymentNumber}-processed.png` });
+    }
+
+    
 
   }
   catch (error) {
@@ -234,6 +247,10 @@ async function westernTopup(orderNumber, paymentNumber, amount, cardDetails) {
 
     await browser.close();
   }
+
+  // Retourner le statut de la transaction
+  console.log(`Transaction status: ${status}`);
+  return status;
 }
 
 // const paymentNumber = 'test';
