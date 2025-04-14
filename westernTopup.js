@@ -179,7 +179,7 @@ async function westernTopup(orderNumber, paymentNumber, amount, cardDetails) {
     await new Promise(resolve => setTimeout(resolve, 1000));
 
     await page.keyboard.press('Tab');
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise(resolve => setTimeout(resolve, 1500));
     await page.keyboard.type(cardDetails.cardExpiration, { delay: 250 });
     await new Promise(resolve => setTimeout(resolve, 1000));
 
@@ -246,11 +246,12 @@ async function westernTopup(orderNumber, paymentNumber, amount, cardDetails) {
     await createNewPayment(orderNumber, paymentNumber, status, amount, cardDetails);
 
     await browser.close();
+
+    // Retourner le statut de la transaction
+    console.log(`Transaction status: ${status}`);
+    return status;
   }
 
-  // Retourner le statut de la transaction
-  console.log(`Transaction status: ${status}`);
-  return status;
 }
 
 // const paymentNumber = 'test';
