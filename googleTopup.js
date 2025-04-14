@@ -7,9 +7,8 @@ import { createNewPayment } from './createNewPayment.js';
 import { updateExistingOrder } from './updateOrder.js';
 
 
-const GOOGLE_URL = 'https://ads.google.com/aw/billing/summary?ocid=6921193135&euid=1339874804&__u=2216928596&uscid=6921193135&__c=8869146615&authuser=0';
+const GOOGLE_URL = 'https://ads.google.com/aw/billing/summary?ocid=6921193135&euid=1339874804';
 
-// process.env.DISPLAY = ':10'; // définit le display pour Xvnc
 
 async function googleTopup(orderNumber, paymentNumber, amount, cardDetails) {
   const browser = await puppeteer.launch({
@@ -21,6 +20,7 @@ async function googleTopup(orderNumber, paymentNumber, amount, cardDetails) {
       '--disable-setuid-sandbox',
       '--disable-blink-features=AutomationControlled', // Désactiver les détections d'automatisation
       '--disable-infobars', // Supprimer la barre d'information
+      `--user-data-dir=${process.env.PUPPETEER_PROFIL_PATH || '/root/chrome-profile/Default'}`, // Chemin vers le profil Chrome
     ],
     executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,  
   });
