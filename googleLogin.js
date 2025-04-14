@@ -3,27 +3,29 @@ import puppeteer from 'puppeteer';
 
 import 'dotenv/config';
 
-import { importCookies } from './importCookies.js';
+//import { importCookies } from './importCookies.js';
 import fs from 'fs/promises';
 
-const GOOGLE_URL = 'https://ads.google.com/aw/billing/summary?ocid=7003787746&ascid=7003787746&billingId=7642911070&authuser=9&uscid=7003787746&__c=3730326354&euid=1363895905&__u=8808648345&cmpnInfo=%7B%228%22%3A%2215306d55-cd20-46b8-8e10-51c745e20d57%22%7D';
+const GOOGLE_URL = 'https://ads.google.com/aw/billing/summary?ocid=6921193135&euid=1339874804';
 
 // const BROWSERLESS_TOKEN = process.env.BROWSERLESS_TOKEN;
 // process.env.DISPLAY = ':10'; // définit le display pour Xvnc
 
-async function googleLogin( amount, cardDetails) {
+async function googleLogin() {
   const browser = await puppeteer.launch({
-    headless: false, // Mode non-headless pour voir le processus
+    headless: false, // Pour voir le navigateur en action
     defaultViewport: null,
+    executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
     args: [
       '--start-maximized',
       '--no-sandbox',
       '--disable-setuid-sandbox',
-      '--disable-blink-features=AutomationControlled', // Désactiver les détections d'automatisation
-      '--disable-infobars', // Supprimer la barre d'information
-
+      '--disable-blink-features=AutomationControlled',
+      '--disable-infobars',
+      `--user-data-dir=${process.env.PUPPETEER_PROFIL_PATH}`, // Chemin vers le profil Chrome
+      '--disable-dev-shm-usage',
     ],
-    executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,  
+    
   });
 
   const page = await browser.newPage();
@@ -37,9 +39,9 @@ async function googleLogin( amount, cardDetails) {
 
 
     // Extraire les cookies de la page et les enregistrer dans un fichier
-    const newCookies = await page.cookies();
-    await fs.writeFile('cookies/google.json', JSON.stringify(newCookies, null, 2));
-    console.log('Cookies saved to cookies/google.json');
+    // const newCookies = await page.cookies();
+    // await fs.writeFile('cookies/google.json', JSON.stringify(newCookies, null, 2));
+    // console.log('Cookies saved to cookies/google.json');
     
   }
   
@@ -49,5 +51,8 @@ async function googleLogin( amount, cardDetails) {
       await browser.close();
     }
 }
+
+
+await googleLogin()
 
 export default googleLogin;
