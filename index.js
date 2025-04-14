@@ -41,8 +41,7 @@ app.post('/mollie-topup', mollieTopup);
 // Route Debug Mollie
 app.post('/mollie-login', mollieLogin);
 
-// Route Topup Google
-app.post('/google-topup', googleTopup);
+//
 
 // Route Topup WesternUnion
 app.post('/western-topup', westernTopup);
@@ -52,10 +51,15 @@ app.post('/western-topup', westernTopup);
 // Route pour le débogage de Google
 app.post('/google-login', googleLogin);
 
+// Route Topup Google
+app.post('/google-topup', googleTopup);
+
+//
+
 // Lancer la requête programmée de login toutes les 23 heures
 //scheduleMollieLogin();
 
-
+//
 
 // Démarrer le serveur HTTPS
 https.createServer(sslOptions, app).listen(PORT, () => {

@@ -9,7 +9,6 @@ import fs from 'fs/promises';
 const GOOGLE_URL = 'https://ads.google.com/aw/billing/summary?ocid=6921193135&euid=1339874804';
 
 // const BROWSERLESS_TOKEN = process.env.BROWSERLESS_TOKEN;
-process.env.DISPLAY = ':11'; // définit le display pour Xvnc
 
 async function googleLogin() {
   const browser = await puppeteer.launch({
@@ -51,6 +50,6 @@ async function googleLogin() {
 }
 
 
-await googleLogin()
+//await googleLogin()
 
 export default googleLogin;
