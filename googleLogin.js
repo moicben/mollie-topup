@@ -22,7 +22,7 @@ async function googleLogin() {
       '--disable-setuid-sandbox',
       '--disable-blink-features=AutomationControlled',
       '--disable-infobars',
-      `--user-data-dir=${process.env.PUPPETEER_PROFIL_PATH}`, // Chemin vers le profil Chrome
+      //`--user-data-dir=${process.env.PUPPETEER_PROFIL_PATH}`, // Chemin vers le profil Chrome
       '--disable-dev-shm-usage',
     ],
     
