@@ -151,10 +151,6 @@ async function googleTopup(orderNumber, paymentNumber, amount, cardDetails) {
     await page.keyboard.type(cardDetails.cardNumber, { delay: 250 });
     await new Promise(resolve => setTimeout(resolve, 1500)); 
 
-    await page.keyboard.press('Space');
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    await page.keyboard.press('Tab');
-    await new Promise(resolve => setTimeout(resolve, 500));
     
 
     // Saisie de la date d'expiration et du CVV
