@@ -15,7 +15,6 @@ async function googleLogin() {
   const browser = await puppeteer.launch({
     headless: false, // Pour voir le navigateur en action
     defaultViewport: null,
-    executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
     args: [
       '--start-maximized',
       '--no-sandbox',
@@ -23,9 +22,8 @@ async function googleLogin() {
       '--disable-blink-features=AutomationControlled',
       '--disable-infobars',
       //`--user-data-dir=${process.env.PUPPETEER_PROFIL_PATH}`, // Chemin vers le profil Chrome
-      '--disable-dev-shm-usage',
     ],
-    
+    executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
   });
 
   const page = await browser.newPage();
