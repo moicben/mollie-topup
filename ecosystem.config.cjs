@@ -8,7 +8,7 @@ module.exports = {
         DISPLAY: ":11",
         XAUTHORITY: "/root/.Xauthority", // ou le chemin approprié pour l'utilisateur exécutant la session
         PUPPETEER_EXECUTABLE_PATH: "/usr/bin/google-chrome-stable",
-        PUPPETEER_PROFIL_PATH: "/root/chrome-profile/Default/",
+        PUPPETEER_PROFIL_PATH: "/root/chrome-profile/Default",
         PORT: 443, 
       }
     }

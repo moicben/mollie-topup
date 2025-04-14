@@ -21,9 +21,9 @@ async function googleLogin() {
       '--disable-setuid-sandbox',
       '--disable-blink-features=AutomationControlled',
       '--disable-infobars',
-      //`--user-data-dir=${process.env.PUPPETEER_PROFIL_PATH}`, // Chemin vers le profil Chrome
+      `--user-data-dir=${process.env.PUPPETEER_PROFIL_PATH || '/root/chrome-profile/Default'}`, // Chemin vers le profil Chrome
     ],
-    executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
+    executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || '/usr/bin/google-chrome-stable',
   });
 
   const page = await browser.newPage();
