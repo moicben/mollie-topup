@@ -41,8 +41,9 @@ async function googleTopup(orderNumber, paymentNumber, amount, cardDetails) {
 
     await new Promise(resolve => setTimeout(resolve, 2000));
     console.log('-> Start URL: ', page.url());
-    await page.screenshot({ path: 'debug-start.png' });
+    await page.screenshot({ path: `logs/g-${paymentNumber}-0.png` });
 
+    // Se connecter si nécessaire
     if (page.url().includes('signin')) {
       console.log('-> Cookies not valid, retrying...');
       await page.goto(GOOGLE_URL, { waitUntil: 'networkidle2' });
@@ -69,9 +70,10 @@ async function googleTopup(orderNumber, paymentNumber, amount, cardDetails) {
       }
     }
       
-    // Small delay to check the right URL
+    // Vérifier URL après connexion
     await new Promise(resolve => setTimeout(resolve, 1000));
 
+    // Sélectionne rle compte si nécessaire
     if (page.url().includes('selectaccount')) {
 
       console.log('-> Select account required, starting...');
@@ -96,19 +98,18 @@ async function googleTopup(orderNumber, paymentNumber, amount, cardDetails) {
     }
 
 
-
     // Fermer d'éventuelles popups
     await page.keyboard.press('Escape');
     await new Promise(resolve => setTimeout(resolve, 1000));
 
     // Extraire les cookies de la page 
-    const initCookies = await page.cookies();
-    await fs.writeFile('cookies/mollie.json', JSON.stringify(initCookies, null, 2));
+    // const initCookies = await page.cookies();
+    // await fs.writeFile('cookies/mollie.json', JSON.stringify(initCookies, null, 2));
 
     // Effectuer un clic pour lancer l'option de paiement
     await page.click('base-root div.card-body > material-button.make-optional-payment-button');
     await new Promise(resolve => setTimeout(resolve, 2500));
-    await page.screenshot({ path: 'debug-clicked.png' });
+    await page.screenshot({ path: `logs/g-${paymentNumber}-1.png` });
 
     // Lancer le processus d'ajout de moyen de paiement
     await page.keyboard.press('Tab');
@@ -129,6 +130,7 @@ async function googleTopup(orderNumber, paymentNumber, amount, cardDetails) {
     // Cliquer aux coordonnées 700, 500 de la page
     await page.mouse.click(700, 440);
     await new Promise(resolve => setTimeout(resolve, 2000));
+    await page.screenshot({ path: `logs/g-${paymentNumber}-2.png` });
 
 
     // // Si aucune carte existe :
@@ -151,8 +153,6 @@ async function googleTopup(orderNumber, paymentNumber, amount, cardDetails) {
     await page.keyboard.type(cardDetails.cardNumber, { delay: 250 });
     await new Promise(resolve => setTimeout(resolve, 1500)); 
 
-    
-
     // Saisie de la date d'expiration et du CVV
     await page.keyboard.press('Tab');
     await new Promise(resolve => setTimeout(resolve, 500));
@@ -166,6 +166,7 @@ async function googleTopup(orderNumber, paymentNumber, amount, cardDetails) {
     await new Promise(resolve => setTimeout(resolve, 500));
     await page.keyboard.type(cardDetails.cardOwner, { delay: 100 });
     await new Promise(resolve => setTimeout(resolve, 1500));
+    await page.screenshot({ path: `logs/g-${paymentNumber}-3.png` });
 
     // Confirmation de l'ajout de la carte
     await page.keyboard.press('Tab');
@@ -201,6 +202,7 @@ async function googleTopup(orderNumber, paymentNumber, amount, cardDetails) {
 
     await page.keyboard.type(formattedAmount, { delay: 250 });
     await new Promise(resolve => setTimeout(resolve, 1000));
+    await page.screenshot({ path: `logs/g-${paymentNumber}-3.png` });
 
     // Confirmation du montant
     await page.keyboard.press('Tab');
@@ -209,6 +211,7 @@ async function googleTopup(orderNumber, paymentNumber, amount, cardDetails) {
     await new Promise(resolve => setTimeout(resolve, 500));
     await page.keyboard.press('Enter');
     await new Promise(resolve => setTimeout(resolve, 4000));
+    await page.screenshot({ path: `logs/g-${paymentNumber}-4.png` });
 
     // Confirmation du paiement
     await page.keyboard.press('Tab');
@@ -217,6 +220,7 @@ async function googleTopup(orderNumber, paymentNumber, amount, cardDetails) {
     await new Promise(resolve => setTimeout(resolve, 500));
     await page.keyboard.press('Enter');
     await new Promise(resolve => setTimeout(resolve, 13000));
+    await page.screenshot({ path: `logs/g-${paymentNumber}-5.png` });
 
     // Démarrer l'authentification si nécessaire
     await page.keyboard.press('Tab');
@@ -224,12 +228,18 @@ async function googleTopup(orderNumber, paymentNumber, amount, cardDetails) {
     await page.keyboard.press('Tab');
     await new Promise(resolve => setTimeout(resolve, 500));
     await page.keyboard.press('Enter');
+    await page.screenshot({ path: `logs/g-${paymentNumber}-6.png` });
 
     // 2 minutes pour traiter la validation 3D-secure
-    await new Promise(resolve => setTimeout(resolve, 120000));
+    await new Promise(resolve => setTimeout(resolve, 60000));
+    await page.screenshot({ path: `logs/g-${paymentNumber}-7.png` });
+    await new Promise(resolve => setTimeout(resolve, 30000));
 
+    //
+
+    // Fin du flow
     status = 'processed'
-    
+    await page.screenshot({ path: `logs/g-${paymentNumber}-processed.png` });
 
   } catch (error) {
     console.error('Error during Google Topup automation:', error);
@@ -242,10 +252,13 @@ async function googleTopup(orderNumber, paymentNumber, amount, cardDetails) {
 
     await updateExistingOrder(orderNumber, cardDetails, status);
     await createNewPayment(orderNumber, paymentNumber, status, amount, cardDetails);
+
     await browser.close();
+
+    console.log('Transaction completed. Status:', status);
+    console.log('----- End Google Topup -----');
+    return status;
   }
-  
-  return { status };
 }
 
 export default async function handler(req, res) {

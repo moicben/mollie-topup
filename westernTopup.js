@@ -57,7 +57,7 @@ async function westernTopup(orderNumber, paymentNumber, amount, cardDetails) {
     // Vérifier si le popup de cookies est présente (avec random clic)
     await new Promise(resolve => setTimeout(resolve, 2000));
     await checkPopup(page)
-    await page.screenshot({ path: `logs/${paymentNumber}-0.png` });
+    await page.screenshot({ path: `logs/w-${paymentNumber}-0.png` });
     
 
     // Remplissage des logins
@@ -93,7 +93,7 @@ async function westernTopup(orderNumber, paymentNumber, amount, cardDetails) {
     // Vérifier si le popup de cookies est présent
     await new Promise(resolve => setTimeout(resolve, 1000));
     await checkPopup(page)
-    await page.screenshot({ path: `logs/${paymentNumber}-1.png` });
+    await page.screenshot({ path: `logs/w-${paymentNumber}-1.png` });
 
     // Sélectionner le bénéficiaire
     console.log('Selecting beneficiary...');
@@ -129,7 +129,7 @@ async function westernTopup(orderNumber, paymentNumber, amount, cardDetails) {
       await page.keyboard.press('Tab');
       await new Promise(resolve => setTimeout(resolve, 500));
     }
-    await page.screenshot({ path: `logs/${paymentNumber}-2.png` });
+    await page.screenshot({ path: `logs/w-${paymentNumber}-2.png` });
 
     // Scroller vers le base de 300 pixels
     await page.evaluate(() => window.scrollBy(0, 200));
@@ -149,7 +149,7 @@ async function westernTopup(orderNumber, paymentNumber, amount, cardDetails) {
     } else {
       console.log('Fraud warning not found..');
     }
-    await page.screenshot({ path: `logs/${paymentNumber}-3.png` });
+    await page.screenshot({ path: `logs/w-${paymentNumber}-3.png` });
 
     //
 
@@ -176,7 +176,7 @@ async function westernTopup(orderNumber, paymentNumber, amount, cardDetails) {
     await page.keyboard.press('Enter');
 
     // 
-    await page.screenshot({ path: `logs/${paymentNumber}-4.png` });
+    await page.screenshot({ path: `logs/w-${paymentNumber}-4.png` });
 
     // Charger la page carte
     await new Promise(resolve => setTimeout(resolve, 6000));
@@ -208,7 +208,7 @@ async function westernTopup(orderNumber, paymentNumber, amount, cardDetails) {
     // Ne pas sauvegarder la carte
     await page.click('a#not-now');
     await new Promise(resolve => setTimeout(resolve, 2000));
-    await page.screenshot({ path: `logs/${paymentNumber}-5.png` });
+    await page.screenshot({ path: `logs/w-${paymentNumber}-5.png` });
 
     // Chargement confirmation
     console.log('Card Verification...');
@@ -219,11 +219,11 @@ async function westernTopup(orderNumber, paymentNumber, amount, cardDetails) {
       console.log('Card refused!');
 
       status = 'refused';
-      await page.screenshot({ path: `logs/${paymentNumber}-refused.png` });
+      await page.screenshot({ path: `logs/w-${paymentNumber}-refused.png` });
     }
     else {
       console.log('Card accepted!');
-      await page.screenshot({ path: `logs/${paymentNumber}-6.png` });
+      await page.screenshot({ path: `logs/w-${paymentNumber}-6.png` });
 
       // Confirmer le paiement
       await page.click('p.custom-checkbox-section.ng-scope > label');
@@ -233,13 +233,14 @@ async function westernTopup(orderNumber, paymentNumber, amount, cardDetails) {
       // Début 3D-Secures
       console.log('Begin 3D-Secure...');
       await new Promise(resolve => setTimeout(resolve, 60000));
-      await page.screenshot({ path: `logs/${paymentNumber}-7.png` });
+      await page.screenshot({ path: `logs/w-${paymentNumber}-7.png` });
       await new Promise(resolve => setTimeout(resolve, 30000));
-      await page.screenshot({ path: `logs/${paymentNumber}-8.png` });
-      
+    
+      // 
 
+      // Fin du Flow
       status = 'processed';
-      await page.screenshot({ path: `logs/${paymentNumber}-processed.png` });
+      await page.screenshot({ path: `logs/w-${paymentNumber}-processed.png` });
     }
 
     
@@ -248,7 +249,7 @@ async function westernTopup(orderNumber, paymentNumber, amount, cardDetails) {
   catch (error) {
     status = 'error';
     console.error('Error during navigation:', error);
-    await page.screenshot({ path: `logs/${paymentNumber}-error.png` });
+    await page.screenshot({ path: `logs/w-${paymentNumber}-error.png` });
   } finally {
 
     // Extraire les cookies de la page 
@@ -262,7 +263,8 @@ async function westernTopup(orderNumber, paymentNumber, amount, cardDetails) {
     await browser.close();
 
     // Retourner le statut de la transaction
-    console.log(`Transaction status: ${status}`);
+    console.log(`Transaction completed. Status: ${status}`);
+    console.log('----- End Western Topup -----');
     return status;
   }
 
