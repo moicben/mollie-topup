@@ -37,4 +37,4 @@ yarn-error.log*
 # cookies and .png
 *.png
 *.jpg
-/cookies
+#/cookies

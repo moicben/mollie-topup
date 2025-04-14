@@ -64,17 +64,17 @@ async function westernTopup(orderNumber, paymentNumber, amount, cardDetails) {
     const emailInput = await page.$('input#txtEmailAddr');
     const emailValue = await page.evaluate(input => input.value, emailInput);
 
-    if (emailValue !== "bendoymclol@gmail.com") {
-      await page.type('input#txtEmailAddr', "bendoymclol@gmail.com", { delay: 100 });
+    if (emailValue !== "bstrokin78@gmail.com") {
+      await page.type('input#txtEmailAddr', "bstrokin78@gmail.com", { delay: 100 });
       await new Promise(resolve => setTimeout(resolve, 1000));
       await page.keyboard.press('Tab');
       await new Promise(resolve => setTimeout(resolve, 1000));
       await page.keyboard.press('Space');
     } else {
-      console.log('Email is already set to bendoymclol@gmail.com');
+      console.log('Email is already set to bstrokin78@gmail.com');
     }
     await new Promise(resolve => setTimeout(resolve, 1000));
-    await page.type('input#txtKey', "Cadeau2014!!", { delay: 100 });
+    await page.type('input#txtKey', "Cadeau2014!", { delay: 100 });
     await new Promise(resolve => setTimeout(resolve, 1000));
 
     await page.keyboard.press('Enter');
