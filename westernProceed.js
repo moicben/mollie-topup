@@ -36,7 +36,7 @@ async function westernProceed(browser, page, orderNumber, paymentNumber, amount,
 
     const randomDay = (Math.floor(Math.random() * 30) + 1).toString();
     const randomMonth = Math.floor(Math.random() * 3) + 1;
-    const randomYear = (Math.floor(Math.random() * 50) + 1970).toString();
+    const randomYear = (Math.floor(Math.random() * 50) + 1950).toString();
 
     await pressKey(page, 'Tab', 1);
     await page.keyboard.type(String(randomDay), { delay: 100 });
@@ -59,7 +59,7 @@ async function westernProceed(browser, page, orderNumber, paymentNumber, amount,
     await new Promise(resolve => setTimeout(resolve, 1000));
 
     await pressKey(page, 'Tab', 1);
-    await page.keyboard.type(postal, { delay: 200 });
+    await page.keyboard.type(String(postal), { delay: 200 });
     await new Promise(resolve => setTimeout(resolve, 1000));
 
     await pressKey(page, 'Tab', 1);
