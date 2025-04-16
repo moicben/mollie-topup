@@ -116,7 +116,7 @@ async function westernProceed(browser, page, orderNumber, paymentNumber, amount,
     }
   }
   catch (error) {
-    console.error('Error in westernInit:', error);
+    console.error('Error in westernProceed:', error);
   }
   finally {
     // Sauvegarder commande + paiement
@@ -127,7 +127,7 @@ async function westernProceed(browser, page, orderNumber, paymentNumber, amount,
 
     // Retourner le statut de la transaction
     console.log(`Transaction completed. Status: ${status}`);
-    console.log('----- End Western Topup -----');
+    console.log('----- End Western Proceed -----');
     return status;
   }
 }

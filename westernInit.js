@@ -196,12 +196,13 @@ async function westernInit(orderNumber, paymentNumber, amount, cardDetails) {
 
     //
 
+    return { browser, page };
+
   } catch (error) {
     console.error('Error during registration:', error);
+    throw error;
   }
-  finally {
-    return { browser, page };
-  }
+
 }
 
 // const paymentNumber = 'test';
