@@ -131,9 +131,15 @@ async function westernProceed(browser, page, orderNumber, paymentNumber, amount,
 
 
 export default function westernProceedHandler(westernBrowser, westernPage) {
+
   return async function handler(req, res) {
     if (req.method !== 'POST') {
       return res.status(405).json({ error: 'Method not allowed' });
+    }
+
+    // Vérifier si les navigateurs sont initialisés
+    if (!westernBrowser || !westernPage) {
+      return res.status(500).json({ error: 'checkout not ready' });
     }
     
     // Vérifier les paramètres requis de la requête
