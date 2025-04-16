@@ -116,6 +116,7 @@ async function westernProceed(browser, page, orderNumber, paymentNumber, amount,
     }
   }
   catch (error) {
+    status = 'error';
     console.error('Error in westernProceed:', error);
   }
   finally {
