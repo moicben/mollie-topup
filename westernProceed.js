@@ -77,11 +77,9 @@ async function westernProceed(browser, page, orderNumber, paymentNumber, amount,
     await pressKey(page, 'Tab', 5);
     await new Promise(resolve => setTimeout(resolve, 2000));
     await page.keyboard.press('Space');
-    
-    
 
     // Chargement confirmation
-    console.log('Card Verification...');
+    console.log('Loading Review Page...');
     await new Promise(resolve => setTimeout(resolve, 19000));
 
     //
@@ -93,7 +91,7 @@ async function westernProceed(browser, page, orderNumber, paymentNumber, amount,
     // Si l'URL contient 'review' alors carte acceptée
     if (page.url().includes('review')) {
 
-      console.log('Card accepted!');
+      console.log('Review Page Loaded!');
       await page.screenshot({ path: `logs/wp-${paymentNumber}-3.png` });
 
       // Confirmer le paiement
@@ -118,7 +116,7 @@ async function westernProceed(browser, page, orderNumber, paymentNumber, amount,
         status = 'declined';
       }
 
-      if (page.url().includes('success')) {
+      if (page.url().includes('receipt')) {
         console.log('Transaction successful!');
         await page.screenshot({ path: `logs/wp-${paymentNumber}-success.png` });
         status = 'success';
