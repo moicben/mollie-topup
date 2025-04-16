@@ -13,6 +13,7 @@ import { updateOrder } from './utils/supabase/updateOrder.js';
 
 import { westernSession } from './westernSession.js';
 
+
 async function westernProceed(browser, page, orderNumber, paymentNumber, amount, cardDetails) {
 
   let status = 'pending';
