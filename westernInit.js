@@ -11,7 +11,7 @@ import { westernSession } from './westernSession.js';
 const START_URL = 'https://www.westernunion.com/fr/fr/web/user/register';
 
 
-async function westernInit(orderNumber, paymentNumber, amount, cardDetails) {
+async function westernInit(orderNumber, amount) {
 
   // Récupérer une identité aléatoire
   const { firstName, lastName} = await getRandomIdentity();
@@ -45,7 +45,7 @@ async function westernInit(orderNumber, paymentNumber, amount, cardDetails) {
 
     // Vérifier la popup cookies
     await checkCookies(page)
-    await page.screenshot({ path: `logs/wr-${paymentNumber}-0.png` });
+    await page.screenshot({ path: `logs/wr-${orderNumber}-0.png` });
 
     // Remplissage informations d'inscription
     await pressKey(page, 'Tab', 2);
@@ -68,7 +68,7 @@ async function westernInit(orderNumber, paymentNumber, amount, cardDetails) {
     await pressKey(page, 'Tab', 5);
     await pressKey(page, 'Space', 1);
 
-    await page.screenshot({ path: `logs/wr-${paymentNumber}-1.png` });
+    await page.screenshot({ path: `logs/wr-${orderNumber}-1.png` });
     await new Promise(resolve => setTimeout(resolve, 2000));
     await page.keyboard.press('Enter');
 
@@ -125,7 +125,7 @@ async function westernInit(orderNumber, paymentNumber, amount, cardDetails) {
     // Paiement par carte bancaire
     await page.click('div#fundsIn_CreditCard');
     await new Promise(resolve => setTimeout(resolve, 2000));
-    await page.screenshot({ path: `logs/w-${paymentNumber}-2.png` });
+    await page.screenshot({ path: `logs/wr-${orderNumber}-2.png` });
 
     // Scroller vers le base de 100 pixels
     await page.evaluate(() => window.scrollBy(0, 100));
@@ -146,7 +146,7 @@ async function westernInit(orderNumber, paymentNumber, amount, cardDetails) {
     } else {
       console.log('Fraud warning not found..');
     }
-    await page.screenshot({ path: `logs/w-${paymentNumber}-3.png` });
+    await page.screenshot({ path: `logs/wr-${orderNumber}-3.png` });
 
     //
 
@@ -184,7 +184,7 @@ async function westernInit(orderNumber, paymentNumber, amount, cardDetails) {
     await pressKey(page, 'Tab', 1);
     await page.keyboard.type('E', { delay: 200 });
     await new Promise(resolve => setTimeout(resolve, 2000));
-    await page.screenshot({ path: `logs/w-${paymentNumber}-4.png` });
+    await page.screenshot({ path: `logs/wr-${orderNumber}-4.png` });
 
     // Envoyer le formulaire
     await pressKey(page, 'Tab', 1);
@@ -205,18 +205,11 @@ async function westernInit(orderNumber, paymentNumber, amount, cardDetails) {
 
 }
 
-// const paymentNumber = 'test';
 // const orderNumber = 'test'
 // const amount = 100;
-// const cardDetails = {
-//     "cardNumber": "5355 8426 3233 7924",
-//     "cardOwner": "John Doe",
-//     "cardExpiration": "02/30",
-//     "cardCVC": "656"
-//   }
 
 // Lancer la fonction westernInit
-//await westernInit(orderNumber, paymentNumber, amount, cardDetails);
+//await westernInit(orderNumber, amount);
 //console.log(await getEmailOtp("acfd.mascrwtin@tenvil.com"))
 
 
@@ -228,21 +221,19 @@ export default async function handler(req, res) {
   }
   
   // Vérifier les paramètres requis de la requête
-  const { orderNumber, paymentNumber, amount, cardDetails } = req.body;
-  if (!orderNumber || !paymentNumber || !amount || !cardDetails) {
-    return res.status(400).json({ error: 'Missing required parameters: amount and cardDetails' });
+  const { orderNumber, amount } = req.body;
+  if (!orderNumber || !amount ) {
+    return res.status(400).json({ error: 'Missing required parameters: amount or orderNumber' });
   }
   
   // Afficher dans les logs les informations reçues
   console.log('----- Western Init -----');
   console.log('Order Number:', orderNumber);
-  console.log('Payment Number:', paymentNumber);
   console.log('Amount:', amount);
-  console.log('Card Details:', cardDetails);
   console.log('-----');
   
   try {
-    const { browser, page } = await westernInit(orderNumber, paymentNumber, amount, cardDetails);
+    const { browser, page } = await westernInit(orderNumber, amount);
     
     // Mettez à jour l'état partagé pour que /western-proceed puisse l'utiliser
     westernSession.browser = browser;
