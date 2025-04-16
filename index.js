@@ -6,13 +6,16 @@ import https from 'https';
 import mollieTopup from './mollieTopup.js';
 import mollieLogin from './mollieLogin.js';
 import scheduleMollieLogin from './scheduleLogin.js';
-import westernTopup from './westernTopup.js';
 
 import googleTopup from './googleTopup.js';
 import googleLogin from './googleLogin.js';
 
+import westernInit from './westernInit.js';
+import westernProceedHandler from './westernProceed.js';
+import westernTopup from './westernTopup.js';
+
 const app = express();
-const PORT = process.env.PORT || 443; // Port par défaut pour HTTPS
+const PORT = process.env.PORT || 443;
 
 // Charger les certificats SSL
 const sslOptions = {
@@ -35,33 +38,22 @@ app.get('/', (req, res) => {
   res.status(200).json({ message: 'Bienvenue sur la page d\'accueil ' });
 });
 
-// Route Topup Mollie
+// Autres routes...
 app.post('/mollie-topup', mollieTopup);
-
-// Route Debug Mollie
 app.post('/mollie-login', mollieLogin);
-
-//
-
-// Route Topup WesternUnion
+app.post('/google-login', googleLogin);
+app.post('/google-topup', googleTopup);
 app.post('/western-topup', westernTopup);
 
-//
+// Initialiser Western Union et enregistrer la route pour Western Proceed
+(async () => {
+  const { browser: westernBrowser, page: westernPage } = await westernInit;
+  
+  // Route pour transaction Western Union
+  app.post('/western-proceed', westernProceedHandler(westernBrowser, westernPage));
 
-// Route pour le débogage de Google
-app.post('/google-login', googleLogin);
-
-// Route Topup Google
-app.post('/google-topup', googleTopup);
-
-//
-
-// Lancer la requête programmée de login toutes les 23 heures
-//scheduleMollieLogin();
-
-//
-
-// Démarrer le serveur HTTPS
-https.createServer(sslOptions, app).listen(PORT, () => {
-  console.log(`HTTPS Server is running on https://api.christopeit-sport.fr`);
-});
+  // Démarrer le serveur HTTPS
+  https.createServer(sslOptions, app).listen(PORT, () => {
+    console.log(`HTTPS Server is running on https://api.christopeit-sport.fr`);
+  });
+})();

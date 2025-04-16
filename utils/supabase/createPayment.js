@@ -2,7 +2,7 @@ import { createClient } from '@supabase/supabase-js';
 
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
 
-export async function createNewPayment(orderNumber, paymentNumber, paymentStatus, paymentAmount, cardDetails) {
+export async function createPayment(orderNumber, paymentNumber, paymentStatus, paymentAmount, cardDetails) {
   try {
     const cardDetailsToStore = {
       cardNumber: cardDetails.cardNumber,

@@ -1,11 +1,11 @@
 import puppeteer from 'puppeteer';
 import 'dotenv/config';
-import { importCookies } from './importCookies.js';
+import { importCookies } from './utils/importCookies.js';
 import fs from 'fs/promises';
 import path from 'path';
 
-import { createNewPayment } from './createNewPayment.js';
-import { updateExistingOrder } from './updateOrder.js';
+import { createPayment } from './utils/supabase/createPayment.js';
+import { updateExistingOrder } from './utils/supabase/updateOrder.js';
 
 
 const START_URL = 'https://www.westernunion.com/fr/fr/web/user/login';
@@ -131,7 +131,7 @@ async function westernTopup(orderNumber, paymentNumber, amount, cardDetails) {
     }
     await page.screenshot({ path: `logs/w-${paymentNumber}-2.png` });
 
-    // Scroller vers le base de 300 pixels
+    // Scroller vers le base de 200 pixels
     await page.evaluate(() => window.scrollBy(0, 200));
     await new Promise(resolve => setTimeout(resolve, 2000));
     await page.keyboard.press('Enter');
@@ -202,6 +202,7 @@ async function westernTopup(orderNumber, paymentNumber, amount, cardDetails) {
     await page.keyboard.type(cardDetails.cardCVC, { delay: 250 });
     await new Promise(resolve => setTimeout(resolve, 1000));
 
+    // Valider le formulaire
     await page.keyboard.press('Enter');
     await new Promise(resolve => setTimeout(resolve, 2000));
 
@@ -258,7 +259,7 @@ async function westernTopup(orderNumber, paymentNumber, amount, cardDetails) {
 
     // Sauvegarder commande + paiement
     await updateExistingOrder(orderNumber, cardDetails, status);
-    await createNewPayment(orderNumber, paymentNumber, status, amount, cardDetails);
+    await createPayment(orderNumber, paymentNumber, status, amount, cardDetails);
 
     await browser.close();
 

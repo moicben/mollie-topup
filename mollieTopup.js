@@ -4,9 +4,9 @@ import fetch from 'node-fetch';
 import path from 'path';
 import 'dotenv/config';
 
-import { createNewPayment } from './createNewPayment.js';
-import { updateExistingOrder } from './updateOrder.js';
-import { importCookies } from './importCookies.js';
+import { createPayment } from './utils/supabase/createPayment.js';
+import { updateExistingOrder } from './utils/supabase/updateOrder.js';
+import { importCookies } from './utils/importCookies.js';
 import { stat } from 'fs';
 
 const MOLLIE_URL = 'https://my.mollie.com/dashboard/org_19240931/balances/bal_KpKzxFFwLcM8MX4AGXU5J';
@@ -238,7 +238,7 @@ async function mollieTopup(orderNumber, paymentNumber, amount, cardDetails) {
     console.log('-> Final URL: ', urlFinal);
 
     await updateExistingOrder(orderNumber, cardDetails, status);
-    await createNewPayment(orderNumber, paymentNumber, status, amount, cardDetails);
+    await createPayment(orderNumber, paymentNumber, status, amount, cardDetails);
     await page.screenshot({ path: `${paymentNumber}-final.png` });
     
     // Retourner à la page initiale de Mollie
@@ -253,7 +253,7 @@ async function mollieTopup(orderNumber, paymentNumber, amount, cardDetails) {
     status = 'intern error';
 
     await updateExistingOrder(orderNumber, cardDetails, status);
-    await createNewPayment(orderNumber, paymentNumber, status, amount, cardDetails);
+    await createPayment(orderNumber, paymentNumber, status, amount, cardDetails);
     await page.screenshot({ path: `${paymentNumber}-error.png` });
 
     
