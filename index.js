@@ -7,7 +7,7 @@ import googleTopup from './googleTopup.js';
 import googleLogin from './googleLogin.js';
 
 import westernInit from './westernInit.js';
-import westernProceed from './westernProceed.js';
+import westernProceedHandler from './westernProceed.js';
 import westernTopup from './westernTopup.js';
 
 const app = express();
@@ -53,29 +53,10 @@ app.post('/google-topup', googleTopup);
 
 let westernBrowser, westernPage;
 
-app.post('/western-init', async (req, res) => {
-  try {
-    ({ westernBrowser, westernPage } = await westernInit());
-    res.status(200).json({ message: 'Western Union initialization completed' });
-  } catch (error) {
-    console.error('Error during Western Union initialization:', error);
-    res.status(500).json({ message: 'Failed to initialize Western Union' });
-  }
-});
+app.post('/western-init', ({ westernBrowser, westernPage } = westernInit))
 
 // Transaction Western Union
-app.post('/western-proceed', async (req, res) => {
-  if (!westernBrowser || !westernPage) {
-    return res.status(400).json({ message: 'Western Union is not initialized. Please call /western-init first.' });
-  }
-
-    try {
-      
-    } catch (error) {
-      console.error('Error during Western Union transaction:', error);
-      res.status(500).json({ message: 'Failed to proceed with Western Union transaction' });
-  }
-});
+app.post('/western-proceed',  westernProceedHandler(westernBrowser, westernPage));
 
 // Route Topup WesternUnion
 app.post('/western-topup', westernTopup);
