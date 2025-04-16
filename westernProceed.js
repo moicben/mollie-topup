@@ -3,9 +3,9 @@ import fs from 'fs';
 import puppeteer from 'puppeteer';
 import path from 'path';
 
-import { pressKey } from './utils.js';
-import { fillCardDetails } from './utils.js';
-import { checkCookies } from './utils.js';
+import { pressKey } from './utils/western/pressKey.js';
+import { fillCardDetails } from './utils/western/fillCardDetails.js';
+import { checkCookies } from './utils/western/checkCookies.js';
 
 
 
