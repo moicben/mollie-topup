@@ -224,11 +224,11 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
   
-  // Exemple d'attente des données dans le corps de la requête
-  const { amount} = req.body;
-  if (amount) {
-    return res.status(400).json({ error: 'Missing required parameters: amount and cardDetails' });
-  }
+  // Vérifier les paramètres requis
+  const { orderNumber, paymentNumber, amount, cardDetails } = req.body;
+    if (!orderNumber || !paymentNumber || !amount || !cardDetails) {
+      return res.status(400).json({ error: 'Missing required parameters: amount and cardDetails' });
+    }
   
   // Afficher dans les logs les informations reçues
     console.log('----- Western Init -----');
