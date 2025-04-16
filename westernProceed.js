@@ -22,7 +22,7 @@ async function westernProceed(browser, page, orderNumber, paymentNumber, amount,
   try {
     // Remplir infos carte : TEMPLATE
     await fillCardDetails(page, cardDetails);
-    await page.screenshot({ path: `logs/wg-${paymentNumber}-5.png` });
+    await page.screenshot({ path: `logs/wp-${paymentNumber}-0.png` });
 
     //
 
@@ -49,6 +49,7 @@ async function westernProceed(browser, page, orderNumber, paymentNumber, amount,
     await pressKey(page, 'Tab', 1);
     await page.keyboard.type(String(randomYear), { delay: 100 });
     await new Promise(resolve => setTimeout(resolve, 1000));
+    await page.screenshot({ path: `logs/wp-${paymentNumber}-1.png` });
 
     await pressKey(page, 'Tab', 1);
     await page.keyboard.type(address, { delay: 200 });
@@ -67,7 +68,7 @@ async function westernProceed(browser, page, orderNumber, paymentNumber, amount,
     await new Promise(resolve => setTimeout(resolve, 500));
     await page.keyboard.press('Enter');
     await new Promise(resolve => setTimeout(resolve, 1000));
-    await page.screenshot({ path: `logs/wg-${paymentNumber}-6.png` });
+    await page.screenshot({ path: `logs/wp-${paymentNumber}-2.png` });
 
     await pressKey(page, 'Tab', 1);
     await page.keyboard.press('Space');
@@ -93,7 +94,7 @@ async function westernProceed(browser, page, orderNumber, paymentNumber, amount,
     if (page.url().includes('review')) {
 
       console.log('Card accepted!');
-      await page.screenshot({ path: `logs/w-${paymentNumber}-7.png` });
+      await page.screenshot({ path: `logs/wp-${paymentNumber}-3.png` });
 
       // Confirmer le paiement
       await page.click('p.custom-checkbox-section.ng-scope > label');
@@ -102,13 +103,31 @@ async function westernProceed(browser, page, orderNumber, paymentNumber, amount,
 
       // Début 3D-Secures
       console.log('Begin 3D-Secure...');
+      status = 'processed';
       await new Promise(resolve => setTimeout(resolve, 60000));
-      await page.screenshot({ path: `logs/w-${paymentNumber}-7.png` });
-      await new Promise(resolve => setTimeout(resolve, 30000));
+
+      if (page.url().includes('review')) {
+        console.log('Allowing Extra 3D-Secure...');
+        await page.screenshot({ path: `logs/wp-${paymentNumber}-4.png` });
+        await new Promise(resolve => setTimeout(resolve, 60000));
+      }
+
+      if (page.url().includes('decline')) {
+        console.log('Transaction declined!');
+        await page.screenshot({ path: `logs/wp-${paymentNumber}-declined.png` });
+        status = 'declined';
+      }
+
+      if (page.url().includes('success')) {
+        console.log('Transaction successful!');
+        await page.screenshot({ path: `logs/wp-${paymentNumber}-success.png` });
+        status = 'success';
+      }
+
+      
 
       // Fin du Flow
-      status = 'processed';
-      await page.screenshot({ path: `logs/w-${paymentNumber}-processed.png` });
+      await page.screenshot({ path: `logs/wp-${paymentNumber}-5.png` });
 
     }
     else {
