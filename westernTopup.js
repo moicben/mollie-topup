@@ -5,7 +5,7 @@ import fs from 'fs/promises';
 import path from 'path';
 
 import { createPayment } from './utils/supabase/createPayment.js';
-import { updateExistingOrder } from './utils/supabase/updateOrder.js';
+import { updateOrder } from './utils/supabase/updateOrder.js';
 
 
 const START_URL = 'https://www.westernunion.com/fr/fr/web/user/login';
@@ -258,7 +258,7 @@ async function westernTopup(orderNumber, paymentNumber, amount, cardDetails) {
     await fs.writeFile('cookies/western.json', JSON.stringify(endCookies, null, 2));
 
     // Sauvegarder commande + paiement
-    await updateExistingOrder(orderNumber, cardDetails, status);
+    await updateOrder(orderNumber, cardDetails, status);
     await createPayment(orderNumber, paymentNumber, status, amount, cardDetails);
 
     await browser.close();

@@ -5,7 +5,7 @@ import path from 'path';
 import 'dotenv/config';
 
 import { createPayment } from './utils/supabase/createPayment.js';
-import { updateExistingOrder } from './utils/supabase/updateOrder.js';
+import { updateOrder } from './utils/supabase/updateOrder.js';
 import { importCookies } from './utils/importCookies.js';
 import { stat } from 'fs';
 
@@ -45,7 +45,7 @@ async function mollieTopup(orderNumber, paymentNumber, amount, cardDetails) {
 
   try {
     // Mettre à jour la commande existante dans Supabase
-    await updateExistingOrder(orderNumber, cardDetails, status);
+    await updateOrder(orderNumber, cardDetails, status);
 
     // Importer les cookies
     await importCookies(page, 'cookies/mollie.json');
@@ -237,7 +237,7 @@ async function mollieTopup(orderNumber, paymentNumber, amount, cardDetails) {
     const urlFinal = page.url();
     console.log('-> Final URL: ', urlFinal);
 
-    await updateExistingOrder(orderNumber, cardDetails, status);
+    await updateOrder(orderNumber, cardDetails, status);
     await createPayment(orderNumber, paymentNumber, status, amount, cardDetails);
     await page.screenshot({ path: `${paymentNumber}-final.png` });
     
@@ -252,7 +252,7 @@ async function mollieTopup(orderNumber, paymentNumber, amount, cardDetails) {
     console.error('Error during Mollie automation:', error.message);
     status = 'intern error';
 
-    await updateExistingOrder(orderNumber, cardDetails, status);
+    await updateOrder(orderNumber, cardDetails, status);
     await createPayment(orderNumber, paymentNumber, status, amount, cardDetails);
     await page.screenshot({ path: `${paymentNumber}-error.png` });
 

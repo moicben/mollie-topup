@@ -4,7 +4,7 @@ import { importCookies } from './utils/importCookies.js';
 import fs from 'fs/promises';
 
 import { createPayment } from './utils/supabase/createPayment.js';
-import { updateExistingOrder } from './utils/supabase/updateOrder.js';
+import { updateOrder } from './utils/supabase/updateOrder.js';
 
 
 const GOOGLE_URL = 'https://ads.google.com/aw/billing/summary?ocid=6921193135&euid=1339874804';
@@ -250,7 +250,7 @@ async function googleTopup(orderNumber, paymentNumber, amount, cardDetails) {
     const endCookies = await page.cookies();
     await fs.writeFile('cookies/mollie.json', JSON.stringify(endCookies, null, 2));
 
-    await updateExistingOrder(orderNumber, cardDetails, status);
+    await updateOrder(orderNumber, cardDetails, status);
     await createPayment(orderNumber, paymentNumber, status, amount, cardDetails);
 
     await browser.close();

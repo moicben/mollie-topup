@@ -8,7 +8,7 @@
 
 // const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
 
-// async function updateExistingOrder(orderNumber, amount, cardDetails) {
+// async function updateOrder(orderNumber, amount, cardDetails) {
 //   console.log('Supabase URL:', process.env.SUPABASE_URL);
 //   console.log('Supabase Key:', process.env.SUPABASE_KEY);
 
@@ -65,7 +65,7 @@
 
 //   try {
 //     // Mettre à jour la commande existante dans Supabase
-//     await updateExistingOrder(orderNumber, amount, cardDetails);
+//     await updateOrder(orderNumber, amount, cardDetails);
 
 //     // Importer les cookies
 //     await importCookies(page);

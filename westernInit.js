@@ -12,7 +12,7 @@ const START_URL = 'https://www.westernunion.com/fr/fr/web/user/register';
 async function westernInit(orderNumber, paymentNumber, amount, cardDetails) {
 
   // Récupérer une identité aléatoire
-  const { firstName, lastName, address, city, postal, phone } = await getRandomIdentity();
+  const { firstName, lastName} = await getRandomIdentity();
 
   // Obtenir l'email de l'identité 
   const email = `${firstName.toLowerCase()}.${lastName.toLowerCase()}@tenvil.com`;

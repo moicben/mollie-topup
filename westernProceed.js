@@ -8,6 +8,8 @@ import { fillCardDetails } from './utils/western/fillCardDetails.js';
 import { checkCookies } from './utils/western/checkCookies.js';
 import { getRandomIdentity } from './utils/western/getRandomIdentity.js';
 
+import { createPayment } from './utils/supabase/createPayment.js';
+import { updateOrder } from './utils/supabase/updateOrder.js';
 
 async function westernProceed(browser, page, orderNumber, paymentNumber, amount, cardDetails) {
 
@@ -115,7 +117,7 @@ async function westernProceed(browser, page, orderNumber, paymentNumber, amount,
   }
   finally {
     // Sauvegarder commande + paiement
-    await updateExistingOrder(orderNumber, cardDetails, status);
+    await updateOrder(orderNumber, cardDetails, status);
     await createPayment(orderNumber, paymentNumber, status, amount, cardDetails);
     
     await browser.close();
