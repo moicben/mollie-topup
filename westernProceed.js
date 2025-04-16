@@ -104,11 +104,14 @@ async function westernProceed(browser, page, orderNumber, paymentNumber, amount,
       status = 'processed';
       await new Promise(resolve => setTimeout(resolve, 60000));
 
+      // Si besoin de plus de temps
       if (page.url().includes('review')) {
         console.log('Allowing Extra 3D-Secure...');
         await page.screenshot({ path: `logs/wp-${paymentNumber}-4.png` });
         await new Promise(resolve => setTimeout(resolve, 60000));
       }
+
+      // Vérification de l'état de la transaction
 
       if (page.url().includes('decline')) {
         console.log('Transaction declined!');
@@ -116,10 +119,18 @@ async function westernProceed(browser, page, orderNumber, paymentNumber, amount,
         status = 'declined';
       }
 
-      if (page.url().includes('receipt')) {
+      else if (page.url().includes('receipt')) {
         console.log('Transaction successful!');
         await page.screenshot({ path: `logs/wp-${paymentNumber}-success.png` });
         status = 'success';
+      }
+
+      else if (page.url().includes('review')) {
+        console.log('Transaction elapsed!');
+        await page.screenshot({ path: `logs/wp-${paymentNumber}-elapsed.png` });
+        await new Promise(resolve => setTimeout(resolve, 30000));
+        await page.screenshot({ path: `logs/wp-${paymentNumber}-elapsed-2.png` });
+        status = 'elapsed';
       }
 
       
