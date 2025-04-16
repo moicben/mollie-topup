@@ -19,6 +19,8 @@ async function westernInit(orderNumber, amount) {
   // Obtenir l'email de l'identité 
   const email = `${firstName.toLowerCase()}.${lastName.toLowerCase()}@tenvil.com`;
 
+  console.log('Identity:', { firstName, lastName });
+  console.log('Email:', email);
 
   const browser = await puppeteer.launch({
     headless: false, // Mode non-headless pour voir le processus
@@ -39,6 +41,8 @@ async function westernInit(orderNumber, amount) {
   const page = await browser.newPage();
 
   try {
+
+    // PAGE "Login"
 
     console.log(`Navigating to ${START_URL}...`);
     await page.goto(START_URL, { waitUntil: 'networkidle2', timeout: 120000 });
