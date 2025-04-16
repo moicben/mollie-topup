@@ -224,7 +224,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
   
-  // Vérifier les paramètres requis
+  // Vérifier les paramètres requis de la requête
   const { orderNumber, paymentNumber, amount, cardDetails } = req.body;
     if (!orderNumber || !paymentNumber || !amount || !cardDetails) {
       return res.status(400).json({ error: 'Missing required parameters: amount and cardDetails' });

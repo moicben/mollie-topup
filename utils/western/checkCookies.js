@@ -1,6 +1,7 @@
 
 export async function checkCookies(page){
   // Verifie sur la page si 'button#onetrust-reject-all-handler' est présent ?
+  await new Promise(resolve => setTimeout(resolve, 1000));
   await page.mouse.click(100, 10);
   await new Promise(resolve => setTimeout(resolve, 2000));
 
@@ -9,7 +10,7 @@ export async function checkCookies(page){
   if (popup) {
     console.log('Cookies found!');
     await popup.click();
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise(resolve => setTimeout(resolve, 3000));
   } else {
     console.log('Cookies not found..');
   }
