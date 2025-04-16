@@ -9,7 +9,7 @@ import { pressKey } from './utils/western/pressKey.js';
 const START_URL = 'https://www.westernunion.com/fr/fr/web/user/register';
 
 
-export default async function westernInit(orderNumber, paymentNumber, amount, cardDetails) {
+export async function westernInit(orderNumber, paymentNumber, amount, cardDetails) {
 
   // Récupérer une identité aléatoire
   const { firstName, lastName, address, city, postal, phone } = await getRandomIdentity();
