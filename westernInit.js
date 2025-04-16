@@ -123,7 +123,7 @@ async function westernInit(orderNumber, paymentNumber, amount, cardDetails) {
     // Paiement par carte bancaire
     await page.click('div#fundsIn_CreditCard');
     await new Promise(resolve => setTimeout(resolve, 2000));
-    await page.screenshot({ path: `logs/wg-${paymentNumber}-2.png` });
+    await page.screenshot({ path: `logs/w-${paymentNumber}-2.png` });
 
     // Scroller vers le base de 100 pixels
     await page.evaluate(() => window.scrollBy(0, 100));
@@ -144,7 +144,7 @@ async function westernInit(orderNumber, paymentNumber, amount, cardDetails) {
     } else {
       console.log('Fraud warning not found..');
     }
-    await page.screenshot({ path: `logs/wg-${paymentNumber}-3.png` });
+    await page.screenshot({ path: `logs/w-${paymentNumber}-3.png` });
 
     //
 
@@ -181,6 +181,7 @@ async function westernInit(orderNumber, paymentNumber, amount, cardDetails) {
     await pressKey(page, 'Tab', 1);
     await page.keyboard.type('E', { delay: 200 });
     await new Promise(resolve => setTimeout(resolve, 2000));
+    await page.screenshot({ path: `logs/w-${paymentNumber}-4.png` });
 
     // Envoyer le formulaire
     await pressKey(page, 'Tab', 1);
@@ -196,8 +197,6 @@ async function westernInit(orderNumber, paymentNumber, amount, cardDetails) {
     console.error('Error during registration:', error);
   }
   finally {
-
-    updateOrder
     return { browser, page };
   }
 }
@@ -240,7 +239,7 @@ export default async function handler(req, res) {
   
   try {
     const result = await westernInit(orderNumber, paymentNumber, amount, cardDetails);
-    return res.status(200).json({ message: 'Western completed successfully.', result });
+    return res.status(200).json({ message: 'Western initiated.', result });
   } catch (error) {
     console.error('Error in Western handler:', error);
     return res.status(500).json({ error: error.message });

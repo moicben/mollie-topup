@@ -6,15 +6,18 @@ import path from 'path';
 import { pressKey } from './utils/western/pressKey.js';
 import { fillCardDetails } from './utils/western/fillCardDetails.js';
 import { checkCookies } from './utils/western/checkCookies.js';
-
+import { getRandomIdentity } from './utils/western/getRandomIdentity.js';
 
 
 async function westernProceed(browser, page, orderNumber, paymentNumber, amount, cardDetails) {
 
+  let status = 'pending';
+  const { address, city, postal, phone } = await getRandomIdentity();
+
   try {
     // Remplir infos carte : TEMPLATE
-    await fillCardDetails(page, cardTemplate);
-    await page.screenshot({ path: `logs/wg-${paymentNumber}-4.png` });
+    await fillCardDetails(page, cardDetails);
+    await page.screenshot({ path: `logs/wg-${paymentNumber}-5.png` });
 
     //
 
@@ -59,7 +62,7 @@ async function westernProceed(browser, page, orderNumber, paymentNumber, amount,
     await new Promise(resolve => setTimeout(resolve, 500));
     await page.keyboard.press('Enter');
     await new Promise(resolve => setTimeout(resolve, 1000));
-    await page.screenshot({ path: `logs/wg-${paymentNumber}-5.png` });
+    await page.screenshot({ path: `logs/wg-${paymentNumber}-6.png` });
 
     await pressKey(page, 'Tab', 1);
     await page.keyboard.press('Space');
@@ -68,25 +71,59 @@ async function westernProceed(browser, page, orderNumber, paymentNumber, amount,
     await pressKey(page, 'Tab', 5);
     await page.keyboard.press('Enter');
 
-
-    // Attendre jusqu'au changement d'URL
-    await page.waitForNavigation({ waitUntil: 'networkidle2', timeout: 30000 });
+    // Chargement confirmation
+    console.log('Card Verification...');
+    await new Promise(resolve => setTimeout(resolve, 18000));
 
     //
 
-    // PAGE : "Transfer Confirmation"
+    // PAGE : "Transfer Review"
 
     // 
 
-    // Finir le processus d'intiation de transfert
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    await page.screenshot({ path: `logs/wg-${paymentNumber}-6.png` });
+    // Si l'url de la page contient '/web/payment' alors carte refusée
+    if (page.url().includes('/web/payment')) {
+      console.log('Card refused!');
+
+      status = 'refused';
+      await page.screenshot({ path: `logs/w-${paymentNumber}-refused.png` });
+    }
+    else {
+      console.log('Card accepted!');
+      await page.screenshot({ path: `logs/w-${paymentNumber}-7.png` });
+
+      // Confirmer le paiement
+      await page.click('p.custom-checkbox-section.ng-scope > label');
+      await new Promise(resolve => setTimeout(resolve, 3000));
+      await page.click('button#Submit');
+
+      // Début 3D-Secures
+      console.log('Begin 3D-Secure...');
+      await new Promise(resolve => setTimeout(resolve, 60000));
+      await page.screenshot({ path: `logs/w-${paymentNumber}-7.png` });
+      await new Promise(resolve => setTimeout(resolve, 30000));
+    
+      // 
+
+      // Fin du Flow
+      status = 'processed';
+      await page.screenshot({ path: `logs/w-${paymentNumber}-processed.png` });
+    }
   }
   catch (error) {
     console.error('Error in westernInit:', error);
   }
   finally {
-    return { browser, page };
+    // Sauvegarder commande + paiement
+    await updateExistingOrder(orderNumber, cardDetails, status);
+    await createPayment(orderNumber, paymentNumber, status, amount, cardDetails);
+    
+    await browser.close();
+
+    // Retourner le statut de la transaction
+    console.log(`Transaction completed. Status: ${status}`);
+    console.log('----- End Western Topup -----');
+    return status;
   }
 }
 
@@ -113,7 +150,7 @@ export default function westernProceedHandler(westernBrowser, westernPage) {
     try {
       // vous pouvez utiliser westernBrowser et westernPage ici si nécessaire.
       const result = await westernProceed(westernBrowser, westernPage, orderNumber, paymentNumber, amount, cardDetails);
-      return res.status(200).json({ message: 'Western completed successfully.', result });
+      return res.status(200).json({ message: 'Western proceeded.', result });
     } catch (error) {
       console.error('Error in Western handler:', error);
       return res.status(500).json({ error: error.message });
