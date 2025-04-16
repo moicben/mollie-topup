@@ -19,8 +19,8 @@ async function westernInit(orderNumber, amount) {
   // Obtenir l'email de l'identité 
   const email = `${firstName.toLowerCase()}.${lastName.toLowerCase()}@tenvil.com`;
 
-  console.log('Identity:', { firstName, lastName });
-  console.log('Email:', email);
+  //console.log('Identity:', { firstName, lastName });
+  //console.log('Email:', email);
 
   const browser = await puppeteer.launch({
     headless: false, // Mode non-headless pour voir le processus
@@ -44,7 +44,7 @@ async function westernInit(orderNumber, amount) {
 
     // PAGE "Login"
 
-    console.log(`Navigating to ${START_URL}...`);
+    //console.log(`Navigating to ${START_URL}...`);
     await page.goto(START_URL, { waitUntil: 'networkidle2', timeout: 120000 });
 
     // Vérifier la popup cookies
@@ -196,7 +196,7 @@ async function westernInit(orderNumber, amount) {
 
     // Attendre jusqu'au changement d'URL
     await page.waitForNavigation({ waitUntil: 'networkidle2', timeout: 30000 });
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise(resolve => setTimeout(resolve, 3000));
 
     //
 
@@ -205,6 +205,8 @@ async function westernInit(orderNumber, amount) {
   } catch (error) {
     console.error('Error during registration:', error);
     throw error;
+
+    browser.close(); 
   }
 
 }
@@ -246,6 +248,5 @@ export default async function handler(req, res) {
     res.status(200).json({ message: 'Western initialized successfully', status: 'initialized' });
   } catch (error) {
     res.status(500).json({ error: error.message });
-    browser.close(); // Fermer le navigateur en cas d'erreur
   }
 }

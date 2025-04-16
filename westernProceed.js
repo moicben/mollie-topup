@@ -81,7 +81,7 @@ async function westernProceed(browser, page, orderNumber, paymentNumber, amount,
 
     // Chargement confirmation
     console.log('Card Verification...');
-    await new Promise(resolve => setTimeout(resolve, 18000));
+    await new Promise(resolve => setTimeout(resolve, 19000));
 
     //
 
@@ -89,14 +89,9 @@ async function westernProceed(browser, page, orderNumber, paymentNumber, amount,
 
     // 
 
-    // Si l'url de la page contient '/web/payment' alors carte refusée
-    if (page.url().includes('/web/payment')) {
-      console.log('Card refused!');
+    // Si l'URL contient 'review' alors carte acceptée
+    if (page.url().includes('review')) {
 
-      status = 'refused';
-      await page.screenshot({ path: `logs/w-${paymentNumber}-refused.png` });
-    }
-    else {
       console.log('Card accepted!');
       await page.screenshot({ path: `logs/w-${paymentNumber}-7.png` });
 
@@ -110,12 +105,17 @@ async function westernProceed(browser, page, orderNumber, paymentNumber, amount,
       await new Promise(resolve => setTimeout(resolve, 60000));
       await page.screenshot({ path: `logs/w-${paymentNumber}-7.png` });
       await new Promise(resolve => setTimeout(resolve, 30000));
-    
-      // 
 
       // Fin du Flow
       status = 'processed';
       await page.screenshot({ path: `logs/w-${paymentNumber}-processed.png` });
+
+    }
+    else {
+      console.log('Card refused!');
+
+      status = 'refused';
+      await page.screenshot({ path: `logs/w-${paymentNumber}-refused.png` });
     }
   }
   catch (error) {
