@@ -31,7 +31,7 @@ export default async function westernInit(orderNumber, paymentNumber, amount, ca
       '--disable-notifications', 
       '--disable-geolocation',
     ],
-    //executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,  
+    executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,  
   });
   
   const page = await browser.newPage();
