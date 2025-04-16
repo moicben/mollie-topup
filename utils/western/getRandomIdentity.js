@@ -17,8 +17,11 @@ export async function getRandomIdentity() {
   const lastName = identities[randomLastNameIndex].lastName;
   const address = identities[randomAddressIndex].address;
   const city = identities[randomCityIndex].city;
-  const postal = identities[randomPostalIndex].postalCode;
+  const postal = identities[randomPostalIndex].postal;
   const phone = identities[randomPhoneIndex].phone;
 
+  console.log('Random Identity:', { firstName, lastName, address, city, postal, phone });
   return { firstName, lastName, address, city, postal, phone };
 }
+
+

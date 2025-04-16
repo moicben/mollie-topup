@@ -63,7 +63,7 @@ async function westernProceed(browser, page, orderNumber, paymentNumber, amount,
     await new Promise(resolve => setTimeout(resolve, 1000));
 
     await pressKey(page, 'Tab', 1);
-    await page.type('France', { delay: 200 });
+    await page.keyboard.type('France', { delay: 200 });
     await new Promise(resolve => setTimeout(resolve, 500));
     await page.keyboard.press('Enter');
     await new Promise(resolve => setTimeout(resolve, 1000));
@@ -132,7 +132,6 @@ async function westernProceed(browser, page, orderNumber, paymentNumber, amount,
     return status;
   }
 }
-
 
 export default function westernProceedHandler(westernBrowser, westernPage) {
 
