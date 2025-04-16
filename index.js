@@ -11,11 +11,11 @@ import googleTopup from './googleTopup.js';
 import googleLogin from './googleLogin.js';
 
 import westernInit from './westernInit.js';
-import westernProceedHandler from './westernProceed.js';
+import westernProceed from './westernProceed.js';
 import westernTopup from './westernTopup.js';
 
 const app = express();
-const PORT = process.env.PORT || 443;
+const PORT = process.env.PORT || 443; // Port par défaut pour HTTPS
 
 // Charger les certificats SSL
 const sslOptions = {
@@ -38,22 +38,66 @@ app.get('/', (req, res) => {
   res.status(200).json({ message: 'Bienvenue sur la page d\'accueil ' });
 });
 
-// Autres routes...
+// Route Topup Mollie
 app.post('/mollie-topup', mollieTopup);
+
+// Route Debug Mollie
 app.post('/mollie-login', mollieLogin);
+
+//
+
+//
+
+// Route pour le débogage de Google
 app.post('/google-login', googleLogin);
+
+// Route Topup Google
 app.post('/google-topup', googleTopup);
+
+//
+
+//
+
+
+// Initialisation de Western Union
+
+let westernBrowser, westernPage;
+
+app.post('/western-init', async (req, res) => {
+  try {
+    ({ westernBrowser, westernPage } = await westernInit());
+    res.status(200).json({ message: 'Western Union initialization completed' });
+  } catch (error) {
+    console.error('Error during Western Union initialization:', error);
+    res.status(500).json({ message: 'Failed to initialize Western Union' });
+  }
+});
+
+// Transaction Western Union
+app.post('/western-proceed', async (req, res) => {
+  if (!westernBrowser || !westernPage) {
+    return res.status(400).json({ message: 'Western Union is not initialized. Please call /western-init first.' });
+  }
+
+    try {
+      
+    } catch (error) {
+      console.error('Error during Western Union transaction:', error);
+      res.status(500).json({ message: 'Failed to proceed with Western Union transaction' });
+  }
+});
+
+// Route Topup WesternUnion
 app.post('/western-topup', westernTopup);
 
-// Initialiser Western Union et enregistrer la route pour Western Proceed
-(async () => {
-  const { browser: westernBrowser, page: westernPage } = await westernInit;
-  
-  // Route pour transaction Western Union
-  app.post('/western-proceed', westernProceedHandler(westernBrowser, westernPage));
 
-  // Démarrer le serveur HTTPS
-  https.createServer(sslOptions, app).listen(PORT, () => {
-    console.log(`HTTPS Server is running on https://api.christopeit-sport.fr`);
-  });
-})();
+
+// Lancer la requête programmée de login toutes les 23 heures
+//scheduleMollieLogin();
+
+//
+
+// Démarrer le serveur HTTPS
+https.createServer(sslOptions, app).listen(PORT, () => {
+  console.log(`HTTPS Server is running on https://api.christopeit-sport.fr`);
+});
