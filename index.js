@@ -3,10 +3,6 @@ import cors from 'cors';
 import fs from 'fs';
 import https from 'https';
 
-import mollieTopup from './mollieTopup.js';
-import mollieLogin from './mollieLogin.js';
-import scheduleMollieLogin from './scheduleLogin.js';
-
 import googleTopup from './googleTopup.js';
 import googleLogin from './googleLogin.js';
 
@@ -37,12 +33,6 @@ app.use(express.json());
 app.get('/', (req, res) => {
   res.status(200).json({ message: 'Bienvenue sur la page d\'accueil ' });
 });
-
-// Route Topup Mollie
-app.post('/mollie-topup', mollieTopup);
-
-// Route Debug Mollie
-app.post('/mollie-login', mollieLogin);
 
 //
 
