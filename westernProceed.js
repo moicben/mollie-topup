@@ -34,9 +34,9 @@ async function westernProceed(browser, page, orderNumber, paymentNumber, amount,
     await pressKey(page, 'Tab', 4);
     await page.keyboard.type(phone, { delay: 200 });
 
-    const randomDay = Math.floor(Math.random() * 30) + 1;
+    const randomDay = (Math.floor(Math.random() * 30) + 1).toString();
     const randomMonth = Math.floor(Math.random() * 3) + 1;
-    const randomYear = Math.floor(Math.random() * 50) + 1950;
+    const randomYear = (Math.floor(Math.random() * 50) + 1970).toString();
 
     await pressKey(page, 'Tab', 1);
     await page.keyboard.type(randomDay);
