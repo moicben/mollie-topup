@@ -242,5 +242,6 @@ export default async function handler(req, res) {
     res.status(200).json({ message: 'Western initialized successfully', status: 'initialized' });
   } catch (error) {
     res.status(500).json({ error: error.message });
+    browser.close(); // Fermer le navigateur en cas d'erreur
   }
 }

@@ -74,7 +74,8 @@ async function westernProceed(browser, page, orderNumber, paymentNumber, amount,
     await new Promise(resolve => setTimeout(resolve, 1000));
 
     await pressKey(page, 'Tab', 5);
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise(resolve => setTimeout(resolve, 60000));
+    await page.keyboard.press('Enter');
     await page.keyboard.press('Enter');
     
 
