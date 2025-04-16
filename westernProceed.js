@@ -9,7 +9,7 @@ import { checkCookies } from './utils.js';
 
 
 
-export async function westernProceed(browser, page, orderNumber, paymentNumber, amount, cardDetails) {
+async function westernProceed(browser, page, orderNumber, paymentNumber, amount, cardDetails) {
 
   try {
     // Remplir infos carte : TEMPLATE
