@@ -9,6 +9,7 @@ import googleLogin from './googleLogin.js';
 import westernInit from './westernInit.js';
 import westernProceedHandler from './westernProceed.js';
 import westernTopup from './westernTopup.js';
+import { westernSession } from './westernSession.js';
 
 const app = express();
 const PORT = process.env.PORT || 443; // Port par défaut pour HTTPS
@@ -56,7 +57,7 @@ let westernBrowser, westernPage;
 app.post('/western-init', ({ westernBrowser, westernPage } = westernInit))
 
 // Transaction Western Union
-app.post('/western-proceed',  westernProceedHandler(westernBrowser, westernPage));
+app.post('/western-proceed',  westernProceedHandler(westernSession.browser, westernSession.page));
 
 // Route Topup WesternUnion
 app.post('/western-topup', westernTopup);

@@ -6,6 +6,8 @@ import { getRandomIdentity }  from './utils/western/getRandomIdentity.js';
 import { getEmailOtp } from './utils/western/getEmailOtp.js';
 import { pressKey } from './utils/western/pressKey.js';
 
+import { westernSession } from './westernSession.js';
+
 const START_URL = 'https://www.westernunion.com/fr/fr/web/user/register';
 
 
@@ -174,6 +176,7 @@ async function westernInit(orderNumber, paymentNumber, amount, cardDetails) {
 
     // Motif du transfert
     await pressKey(page, 'Tab', 2);
+    await new Promise(resolve => setTimeout(resolve, 500));
     await page.keyboard.type('A', { delay: 200 });
     await new Promise(resolve => setTimeout(resolve, 2000));
 
@@ -225,23 +228,27 @@ export default async function handler(req, res) {
   
   // Vérifier les paramètres requis de la requête
   const { orderNumber, paymentNumber, amount, cardDetails } = req.body;
-    if (!orderNumber || !paymentNumber || !amount || !cardDetails) {
-      return res.status(400).json({ error: 'Missing required parameters: amount and cardDetails' });
-    }
+  if (!orderNumber || !paymentNumber || !amount || !cardDetails) {
+    return res.status(400).json({ error: 'Missing required parameters: amount and cardDetails' });
+  }
   
   // Afficher dans les logs les informations reçues
-    console.log('----- Western Init -----');
-    console.log('Order Number:', orderNumber);
-    console.log('Payment Number:', paymentNumber);
-    console.log('Amount:', amount);
-    console.log('Card Details:', cardDetails);
-    console.log('-----');
+  console.log('----- Western Init -----');
+  console.log('Order Number:', orderNumber);
+  console.log('Payment Number:', paymentNumber);
+  console.log('Amount:', amount);
+  console.log('Card Details:', cardDetails);
+  console.log('-----');
   
   try {
-    const result = await westernInit(orderNumber, paymentNumber, amount, cardDetails);
-    return res.status(200).json({ message: 'Western initiated.', result });
+    const { browser, page } = await westernInit(orderNumber, paymentNumber, amount, cardDetails);
+    
+    // Mettez à jour l'état partagé pour que /western-proceed puisse l'utiliser
+    westernSession.browser = browser;
+    westernSession.page = page;
+    
+    res.status(200).json({ message: 'Western initialized successfully', status: 'initialized' });
   } catch (error) {
-    console.error('Error in Western handler:', error);
-    return res.status(500).json({ error: error.message });
+    res.status(500).json({ error: error.message });
   }
 }
