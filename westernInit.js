@@ -103,11 +103,13 @@ async function westernInit(orderNumber, amount) {
         break; // Si le code OTP est récupéré, sortir de la boucle
       }
       console.log(`Pas de code OTP : Tentative ${attempt}...`);
-      await new Promise(resolve => setTimeout(resolve, 8000)); // Attendre 8 secondes avant une nouvelle tentative
+      await new Promise(resolve => setTimeout(resolve, 4000)); // Attendre 8 secondes avant une nouvelle tentative
     }
 
     if (!otp) {
-      throw new Error('Pas de code OTP après 3 tentatives.');
+      console.log('Pas de code OTP après 2 tentatives. Relancement de westernInit...');
+      await browser.close(); // Fermer le navigateur avant de relancer
+      return await westernInit(orderNumber, amount); // Relancer la fonction westernInit
     }
 
     // Soumettre le code OTP
