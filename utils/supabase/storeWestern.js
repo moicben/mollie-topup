@@ -28,3 +28,10 @@ export async function storeWestern(orderNumber, email, status, comment) {
     throw new Error('Failed to create new western');
   }
 }
+
+// const orderNumber = '1234567890'; // Remplacez par le numéro de commande réel
+// const email = 'eea@ga.fr'; // Remplacez par l'email réel
+// const status = 'pending'; // Remplacez par le statut réel
+// const comment = 'Test comment'; // Remplacez par le commentaire réel
+
+// storeWestern(orderNumber, email, status, comment)
