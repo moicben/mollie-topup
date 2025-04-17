@@ -8,10 +8,10 @@ export async function checkCookies(page){
   const popup = await page.$('button#onetrust-reject-all-handler');
 
   if (popup) {
-    console.log('Cookies found!');
+    console.log('Close cookies');
     await popup.click();
     await new Promise(resolve => setTimeout(resolve, 3000));
   } else {
-    console.log('Cookies not found..');
+    console.log('No cookies');
   }
 }

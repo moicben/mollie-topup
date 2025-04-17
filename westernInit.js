@@ -41,6 +41,7 @@ async function westernInit(orderNumber, amount) {
   
   const page = await browser.newPage();
   let status = 'started';
+  let comment = '';	
 
   try {
 
@@ -246,13 +247,15 @@ async function westernInit(orderNumber, amount) {
 
   } catch (error) {
     console.error('Error during registration:', error);
-    browser.close(); // Fermer le navigateur en cas d'erreur
+    comment = error.message || 'Unknown error';
+
+    await browser.close(); // Fermer le navigateur en cas d'erreur
     throw error;
   }
   finally {
     
     // Enregistrer l'état de la session dans Supabase
-    await storeWestern(orderNumber, email, status, error ? error.message : '');
+    await storeWestern(orderNumber, email, status, comment);
   }
 
 }
