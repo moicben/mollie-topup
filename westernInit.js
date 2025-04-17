@@ -96,7 +96,19 @@ async function westernInit(orderNumber, amount) {
     await new Promise(resolve => setTimeout(resolve, 8000));
 
     // Recevoir le code OTP par email
-    const otp = await getEmailOtp(email);
+    let otp;
+    for (let attempt = 1; attempt <= 3; attempt++) {
+      otp = await getEmailOtp(email);
+      if (otp) {
+        break; // Si le code OTP est récupéré, sortir de la boucle
+      }
+      console.log(`Pas de code OTP : Tentative ${attempt}...`);
+      await new Promise(resolve => setTimeout(resolve, 8000)); // Attendre 8 secondes avant une nouvelle tentative
+    }
+
+    if (!otp) {
+      throw new Error('Pas de code OTP après 3 tentatives.');
+    }
 
     // Soumettre le code OTP
     await page.keyboard.type(otp, { delay: 500 });
@@ -131,7 +143,7 @@ async function westernInit(orderNumber, amount) {
     await new Promise(resolve => setTimeout(resolve, 2000));
     await page.screenshot({ path: `logs/wr-${orderNumber}-2.png` });
 
-    // Scroller vers le base de 100 pixels
+    // Scroller vers le bas de 100 pixels
     await page.evaluate(() => window.scrollBy(0, 100));
     await new Promise(resolve => setTimeout(resolve, 2000));
 
