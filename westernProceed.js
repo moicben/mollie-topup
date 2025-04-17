@@ -133,10 +133,11 @@ async function westernProceed(browser, page, orderNumber, paymentNumber, amount,
         status = 'elapsed';
       }
 
-      
+      // 
 
       // Fin du Flow
       await page.screenshot({ path: `logs/wp-${paymentNumber}-5.png` });
+      //
 
     }
     else {
