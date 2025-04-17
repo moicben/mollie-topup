@@ -202,9 +202,9 @@ async function westernInit(orderNumber, amount) {
 
     // Fermer le navigateur automatiquement après 5 minutes si aucun proceed n'est lancé
     const closeTimeout = setTimeout(() => {
-      console.log('Aucune suite détectée dans les 5 minutes. Fermeture du navigateur.');
+      console.log('Aucune action détectée en 5 min. Browser.close()');
       browser.close();
-    }, 5 * 60 * 50);
+    }, 5 * 60 * 1000);
     browser.closeTimeout = closeTimeout;
 
     return { browser, page };
