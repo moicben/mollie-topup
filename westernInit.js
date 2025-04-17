@@ -79,6 +79,15 @@ async function westernInit(orderNumber, amount) {
     await page.keyboard.press('Enter');
 
     await new Promise(resolve => setTimeout(resolve, 9000));
+
+    // Vérifier si l'inscription a échoué
+    if (page.url().includes('register')) {
+      console.log('Email already registered!');
+      status = 'email already registered';
+      await browser.close(); // Fermer le navigateur
+
+      return await westernInit(orderNumber, amount);
+    }
     
 
     //
@@ -92,6 +101,7 @@ async function westernInit(orderNumber, amount) {
     await page.keyboard.press('Enter');
 
     await new Promise(resolve => setTimeout(resolve, 5000));
+
 
     // Demander le code OTP
     await page.click('button#button-request-code');

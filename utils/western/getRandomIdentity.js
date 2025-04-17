@@ -3,7 +3,7 @@ import path from 'path';
 
 // Choisir aléatoirement un prénom et un nom dans identities.json
 export async function getRandomIdentity() {
-  const data = await fs.readFile(path.join('identities.json'), 'utf8');
+  const data = await fs.readFile(path.join('identities-test.json'), 'utf8');
   const identities = JSON.parse(data);
 
   const randomFirstNameIndex = Math.floor(Math.random() * identities.length);
