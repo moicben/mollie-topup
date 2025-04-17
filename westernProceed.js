@@ -80,7 +80,7 @@ async function westernProceed(browser, page, orderNumber, paymentNumber, amount,
 
     // Chargement confirmation
     console.log('Loading Review Page...');
-    await new Promise(resolve => setTimeout(resolve, 19000));
+    await new Promise(resolve => setTimeout(resolve, 21000));
 
     //
 
@@ -128,7 +128,7 @@ async function westernProceed(browser, page, orderNumber, paymentNumber, amount,
       else if (page.url().includes('review')) {
         console.log('Transaction elapsed!');
         await page.screenshot({ path: `logs/wp-${paymentNumber}-elapsed.png` });
-        await new Promise(resolve => setTimeout(resolve, 30000));
+        await new Promise(resolve => setTimeout(resolve, 60000));
         await page.screenshot({ path: `logs/wp-${paymentNumber}-elapsed-2.png` });
         status = 'elapsed';
       }
