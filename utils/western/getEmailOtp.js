@@ -51,4 +51,4 @@ export async function getEmailOtp(email) {
     req.end();
   });
 }
-console.log(await getEmailOtp('ulysse.giraud@tenvil.com'))
+//console.log(await getEmailOtp('ulysse.giraud@tenvil.com'))
