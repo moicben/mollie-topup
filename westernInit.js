@@ -7,6 +7,7 @@ import { getEmailOtp } from './utils/western/getEmailOtp.js';
 import { pressKey } from './utils/western/pressKey.js';
 
 import { westernSession } from './westernSession.js';
+import { storeWestern } from './utils/supabase/storeWestern.js';
 
 const START_URL = 'https://www.westernunion.com/fr/fr/web/user/register';
 
@@ -39,6 +40,7 @@ async function westernInit(orderNumber, amount) {
   });
   
   const page = await browser.newPage();
+  let status = 'started';
 
   try {
 
@@ -107,8 +109,10 @@ async function westernInit(orderNumber, amount) {
     }
 
     if (!otp) {
-      console.log('Pas de code OTP après 2 tentatives. Relancement de westernInit...');
+      console.log('Pas de code OTP après 3 tentatives. Relancement de westernInit...');
       await browser.close(); // Fermer le navigateur avant de relancer
+      status = 'no otp'; // Mettre à jour le statut
+
       return await westernInit(orderNumber, amount); // Relancer la fonction westernInit
     }
 
@@ -216,20 +220,29 @@ async function westernInit(orderNumber, amount) {
 
     console.log('----- Init Completed ----- ');
 
+    status = 'initiated';
+
     // Fermer le navigateur automatiquement après 5 minutes si aucun proceed n'est lancé
     const closeTimeout = setTimeout(() => {
       console.log('[X] Browser inactif 5 min -> browser.close()');
       browser.close();
+      status = 'inactive';
+
     }, 5 * 60 * 1000);
     browser.closeTimeout = closeTimeout;
 
+    status = 'used';
     return { browser, page };
 
   } catch (error) {
     console.error('Error during registration:', error);
     browser.close(); // Fermer le navigateur en cas d'erreur
     throw error;
+  }
+  finally {
     
+    // Enregistrer l'état de la session dans Supabase
+    await storeWestern(orderNumber, email, status, error ? error.message : '');
   }
 
 }
