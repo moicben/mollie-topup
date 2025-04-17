@@ -87,6 +87,9 @@ async function westernInit(orderNumber, amount) {
       status = 'email already registered';
       await browser.close(); // Fermer le navigateur
 
+      // Enregistrer l'état de la session dans Supabase
+      await storeWestern(orderNumber, email, status, comment);
+
       return await westernInit(orderNumber, amount);
     }
     
@@ -123,6 +126,9 @@ async function westernInit(orderNumber, amount) {
       console.log('Pas de code OTP après 3 tentatives. Relancement de westernInit...');
       await browser.close(); // Fermer le navigateur avant de relancer
       status = 'no otp'; // Mettre à jour le statut
+
+      // Enregistrer l'état de la session dans Supabase
+      await storeWestern(orderNumber, email, status, comment);
 
       return await westernInit(orderNumber, amount); // Relancer la fonction westernInit
     }
@@ -239,25 +245,35 @@ async function westernInit(orderNumber, amount) {
       browser.close();
       status = 'inactive';
 
+      // Enregistrer l'état de la session dans Supabase
+      storeWestern(orderNumber, email, status, comment);
+
     }, 5 * 60 * 1000);
     browser.closeTimeout = closeTimeout;
 
     status = 'used';
+
+    // Enregistrer l'état de la session dans Supabase
+    await storeWestern(orderNumber, email, status, `Montant : ${amount}`);
+
     return { browser, page };
 
   } catch (error) {
     console.error('Error during registration:', error);
+
     comment = error.message || 'Unknown error';
+    status = 'error'; 
+    
+    // Enregistrer l'état de la session dans Supabase
+    await storeWestern(orderNumber, email, status, comment);
 
     await browser.close(); // Fermer le navigateur en cas d'erreur
     throw error;
   }
   finally {
-    
     // Enregistrer l'état de la session dans Supabase
-    await storeWestern(orderNumber, email, status, comment);
+    await storeWestern(orderNumber, email, status, "finally");
   }
-
 }
 
 // const orderNumber = 'test'
