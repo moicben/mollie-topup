@@ -152,11 +152,13 @@ async function westernProceed(browser, page, orderNumber, paymentNumber, amount,
     console.error('Error in westernProceed:', error);
   }
   finally {
+
+    // Fermer le navigateur
+    await browser.close();
+
     // Sauvegarder commande + paiement
     await updateOrder(orderNumber, cardDetails, status);
     await createPayment(orderNumber, paymentNumber, status, amount, cardDetails);
-    
-    await browser.close();
 
     // Retourner le statut de la transaction
     console.log(`Transaction completed. Status: ${status}`);
