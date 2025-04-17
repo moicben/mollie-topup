@@ -251,11 +251,6 @@ async function westernInit(orderNumber, amount) {
     }, 5 * 60 * 1000);
     browser.closeTimeout = closeTimeout;
 
-    status = 'used';
-
-    // Enregistrer l'état de la session dans Supabase
-    await storeWestern(orderNumber, email, status, `Montant : ${amount}`);
-
     return { browser, page };
 
   } catch (error) {
@@ -272,7 +267,7 @@ async function westernInit(orderNumber, amount) {
   }
   finally {
     // Enregistrer l'état de la session dans Supabase
-    await storeWestern(orderNumber, email, status, "finally");
+    await storeWestern(orderNumber, email, status, `Montant : ${amount}`);
   }
 }
 
