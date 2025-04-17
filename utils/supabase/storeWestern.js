@@ -18,13 +18,13 @@ export async function storeWestern(orderNumber, email, status, comment) {
       ]);
 
     if (error) {
-      console.error('Error creating new payment in Supabase:', error);
-      throw new Error('Failed to create new payment in database');
+      console.error('Error creating new western:', error);
+      throw new Error('Failed to create new western in database');
     }
 
-    console.log('New payment created in Supabase, ID:', paymentNumber);
+    console.log('New western created:', orderNumber);
   } catch (error) {
-    console.error('Error creating new payment in Supabase:', error);
-    throw new Error('Failed to create new payment in Supabase');
+    console.error('Error creating new western:', error);
+    throw new Error('Failed to create new western');
   }
 }
