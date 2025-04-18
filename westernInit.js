@@ -37,7 +37,6 @@ async function westernInit(orderNumber, amount) {
     // Vérifier la popup cookies
     await checkCookies(page)
     await page.screenshot({ path: `logs/wr-${orderNumber}-0.png` });
-
     await new Promise(resolve => setTimeout(resolve, 3000));
 
     // Remplissage informations d'inscription

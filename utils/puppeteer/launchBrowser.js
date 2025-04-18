@@ -32,7 +32,7 @@ export async function launchBrowser() {
       '--disable-features=IsolateOrigins,site-per-process',
       '--disable-notifications',
       '--disable-geolocation',
-      `--proxy-server=${proxyAddress}:${proxyPort}`,
+      //`--proxy-server=${proxyAddress}:${proxyPort}`,
     ],
     executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
   });
@@ -40,10 +40,10 @@ export async function launchBrowser() {
   const page = await browser.newPage();
 
   // Authentification par proxy
-  await page.authenticate({
-    username: proxyUsername,
-    password: proxyPassword,
-  });
+  // await page.authenticate({
+  //   username: proxyUsername,
+  //   password: proxyPassword,
+  // });
 
   // Injecter des scripts pour tromper certaines détections
   await page.evaluateOnNewDocument(() => {
