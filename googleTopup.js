@@ -273,7 +273,7 @@ export default async function handler(req, res) {
   }
   
   // Afficher dans les logs les informations reçues
-  console.log('----- New Google Topup -----');
+  console.log('----- Google Topup -----');
   console.log('Order Number:', orderNumber);
   console.log('Payment Number:', paymentNumber);
   console.log('Amount:', amount);

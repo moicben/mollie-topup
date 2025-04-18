@@ -102,12 +102,14 @@ async function westernProceed(browser, page, orderNumber, paymentNumber, amount,
       // Début 3D-Secures
       console.log('Begin 3D-Secure...');
       status = 'processed';
-      await new Promise(resolve => setTimeout(resolve, 60000));
+      await new Promise(resolve => setTimeout(resolve, 3000));
+      await page.screenshot({ path: `logs/wp-${paymentNumber}-4.png` });
+      await new Promise(resolve => setTimeout(resolve, 57000));
 
       // Si besoin de plus de temps
       if (page.url().includes('review')) {
         console.log('Allowing Extra 3D-Secure...');
-        await page.screenshot({ path: `logs/wp-${paymentNumber}-4.png` });
+        await page.screenshot({ path: `logs/wp-${paymentNumber}-extra.png` });
         await new Promise(resolve => setTimeout(resolve, 60000));
       }
 
@@ -136,7 +138,7 @@ async function westernProceed(browser, page, orderNumber, paymentNumber, amount,
       // 
 
       // Fin du Flow
-      await page.screenshot({ path: `logs/wp-${paymentNumber}-5.png` });
+      await page.screenshot({ path: `logs/wp-${paymentNumber}-final.png` });
       //
 
     }

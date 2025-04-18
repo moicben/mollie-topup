@@ -8,6 +8,7 @@ import { pressKey } from './utils/western/pressKey.js';
 
 import { westernSession } from './westernSession.js';
 import { storeWestern } from './utils/supabase/storeWestern.js';
+import { launchBrowser } from './utils/western/launchBrowser.js';
 
 const START_URL = 'https://www.westernunion.com/fr/fr/web/user/register';
 
@@ -20,26 +21,9 @@ async function westernInit(orderNumber, amount) {
   // Obtenir l'email de l'identité 
   const email = `${firstName.toLowerCase()}.${lastName.toLowerCase()}@tenvil.com`;
 
-  //console.log('Identity:', { firstName, lastName });
-  //console.log('Email:', email);
+  // Lancer le navigateur Puppeteer optimisé
+  const { browser, page } = await launchBrowser();
 
-  const browser = await puppeteer.launch({
-    headless: false, // Mode non-headless pour voir le processus
-    defaultViewport: null,
-    args: [
-      '--start-maximized',
-      '--no-sandbox',
-      '--disable-setuid-sandbox',
-      '--disable-blink-features=AutomationControlled', 
-      '--disable-infobars',
-      '--disable-features=IsolateOrigins,site-per-process', 
-      '--disable-notifications', 
-      '--disable-geolocation',
-    ],
-    executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,  
-  });
-  
-  const page = await browser.newPage();
   let status = 'started';
   let comment = '';	
 
