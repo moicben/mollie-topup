@@ -3,9 +3,8 @@ import 'dotenv/config';
 import fs from 'fs';
 import path from 'path';
 
-// Charger le fichier sessions.json et choisir une session aléatoire
-const sessionsPath = path.join(__dirname, 'sessions.json'); // adapte le chemin si nécessaire
-const sessionsData = JSON.parse(fs.readFileSync(sessionsPath, 'utf8'));
+
+const sessionsData = JSON.parse(fs.readFileSync('sessions.json', 'utf8'));
 const randomSession = sessionsData[Math.floor(Math.random() * sessionsData.length)].session;
 
 // Proxy Configuration 
