@@ -12,7 +12,7 @@ const proxyAddress = 'proxy.oculus-proxy.com';
 const proxyPort = '31112';
 const proxyPassword = 'sxjozu794g50';
 // Construire le proxyUsername en injectant la session aléatoire
-const proxyUsername = 'oc-0b3b58f5de2c1506ce227d596c3517f6586af56e3fc513b2c187e07ba94b765e-country-FR-session-' + randomSession;
+const proxyUsername = 'oc-0b3b58f5de2c1506ce227d596c3517f6586af56e3fc513b2c187e07ba94b765e-country-FR-session-' + '88c3a';//randomSession;
 const proxyCertificate = fs.readFileSync('./utils/proxyCertificate.crt', 'utf8');
 
 // Configure l'environnement Node pour utiliser le certificat comme CA supplémentaire

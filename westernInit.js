@@ -38,6 +38,8 @@ async function westernInit(orderNumber, amount) {
     await checkCookies(page)
     await page.screenshot({ path: `logs/wr-${orderNumber}-0.png` });
 
+    await new Promise(resolve => setTimeout(resolve, 3000));
+
     // Remplissage informations d'inscription
     await pressKey(page, 'Tab', 2); 
     await page.keyboard.type(firstName, { delay: 200 });
