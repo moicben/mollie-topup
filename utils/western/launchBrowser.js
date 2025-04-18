@@ -2,7 +2,10 @@ import puppeteer from 'puppeteer';
 import 'dotenv/config';
 import fs from 'fs';
 
-// Proxy Configuration 
+
+
+export async function launchBrowser() {
+  // Proxy Configuration 
 const proxyAddress = 'brd.superproxy.io';
 const proxyPort = 33335;
 const proxyUsername = 'brd-customer-hl_07d8ef96-zone-residential_proxy1-country-fr';
@@ -12,7 +15,7 @@ const proxyCertificate = fs.readFileSync('./utils/proxyCertificate.crt', 'utf8')
 // Configure l'environnement Node pour utiliser le certificat comme CA supplémentaire
 process.env.NODE_EXTRA_CA_CERTS = './utils/proxyCertificate.crt';
 
-export async function launchBrowser() {
+
   const browser = await puppeteer.launch({
     headless: false, // Mode non-headless pour voir le processus
     ignoreHTTPSErrors: true, // Pour ignorer les erreurs HTTPS via le proxy
