@@ -27,18 +27,19 @@ export async function launchBrowser() {
   // });
 
   // Définir des en-têtes HTTP supplémentaires
-  // await page.setExtraHTTPHeaders({
-  //   'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
-  //   'Accept-Encoding': 'gzip, deflate, br',
-  //   'Accept-Language': 'fr-FR,fr;q=0.9',
-  //   'Connection': 'keep-alive',
-  //   'Upgrade-Insecure-Requests': '1',
-  //   'Sec-Fetch-Dest': 'document',
-  //   'Sec-Fetch-Mode': 'navigate',
-  //   'Sec-Fetch-Site': 'none',
-  //   'Sec-Fetch-User': '?1',
-  //   'Cache-Control': 'max-age=0',
-  // });
+  await page.setExtraHTTPHeaders({
+    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+    'Accept-Encoding': 'gzip, deflate, br',
+    'Accept-Language': 'fr-FR,fr;q=0.9',
+    'Connection': 'keep-alive',
+    'Upgrade-Insecure-Requests': '1',
+    'Sec-Fetch-Dest': 'document',
+    'Sec-Fetch-Mode': 'navigate',
+    'Sec-Fetch-Site': 'none',
+    'Sec-Fetch-User': '?1',
+    'Cache-Control': 'max-age=0',
+    'Referer': 'https://www.westernunion.com/fr/fr/web/user/register',	
+  });
 
   // Choisir aléatoirement un User-Agent
   // const userAgents = [
@@ -52,33 +53,33 @@ export async function launchBrowser() {
   // await page.setUserAgent(randomUserAgent);
 
   // Injecter des scripts pour tromper certaines détections (ex: webdriver, plugins, langues, etc.)
-  // await page.evaluateOnNewDocument(() => {
-  //   Object.defineProperty(navigator, 'webdriver', { get: () => false });
-  //   window.chrome = { runtime: {} };
-  //   const originalQuery = window.navigator.permissions.query;
-  //   window.navigator.permissions.query = (parameters) =>
-  //     parameters.name === 'notifications'
-  //       ? Promise.resolve({ state: Notification.permission })
-  //       : originalQuery(parameters);
-  //   Object.defineProperty(navigator, 'plugins', { get: () => [1, 2, 3, 4, 5] });
-  //   Object.defineProperty(navigator, 'languages', { get: () => ['fr-FR', 'fr'] });
-  //   const getParameter = WebGLRenderingContext.prototype.getParameter;
-  //   WebGLRenderingContext.prototype.getParameter = function(parameter) {
-  //     if(parameter === 37445) return 'Intel Inc.';
-  //     if(parameter === 37446) return 'Intel Iris OpenGL Engine';
-  //     return getParameter(parameter);
-  //   };
-  //   Object.defineProperty(navigator, 'mediaDevices', {
-  //     get: () => ({
-  //       enumerateDevices: () =>
-  //         Promise.resolve([
-  //           { kind: 'videoinput' },
-  //           { kind: 'audioinput' },
-  //           { kind: 'audiooutput' }
-  //         ])
-  //     })
-  //   });
-  // });
+  await page.evaluateOnNewDocument(() => {
+    Object.defineProperty(navigator, 'webdriver', { get: () => false });
+    window.chrome = { runtime: {} };
+    const originalQuery = window.navigator.permissions.query;
+    window.navigator.permissions.query = (parameters) =>
+      parameters.name === 'notifications'
+        ? Promise.resolve({ state: Notification.permission })
+        : originalQuery(parameters);
+    Object.defineProperty(navigator, 'plugins', { get: () => [1, 2, 3, 4, 5] });
+    Object.defineProperty(navigator, 'languages', { get: () => ['fr-FR', 'fr'] });
+    const getParameter = WebGLRenderingContext.prototype.getParameter;
+    WebGLRenderingContext.prototype.getParameter = function(parameter) {
+      if(parameter === 37445) return 'Intel Inc.';
+      if(parameter === 37446) return 'Intel Iris OpenGL Engine';
+      return getParameter(parameter);
+    };
+    Object.defineProperty(navigator, 'mediaDevices', {
+      get: () => ({
+        enumerateDevices: () =>
+          Promise.resolve([
+            { kind: 'videoinput' },
+            { kind: 'audioinput' },
+            { kind: 'audiooutput' }
+          ])
+      })
+    });
+  });
 
   return { browser, page };
 }
