@@ -51,7 +51,7 @@ export async function launchBrowser() {
   const randomUserAgent = userAgents[Math.floor(Math.random() * userAgents.length)];
   await page.setUserAgent(randomUserAgent);
 
-  Injecter des scripts pour tromper certaines détections (ex: webdriver, plugins, langues, etc.)
+  //Injecter des scripts pour tromper certaines détections (ex: webdriver, plugins, langues, etc.)
   await page.evaluateOnNewDocument(() => {
     Object.defineProperty(navigator, 'webdriver', { get: () => false });
     window.chrome = { runtime: {} };
