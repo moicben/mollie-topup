@@ -33,14 +33,14 @@ async function westernInit(orderNumber, amount) {
 
     //console.log(`Navigating to ${START_URL}...`);
     await page.goto(START_URL, { waitUntil: 'networkidle2', timeout: 120000 });
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise(resolve => setTimeout(resolve, 6000));
 
     // Vérifier la popup cookies
     await checkCookies(page)
     await page.screenshot({ path: `logs/wr-${orderNumber}-0.png` });
 
     // Remplissage informations d'inscription
-    // await pressKey(page, 'Tab', 2); Fix pour Oculus Proxies
+    await pressKey(page, 'Tab', 2); 
     await page.keyboard.type(firstName, { delay: 200 });
     await new Promise(resolve => setTimeout(resolve, 500));
 
