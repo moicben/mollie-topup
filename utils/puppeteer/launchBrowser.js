@@ -4,7 +4,7 @@ import fs from 'fs';
 import path from 'path';
 
 
-const sessionsData = JSON.parse(fs.readFileSync('sessions.json', 'utf8'));
+const sessionsData = JSON.parse(fs.readFileSync('./utils/puppeteer/sessions.json'), 'utf8')
 const randomSession = sessionsData[Math.floor(Math.random() * sessionsData.length)].session;
 
 // Proxy Configuration 
