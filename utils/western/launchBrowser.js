@@ -26,7 +26,7 @@ export async function launchBrowser() {
       '--disable-features=IsolateOrigins,site-per-process', 
       '--disable-notifications', 
       '--disable-geolocation',
-      '--proxy-server=brd.superproxy.io:33335',
+      //'--proxy-server=brd.superproxy.io:33335',
     ],
     executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
   });
@@ -34,10 +34,10 @@ export async function launchBrowser() {
   const page = await browser.newPage();
 
   // Authentification par proxy
-  await page.authenticate({
-    username: 'brd-customer-hl_07d8ef96-zone-residential_proxy1-country-fr',
-    password: 'Cadeau2014!'
-  });
+  // await page.authenticate({
+  //   username: 'brd-customer-hl_07d8ef96-zone-residential_proxy1-country-fr',
+  //   password: 'Cadeau2014!',
+  // });
 
   // Injecter des scripts pour tromper certaines détections
   await page.evaluateOnNewDocument(() => {
