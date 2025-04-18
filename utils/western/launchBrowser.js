@@ -28,7 +28,6 @@ export async function launchBrowser() {
 
   // Définir des en-têtes HTTP supplémentaires
   await page.setExtraHTTPHeaders({
-    'X-Oxylabs-Geolocation': '49.9235:-97.0811;10',
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
     'Accept-Encoding': 'gzip, deflate, br',
     'Accept-Language': 'fr-FR,fr;q=0.9',
@@ -39,7 +38,6 @@ export async function launchBrowser() {
     'Sec-Fetch-Site': 'none',
     'Sec-Fetch-User': '?1',
     'Cache-Control': 'max-age=0',
-    'Referer': 'https://www.westernunion.com/fr/fr/web/user/register'
   });
 
   // Choisir aléatoirement un User-Agent
