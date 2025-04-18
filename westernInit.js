@@ -11,7 +11,7 @@ import { storeWestern } from './utils/supabase/storeWestern.js';
 import { launchBrowser } from './utils/western/launchBrowser.js';
 
 const START_URL = 'https://www.westernunion.com/fr/fr/web/user/register';
-//const START_URL = 'https://binlist.net/';
+//const START_URL = 'https://whatsmyip.com/';
 
 async function westernInit(orderNumber, amount) {
 
