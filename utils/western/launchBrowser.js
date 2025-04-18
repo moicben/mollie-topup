@@ -10,7 +10,7 @@ const proxyPassword = 'Cadeau2014!';
 const proxyCertificate = fs.readFileSync('./utils/proxyCertificate.crt', 'utf8');
 
 // Configure l'environnement Node pour utiliser le certificat comme CA supplémentaire
-//process.env.NODE_EXTRA_CA_CERTS = './utils/proxyCertificate.crt';
+process.env.NODE_EXTRA_CA_CERTS = './utils/proxyCertificate.crt';
 
 export async function launchBrowser() {
   const browser = await puppeteer.launch({
@@ -35,8 +35,8 @@ export async function launchBrowser() {
 
   // Authentification par proxy
   await page.authenticate({
-    username: proxyUsername,
-    password: proxyPassword,
+    username: 'brd-customer-hl_07d8ef96-zone-residential_proxy1-country-fr',
+    password: 'Cadeau2014!'
   });
 
   // Injecter des scripts pour tromper certaines détections
