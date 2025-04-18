@@ -1,11 +1,13 @@
 import puppeteer from 'puppeteer';
 import 'dotenv/config';
+import fs from 'fs';
 
 // Proxy Configuration 
 const proxyAddress = 'brd.superproxy.io';
 const proxyPort = 33335;
 const proxyUsername = 'bstrokin123';
 const proxyPassword = 'Cadeau2914!';
+const proxyCertificate =  fs.readFileSync('./utils/proxyCertificate.crt', 'utf8');
 
 export async function launchBrowser() {
   const browser = await puppeteer.launch({
