@@ -1,6 +1,12 @@
 import puppeteer from 'puppeteer';
 import 'dotenv/config';
 
+// Proxy Configuration 
+const proxyAddress = 'brd.superproxy.io';
+const proxyPort = 33335;
+const proxyUsername = 'bstrokin123';
+const proxyPassword = 'Cadeau2914!';
+
 export async function launchBrowser() {
   const browser = await puppeteer.launch({
     headless: false, // Mode non-headless pour voir le processus
@@ -14,7 +20,7 @@ export async function launchBrowser() {
       '--disable-features=IsolateOrigins,site-per-process', 
       '--disable-notifications', 
       '--disable-geolocation',
-      '--proxy-server=fr.smartproxy.com:40000',
+      `--proxy-server=${proxyAddress}:${proxyPort}`,
     ],
     executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
   });
@@ -23,8 +29,8 @@ export async function launchBrowser() {
 
   // Authentification par proxy
   await page.authenticate({
-    username: 'bstrokin123',
-    password: 'E~9jBoNk8pnW5w1ahu'
+    username: username,
+    password: password,
   });
 
   // Définir des en-têtes HTTP supplémentaires
