@@ -26,7 +26,7 @@ export async function launchBrowser() {
       '--disable-features=IsolateOrigins,site-per-process', 
       '--disable-notifications', 
       '--disable-geolocation',
-      `--proxy-server=${proxyAddress}:${proxyPort}`,
+      '--proxy-server=brd.superproxy.io:33335',
     ],
     executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
   });
