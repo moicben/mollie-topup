@@ -14,7 +14,7 @@ export async function launchBrowser() {
       '--disable-features=IsolateOrigins,site-per-process', 
       '--disable-notifications', 
       '--disable-geolocation',
-      '--proxy-server=fr.smartproxy.com:40000::',
+      '--proxy-server=fr.smartproxy.com:40000',
     ],
     executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
   });
