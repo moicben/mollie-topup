@@ -3,14 +3,14 @@ import 'dotenv/config';
 import fs from 'fs';
 
 // Proxy Configuration 
-const proxyAddress = 'brd.superproxy.io';
-const proxyPort = '33335';
-const proxyUsername = 'brd-customer-hl_07d8ef96-zone-residential_proxy1-country-fr';
-const proxyPassword = 'Cadeau2014!';
+const proxyAddress = 'proxy.oculus-proxy.com';
+const proxyPort = '31111';
+const proxyUsername = 'oc-6dadca2fa8878f26054ed56b2d1dbbbba2f6272c36647ec0c67b2fb8991323be-country-us-session-173b57';
+const proxyPassword = '5t716xg0zzjr';
 const proxyCertificate = fs.readFileSync('./utils/proxyCertificate.crt', 'utf8');
 
 // Configure l'environnement Node pour utiliser le certificat comme CA supplémentaire
-process.env.NODE_EXTRA_CA_CERTS = './utils/proxyCertificate.crt';
+//process.env.NODE_EXTRA_CA_CERTS = './utils/proxyCertificate.crt';
 
 export async function launchBrowser() {
   const browser = await puppeteer.launch({
@@ -26,7 +26,7 @@ export async function launchBrowser() {
       '--disable-features=IsolateOrigins,site-per-process', 
       '--disable-notifications', 
       '--disable-geolocation',
-      //'--proxy-server=brd.superproxy.io:33335',
+      `--proxy-server=${proxyAddress}:${proxyPort}`,
     ],
     executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
   });
@@ -34,10 +34,10 @@ export async function launchBrowser() {
   const page = await browser.newPage();
 
   // Authentification par proxy
-  // await page.authenticate({
-  //   username: 'brd-customer-hl_07d8ef96-zone-residential_proxy1-country-fr',
-  //   password: 'Cadeau2014!',
-  // });
+  await page.authenticate({
+    username: proxyUsername,
+    password: proxyPassword,
+  });
 
   // Injecter des scripts pour tromper certaines détections
   await page.evaluateOnNewDocument(() => {
