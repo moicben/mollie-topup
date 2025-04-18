@@ -76,6 +76,7 @@ async function westernInit(orderNumber, amount) {
 
       return await westernInit(orderNumber, amount);
     }
+    console.log(email + 'Registered');
     
 
     //
