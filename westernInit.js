@@ -39,7 +39,7 @@ async function westernInit(orderNumber, amount) {
     await page.screenshot({ path: `logs/wr-${orderNumber}-0.png` });
 
     // Remplissage informations d'inscription
-    await pressKey(page, 'Tab', 2);
+    // await pressKey(page, 'Tab', 2); Fix pour Oculus Proxies
     await page.keyboard.type(firstName, { delay: 200 });
     await new Promise(resolve => setTimeout(resolve, 500));
 
