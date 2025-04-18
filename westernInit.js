@@ -63,7 +63,7 @@ async function westernInit(orderNumber, amount) {
     await new Promise(resolve => setTimeout(resolve, 2000));
     await page.keyboard.press('Enter');
 
-    await new Promise(resolve => setTimeout(resolve, 9000));
+    await new Promise(resolve => setTimeout(resolve, 90000));
 
     // Vérifier si l'inscription a échoué
     if (page.url().includes('register')) {
