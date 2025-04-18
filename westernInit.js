@@ -8,7 +8,7 @@ import { pressKey } from './utils/western/pressKey.js';
 
 import { westernSession } from './westernSession.js';
 import { storeWestern } from './utils/supabase/storeWestern.js';
-import { launchBrowser } from './utils/western/launchBrowser.js';
+import { launchBrowser } from './utils/puppeteer/launchBrowser.js';
 
 const START_URL = 'https://www.westernunion.com/fr/fr/web/user/register';
 //const START_URL = 'https://whatsmyip.com/';

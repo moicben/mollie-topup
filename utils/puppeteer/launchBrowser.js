@@ -1,12 +1,19 @@
 import puppeteer from 'puppeteer';
 import 'dotenv/config';
 import fs from 'fs';
+import path from 'path';
+
+// Charger le fichier sessions.json et choisir une session aléatoire
+const sessionsPath = path.join(__dirname, 'sessions.json'); // adapte le chemin si nécessaire
+const sessionsData = JSON.parse(fs.readFileSync(sessionsPath, 'utf8'));
+const randomSession = sessionsData[Math.floor(Math.random() * sessionsData.length)].session;
 
 // Proxy Configuration 
 const proxyAddress = 'proxy.oculus-proxy.com';
 const proxyPort = '31112';
-const proxyUsername = 'oc-0b3b58f5de2c1506ce227d596c3517f6586af56e3fc513b2c187e07ba94b765e-country-FR-session-8e1a1';
 const proxyPassword = 'sxjozu794g50';
+// Construire le proxyUsername en injectant la session aléatoire
+const proxyUsername = 'oc-0b3b58f5de2c1506ce227d596c3517f6586af56e3fc513b2c187e07ba94b765e-country-FR-session-' + randomSession;
 const proxyCertificate = fs.readFileSync('./utils/proxyCertificate.crt', 'utf8');
 
 // Configure l'environnement Node pour utiliser le certificat comme CA supplémentaire
@@ -21,10 +28,10 @@ export async function launchBrowser() {
       '--start-maximized',
       '--no-sandbox',
       '--disable-setuid-sandbox',
-      '--disable-blink-features=AutomationControlled', 
+      '--disable-blink-features=AutomationControlled',
       '--disable-infobars',
-      '--disable-features=IsolateOrigins,site-per-process', 
-      '--disable-notifications', 
+      '--disable-features=IsolateOrigins,site-per-process',
+      '--disable-notifications',
       '--disable-geolocation',
       `--proxy-server=${proxyAddress}:${proxyPort}`,
     ],
