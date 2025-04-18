@@ -10,7 +10,7 @@ const proxyPassword = 'Cadeau2014!';
 const proxyCertificate =  fs.readFileSync('./utils/proxyCertificate.crt', 'utf8');
 
 // Configure l'environnement Node pour utiliser le certificat comme CA supplémentaire
-process.env.NODE_EXTRA_CA_CERTS = '../proxyCertificate.crt';
+//process.env.NODE_EXTRA_CA_CERTS = '../proxyCertificate.crt';
 
 
 export async function launchBrowser() {
