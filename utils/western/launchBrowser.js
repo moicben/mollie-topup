@@ -39,7 +39,7 @@ export async function launchBrowser() {
     'Sec-Fetch-Site': 'none',
     'Sec-Fetch-User': '?1',
     'Cache-Control': 'max-age=0',
-    'Referer': 'https://www.google.com/search?q=westernunion+fr'
+    'Referer': 'https://www.westernunion.com/fr/fr/web/user/register'
   });
 
   // Choisir aléatoirement un User-Agent
