@@ -4,9 +4,9 @@ import fs from 'fs';
 
 // Proxy Configuration 
 const proxyAddress = 'proxy.oculus-proxy.com';
-const proxyPort = '31111';
-const proxyUsername = 'oc-6dadca2fa8878f26054ed56b2d1dbbbba2f6272c36647ec0c67b2fb8991323be-country-us-session-173b57';
-const proxyPassword = '5t716xg0zzjr';
+const proxyPort = '31112';
+const proxyUsername = 'oc-0b3b58f5de2c1506ce227d596c3517f6586af56e3fc513b2c187e07ba94b765e-country-FR-session-8e1a1';
+const proxyPassword = 'sxjozu794g50';
 const proxyCertificate = fs.readFileSync('./utils/proxyCertificate.crt', 'utf8');
 
 // Configure l'environnement Node pour utiliser le certificat comme CA supplémentaire
