@@ -31,8 +31,9 @@ export async function launchBrowser() {
 
   // Authentification par proxy
   await page.authenticate({
-    username: username,
-    password: password,
+    username: proxyUsername,
+    password: proxyPassword,
+    cert: proxyCertificate,
   });
 
   // Définir des en-têtes HTTP supplémentaires
