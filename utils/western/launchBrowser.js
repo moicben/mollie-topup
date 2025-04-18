@@ -5,7 +5,7 @@ import fs from 'fs';
 // Proxy Configuration 
 const proxyAddress = 'brd.superproxy.io';
 const proxyPort = 33335;
-const proxyUsername = 'bstrokin123';
+const proxyUsername = 'brd-customer-hl_07d8ef96-zone-residential_proxy1-country-fr';
 const proxyPassword = 'Cadeau2914!';
 const proxyCertificate =  fs.readFileSync('./utils/proxyCertificate.crt', 'utf8');
 
