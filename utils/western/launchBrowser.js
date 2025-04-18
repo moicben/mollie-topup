@@ -27,18 +27,18 @@ export async function launchBrowser() {
   // });
 
   // Définir des en-têtes HTTP supplémentaires
-  await page.setExtraHTTPHeaders({
-    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
-    'Accept-Encoding': 'gzip, deflate, br',
-    'Accept-Language': 'fr-FR,fr;q=0.9',
-    'Connection': 'keep-alive',
-    'Upgrade-Insecure-Requests': '1',
-    'Sec-Fetch-Dest': 'document',
-    'Sec-Fetch-Mode': 'navigate',
-    'Sec-Fetch-Site': 'none',
-    'Sec-Fetch-User': '?1',
-    'Cache-Control': 'max-age=0',
-  });
+  // await page.setExtraHTTPHeaders({
+  //   'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+  //   'Accept-Encoding': 'gzip, deflate, br',
+  //   'Accept-Language': 'fr-FR,fr;q=0.9',
+  //   'Connection': 'keep-alive',
+  //   'Upgrade-Insecure-Requests': '1',
+  //   'Sec-Fetch-Dest': 'document',
+  //   'Sec-Fetch-Mode': 'navigate',
+  //   'Sec-Fetch-Site': 'none',
+  //   'Sec-Fetch-User': '?1',
+  //   'Cache-Control': 'max-age=0',
+  // });
 
   // Choisir aléatoirement un User-Agent
   // const userAgents = [
