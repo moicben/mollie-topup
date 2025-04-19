@@ -102,9 +102,9 @@ async function westernProceed(browser, page, orderNumber, paymentNumber, amount,
       // Début 3D-Secures
       console.log('Begin 3D-Secure...');
       status = 'processed';
-      await new Promise(resolve => setTimeout(resolve, 3000));
+      await new Promise(resolve => setTimeout(resolve, 10000));
       await page.screenshot({ path: `logs/wp-${paymentNumber}-4.png` });
-      await new Promise(resolve => setTimeout(resolve, 57000));
+      await new Promise(resolve => setTimeout(resolve, 50000));
 
       // Si besoin de plus de temps
       if (page.url().includes('review')) {

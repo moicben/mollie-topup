@@ -98,26 +98,7 @@ async function westernInit(orderNumber, amount) {
     await new Promise(resolve => setTimeout(resolve, 8000));
 
     // Recevoir le code OTP par email
-    let otp;
-    for (let attempt = 1; attempt <= 3; attempt++) {
-      otp = await getEmailOtp(email);
-      if (otp) {
-        break; // Si le code OTP est récupéré, sortir de la boucle
-      }
-      console.log(`Pas de code OTP : Tentative ${attempt}...`);
-      await new Promise(resolve => setTimeout(resolve, 4000)); // Attendre 8 secondes avant une nouvelle tentative
-    }
-
-    if (!otp) {
-      console.log('Pas de code OTP après 3 tentatives. Relancement de westernInit...');
-      await browser.close(); // Fermer le navigateur avant de relancer
-      status = 'no otp'; // Mettre à jour le statut
-
-      // Enregistrer l'état de la session dans Supabase
-      await storeWestern(orderNumber, email, status, comment);
-
-      return await westernInit(orderNumber, amount); // Relancer la fonction westernInit
-    }
+    otp = await getEmailOtp(email);
 
     // Soumettre le code OTP
     await page.keyboard.type(otp, { delay: 500 });
