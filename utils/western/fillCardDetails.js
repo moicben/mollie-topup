@@ -27,6 +27,5 @@ export async function fillCardDetails(page, cardDetails) {
       await new Promise(resolve => setTimeout(resolve, 2000));
   
       // Attendre jusqu'au changement d'URL
-      await page.waitForNavigation({ waitUntil: 'networkidle2', timeout: 30000 });
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      await new Promise(resolve => setTimeout(resolve, 8000));
 }

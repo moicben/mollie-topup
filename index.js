@@ -8,7 +8,10 @@ import googleLogin from './googleLogin.js';
 
 import westernInit from './westernInit.js'; // handler Express qui met à jour westernSession
 import westernProceedHandler from './westernProceed.js';
+
 import westernTopup from './westernTopup.js';
+import westernDebug from './westernDebug.js'; // handler Express qui met à jour westernSession
+
 import { westernSession } from './westernSession.js';
 
 const app = express();
@@ -34,6 +37,8 @@ app.get('/', (req, res) => {
 app.post('/google-login', googleLogin);
 app.post('/google-topup', googleTopup);
 app.post('/western-topup', westernTopup);
+
+app.post('/western-debug', westernDebug);
 
 // La route d'initialisation appelle directement le handler de westernInit
 app.post('/western-init', westernInit);
