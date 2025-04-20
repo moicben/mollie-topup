@@ -11,7 +11,8 @@ import { storeWestern } from './utils/supabase/storeWestern.js';
 import { launchBrowser } from './utils/puppeteer/launchBrowser.js';
 
 //const START_URL = 'https://www.westernunion.com/fr/fr/web/user/register';
-const START_URL = 'https://whatsmyip.com/';
+//const START_URL = 'https://whatsmyip.com/';
+const START_URL = 'https://www.christopeit-sport.fr/';
 
 async function westernInit(orderNumber, amount) {
 
