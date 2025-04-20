@@ -10,7 +10,7 @@ module.exports = {
         PUPPETEER_EXECUTABLE_PATH: "/usr/bin/google-chrome-stable",
         PUPPETEER_PROFIL_PATH: "/root/chrome-profile/Default",
         PORT: 443, 
-        NODE_EXTRA_CA_CERTS: "/usr/local/share/ca-certificates/ssl_oculus_certificate.crt",
+        NODE_EXTRA_CA_CERTS: "/usr/local/share/ca-certificates/ssl_oculus_certificate.cer",
       }
     }
   ],
