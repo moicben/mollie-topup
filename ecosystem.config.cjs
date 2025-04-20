@@ -5,7 +5,6 @@ module.exports = {
     {
       name: "app",
       script: "./index.js",
-      exec_mode: "cluster",
       env: {
         NODE_ENV: "production",
         DISPLAY: ":11",
