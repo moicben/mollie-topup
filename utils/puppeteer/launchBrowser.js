@@ -28,7 +28,7 @@ export async function launchBrowser() {
       '--disable-infobars',
       '--disable-web-security', 
       '--disable-features=IsolateOrigins,site-per-process', 
-      //`--proxy-server=${proxyAddress}:${proxyPort}`,
+      `--proxy-server=${proxyAddress}:${proxyPort}`,
       '--ignore-certificate-errors',
     ],
     executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
