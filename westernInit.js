@@ -115,8 +115,8 @@ async function westernInit(orderNumber, amount) {
     await page.keyboard.press('Enter');
 
     // Attendre juqsu'au changement d'URL
-    await page.waitForNavigation({ waitUntil: 'networkidle2', timeout: 30000 });
-    await new Promise(resolve => setTimeout(resolve, 4000));
+    //await page.waitForNavigation({ waitUntil: 'networkidle2', timeout: 30000 });
+    await new Promise(resolve => setTimeout(resolve, 8000));
 
     //
 
