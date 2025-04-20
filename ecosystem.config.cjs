@@ -6,12 +6,6 @@ module.exports = {
       name: "app",
       script: "./index.js",
       exec_mode: "cluster",
-      autorestart: true,
-      watch: false,
-      max_memory_restart: "1G",
-      error_file: "./logs/app-err.log",
-      out_file: "./logs/app-out.log",
-      //log_date_format: "YYYY-MM-DD HH:mm Z",
       env: {
         NODE_ENV: "production",
         DISPLAY: ":11",

@@ -20,7 +20,6 @@ export async function launchBrowser() {
     headless: false, // Mode non-headless pour voir le processus
     ignoreHTTPSErrors: true, // Pour ignorer les erreurs HTTPS via le proxy
     defaultViewport: null,
-    dumpio: true,
     args: [
       '--start-maximized',
       '--no-sandbox',
@@ -35,8 +34,6 @@ export async function launchBrowser() {
       '--disable-dev-shm-usage',
       '--disable-breakpad',
       '--disable-extensions',
-      '--enable-logging',
-      '--v=1',
       '--disable-gpu',
     ],
     executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
