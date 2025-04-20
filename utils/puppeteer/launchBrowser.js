@@ -30,6 +30,7 @@ export async function launchBrowser() {
       '--disable-features=IsolateOrigins,site-per-process', 
       //`--proxy-server=${proxyAddress}:${proxyPort}`,
       '--ignore-certificate-errors',
+      '--disable-software-rasterizer',
     ],
     executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
   });
