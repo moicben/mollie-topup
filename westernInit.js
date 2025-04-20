@@ -10,8 +10,8 @@ import { westernSession } from './westernSession.js';
 import { storeWestern } from './utils/supabase/storeWestern.js';
 import { launchBrowser } from './utils/puppeteer/launchBrowser.js';
 
-const START_URL = 'https://www.westernunion.com/fr/fr/web/user/register';
-//const START_URL = 'https://whatsmyip.com/';
+//const START_URL = 'https://www.westernunion.com/fr/fr/web/user/register';
+const START_URL = 'https://whatsmyip.com/';
 
 async function westernInit(orderNumber, amount) {
 
@@ -33,6 +33,8 @@ async function westernInit(orderNumber, amount) {
 
     //console.log(`Navigating to ${START_URL}...`);
     await page.goto(START_URL, { waitUntil: 'networkidle2', timeout: 120000 });
+
+      await new Promise(resolve => setTimeout(resolve, 30000));
 
     // Vérifier la popup cookies
     await checkCookies(page)
