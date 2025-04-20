@@ -5,8 +5,8 @@ module.exports = {
     {
       name: "app",
       script: "./index.js",
-      exec_mode: "cluster",
-      instances: 5,
+      exec_mode: "fork",
+      instances: 1,
       autorestart: true,
       watch: false,
       max_memory_restart: "1G",
