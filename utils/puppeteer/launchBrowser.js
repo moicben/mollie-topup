@@ -28,8 +28,8 @@ export async function launchBrowser() {
       '--disable-infobars',
       '--disable-web-security', 
       '--disable-features=IsolateOrigins,site-per-process', 
-      `--proxy-server=${proxyAddress}:${proxyPort}`,
-      //'--ignore-certificate-errors',
+      //`--proxy-server=${proxyAddress}:${proxyPort}`,
+      '--ignore-certificate-errors',
     ],
     executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
   });
@@ -39,10 +39,10 @@ export async function launchBrowser() {
   const page = pages.length ? pages[0] : await browser.newPage();
 
   // Authentification par proxy (si besoin)
-  // await page.authenticate({
-  //   username: proxyUsername,
-  //   password: proxyPassword,
-  // });
+  await page.authenticate({
+    username: proxyUsername,
+    password: proxyPassword,
+  });
 
   // Injecter des scripts pour tromper certaines détections
   // await page.evaluateOnNewDocument(() => {
