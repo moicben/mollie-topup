@@ -99,6 +99,14 @@ async function westernInit(orderNumber, amount) {
 
     // Recevoir le code OTP par email
     let otp = await getEmailOtp(email);
+    if (!otp) {
+      status = 'no otp';
+      
+      // Enregistrer l'état de la session dans Supabase
+      await storeWestern(orderNumber, email, status, comment);
+      await browser.close(); // Fermer le navigateur
+      return;
+    }
 
     // Soumettre le code OTP
     await page.keyboard.type(otp, { delay: 500 });

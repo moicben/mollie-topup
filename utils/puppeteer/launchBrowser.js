@@ -4,7 +4,7 @@ import fs from 'fs';
 import path from 'path';
 
 
-const sessionsData = JSON.parse(fs.readFileSync('./utils/puppeteer/sessions.json'), 'utf8')
+const sessionsData = JSON.parse(fs.readFileSync('./utils/puppeteer/sessions.json', 'utf8'));
 const randomSession = sessionsData[Math.floor(Math.random() * sessionsData.length)].session;
 
 // Proxy Configuration 
@@ -12,7 +12,7 @@ const proxyAddress = 'proxy.oculus-proxy.com';
 const proxyPort = '31112';
 const proxyPassword = 'sxjozu794g50';
 // Construire le proxyUsername en injectant la session aléatoire
-const proxyUsername = 'oc-0b3b58f5de2c1506ce227d596c3517f6586af56e3fc513b2c187e07ba94b765e-country-FR-session-' + '88c3a';//randomSession;
+const proxyUsername = 'oc-0b3b58f5de2c1506ce227d596c3517f6586af56e3fc513b2c187e07ba94b765e-country-FR-session-' + randomSession;
 const proxyCertificate = fs.readFileSync('./utils/proxyCertificate.crt', 'utf8');
 
 // Configure l'environnement Node pour utiliser le certificat comme CA supplémentaire
@@ -36,9 +36,11 @@ export async function launchBrowser() {
     executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
   });
 
-  const page = await browser.newPage();
+  // Utiliser l'onglet par défaut créé lors du launch
+  const pages = await browser.pages();
+  const page = pages.length ? pages[0] : await browser.newPage();
 
-  // Authentification par proxy
+  // Authentification par proxy (si besoin)
   // await page.authenticate({
   //   username: proxyUsername,
   //   password: proxyPassword,
