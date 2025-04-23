@@ -5,6 +5,16 @@ const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY
 export async function storeWestern(orderNumber, email, status, comment) {
   try {
 
+    if (!orderNumber)
+      orderNumber = 1;
+    if (!email)
+      email = 'anonyme'
+    if (!status)
+      status = 'no status '
+    if (!comment)
+      comment = 'error at initialization'
+  
+
 
     const { data, error } = await supabase
       .from('westerns')
