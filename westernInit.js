@@ -77,7 +77,7 @@ async function westernInit(orderNumber, amount) {
       console.log('Email already registered!');
       status = 'email already registered';
       await browser.close(); // Fermer le navigateur
-
+ 
       // Enregistrer l'état de la session dans Supabase
       await storeWestern(orderNumber, email, status, comment);
 
