@@ -19,8 +19,13 @@ async function westernInit(orderNumber, amount) {
   // Récupérer une identité aléatoire
   const { firstName, lastName} = await getRandomIdentity();
 
+  const domains = [ 'cpav3.com', 'nuclene.com', 'steveix.com', 'mocvn.com', 'tenvil.com', 'tgvis.com', 'amozix.com', 'anypsd.com', 'maxric.com' ];
+  const randomIndex = Math.floor(Math.random() * domains.length);
+  const domain = domains[randomIndex]; 
+
   // Obtenir l'email de l'identité 
-  const email = `${firstName.toLowerCase()}.${lastName.toLowerCase()}@tenvil.com`;
+  const email = `${firstName.toLowerCase()}.${lastName.toLowerCase()}@${domain}`;
+  console.log('Email:', email);
 
   // Lancer le navigateur Puppeteer optimisé
   const { browser, page } = await launchBrowser();
