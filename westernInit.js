@@ -45,7 +45,7 @@ async function westernInit(orderNumber, amount) {
     await page.keyboard.type(firstName, { delay: 200 });
     await new Promise(resolve => setTimeout(resolve, 500));
 
-    await pressKey(page, 'Tab', 2);
+    await pressKey(page, 'Tab', 1);
     await page.keyboard.type(lastName, { delay: 200 });
     await new Promise(resolve => setTimeout(resolve, 500));
 

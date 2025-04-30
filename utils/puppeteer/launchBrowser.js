@@ -9,10 +9,9 @@ const randomSession = sessionsData[Math.floor(Math.random() * sessionsData.lengt
 
 // Proxy Configuration 
 const proxyAddress = 'proxy.oculus-proxy.com';
-const proxyPort = '31114';
-const proxyPassword = 'dfpe5rpkmi51';
-// Construire le proxyUsername en injectant la session aléatoire
-const proxyUsername = 'oc-c4f429f9aa48f650d6a6e218641ae60b3858e57bd6530f3aa7b7abed0a130d96-country-FR-session-9e0f0'
+const proxyPort = '31112';
+const proxyPassword = 'sxjozu794g50';
+const proxyUsername = 'oc-0b3b58f5de2c1506ce227d596c3517f6586af56e3fc513b2c187e07ba94b765e-country-FR-session-8e1a1'
 
 
 export async function launchBrowser() {
