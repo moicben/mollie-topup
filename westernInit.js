@@ -91,7 +91,7 @@ async function westernInit(orderNumber, amount) {
     await pressKey(page, 'Tab', 4);
     await page.keyboard.press('Enter');
 
-    await new Promise(resolve => setTimeout(resolve, 5000));
+    await new Promise(resolve => setTimeout(resolve, 7000));
 
 
     // Demander le code OTP
