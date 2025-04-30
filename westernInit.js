@@ -81,7 +81,7 @@ async function westernInit(orderNumber, amount) {
       // Enregistrer l'état de la session dans Supabase
       await storeWestern(orderNumber, email, status, comment);
 
-      return await westernInit(orderNumber, amount);
+      //return await westernInit(orderNumber, amount);
     }
     console.log(email + '-> Registered');
     
