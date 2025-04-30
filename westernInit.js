@@ -96,7 +96,10 @@ async function westernInit(orderNumber, amount) {
 
     // Demander le code OTP
     await page.click('button#button-request-code');
-    await new Promise(resolve => setTimeout(resolve, 8000));
+    await new Promise(resolve => setTimeout(resolve, 500));
+    await page.keyboard.press('Enter');
+
+    await new Promise(resolve => setTimeout(resolve, 80000));
 
     // Recevoir le code OTP par email
     let otp = await getEmailOtp(email);
