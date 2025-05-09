@@ -35,7 +35,7 @@ export async function launchBrowser() {
       '--disable-extensions',
       '--disable-gpu',
     ],
-    //executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
+    executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
   });
 
   // Utiliser l'onglet par défaut créé lors du launch
