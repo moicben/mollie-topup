@@ -247,12 +247,12 @@ async function westernInit(orderNumber, amount) {
   }
 }
 
-// const orderNumber = 'test'
-// const amount = 100;
+const orderNumber = 15
+const amount = 100;
 
 // Lancer la fonction westernInit
-//await westernInit(orderNumber, amount);
-//console.log(await getEmailOtp("acfd.mascrwtin@tenvil.com"))
+await westernInit(orderNumber, amount);
+console.log(await getEmailOtp("acfd.mascrwtin@tenvil.com"))
 
 
 
