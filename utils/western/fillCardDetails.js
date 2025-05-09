@@ -1,4 +1,4 @@
-import { pressKey } from './pressKey.js';
+import { pressKey } from '../puppeteer/pressKey.js';
 import fs from 'fs';
 import path from 'path';
 

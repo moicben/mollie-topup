@@ -3,7 +3,7 @@ import fs from 'fs';
 import puppeteer from 'puppeteer';
 import path from 'path';
 
-import { pressKey } from './utils/western/pressKey.js';
+import { pressKey } from './utils/puppeteer/pressKey.js';
 import { fillCardDetails } from './utils/western/fillCardDetails.js';
 import { checkCookies } from './utils/western/checkCookies.js';
 import { getRandomIdentity } from './utils/western/getRandomIdentity.js';
