@@ -4,7 +4,7 @@ import 'dotenv/config';
 import { checkCookies } from './utils/western/checkCookies.js';
 import { getRandomIdentity }  from './utils/western/getRandomIdentity.js';
 import { getEmailOtp } from './utils/western/getEmailOtp.js';
-import { pressKey } from './utils/western/pressKey.js';
+import { pressKey } from './utils/puppeteer/pressKey.js';
 
 import { westernSession } from './westernSession.js';
 import { storeWestern } from './utils/supabase/storeWestern.js';
