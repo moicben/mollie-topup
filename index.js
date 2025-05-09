@@ -15,7 +15,7 @@ import westernDebug from './westernDebug.js'; // handler Express qui met à jour
 import { westernSession } from './westernSession.js';
 
 const app = express();
-const PORT = process.env.PORT || 443;
+const PORT = process.env.PORT
 //const PORT = 3000; // Port HTTP pour le développement local
 
 

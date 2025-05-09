@@ -2,8 +2,10 @@ import puppeteer from 'puppeteer';
 import fs from 'fs/promises';
 import path from 'path';
 
+import { launchBrowser } from './utils/puppeteer/launchBrowser.js';
+
 const COOKIES_FILE = path.join(process.cwd(), 'cookies/mollie.json');
-const MOLLIE_URL = 'https://my.mollie.com/dashboard/org_19237865/home';
+const MOLLIE_URL = 'https://mollie.com/';
 
 async function importCookies(page) {
   try {
@@ -18,20 +20,9 @@ async function importCookies(page) {
 }
 
 async function payDebug(amount, cardDetails) {
-  const browser = await puppeteer.launch({
-    headless: false, // Mode non-headless pour débogage
-    defaultViewport: null,
-    args: ['--start-maximized',
-    '--no-sandbox',
-    '--disable-setuid-sandbox',
-    '--disable-dev-shm-usage',
-    '--viewport=1920,1080',
-    '--disable-web-security', 
-    ],
-    ignoreHTTPSErrors: true,
-  });
 
-  const page = await browser.newPage();
+  // Lancer le navigateur Puppeteer optimisé
+  const { browser, page } = await launchBrowser();
 
   try {
 
