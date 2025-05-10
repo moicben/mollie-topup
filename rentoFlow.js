@@ -32,7 +32,7 @@ async function rentoFlow(orderNumber, paymentNumber, cardNumber, cardExpiry, car
   console.log('Order Number:', orderNumber);
   console.log('Payment Number:', paymentNumber);
   console.log('Amount:', amount);
-  console.log('Card Details:', cardDetails);
+  console.log(`Card Details: ${cardNumber} | ${cardExpiry} | ${cardCvx}`);
   console.log('-----');
 
   let status = 'pending';
