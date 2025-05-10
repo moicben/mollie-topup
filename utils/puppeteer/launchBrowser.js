@@ -25,8 +25,8 @@ export async function launchBrowser() {
       '--disable-setuid-sandbox',
       '--disable-blink-features=AutomationControlled', 
       '--disable-infobars',
-      '--disable-web-security', 
-      '--disable-features=IsolateOrigins,site-per-process', 
+      // '--disable-web-security', -> BUG MONGOPAY
+      // '--disable-features=IsolateOrigins,site-per-process',  -> BUG MONGOPAY
       '--ignore-certificate-errors',
       '--disable-software-rasterizer',
       '--disable-dev-shm-usage',
