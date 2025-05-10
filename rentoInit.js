@@ -48,24 +48,8 @@ async function rentoInit(orderNumber, amount) {
 
 
     console.log('----- Init Completed ----- ');
-
-
     
-    if (page.url().includes('pay.mangopay')) {
-      status = 'initiated';
-    }
-
-    // Fermer le navigateur automatiquement après 5 minutes si aucun proceed n'est lancé
-    const closeTimeout = setTimeout(() => {
-      console.log('[X] Browser inactif 5 min -> browser.close()');
-      browser.close();
-      status = 'inactive';
-
-      // Others things to do..
-
-    }, 5 * 60 * 1000);
-    browser.closeTimeout = closeTimeout;
-
+    browser.close();
     return { paymentUrl }
 
   } catch (error) {
