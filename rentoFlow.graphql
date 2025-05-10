@@ -58,7 +58,7 @@ mutation rentoFlow(
   }
   focusAmountInput: click(
     selector: "input#deposit_mango_pay_wallet_amount"
-    wait: true
+    wait: true 
   ) {
     time
   }
@@ -73,6 +73,7 @@ mutation rentoFlow(
   waitBeforeEnter: waitForTimeout(time: 2000) {
     time
   }
+  
   clicAddFunds: evaluate(
     content: """
     document.querySelectorAll("button#btn-continue")[1].click();
@@ -80,6 +81,7 @@ mutation rentoFlow(
   ) {
     value
   }
+
   waitForMongoPay: waitForTimeout(time: 12000) {
     time
   }

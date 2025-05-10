@@ -40,7 +40,7 @@ export default async function rentoFlow(req, res) {
 
   const options = {
     method: 'POST',
-    // Increase timeout to 4 minutes (240000 ms)
+    // Timeout of 4 minutes
     timeout: 240000,
     headers: {
       'Content-Type': 'application/json',
