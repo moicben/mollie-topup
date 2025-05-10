@@ -27,13 +27,14 @@ export async function launchBrowser() {
       '--disable-infobars',
       '--disable-web-security', 
       '--disable-features=IsolateOrigins,site-per-process', 
-      //`--proxy-server=${proxyAddress}:${proxyPort}`,
       '--ignore-certificate-errors',
       '--disable-software-rasterizer',
       '--disable-dev-shm-usage',
       '--disable-breakpad',
       '--disable-extensions',
       '--disable-gpu',
+      //`--proxy-server=${proxyAddress}:${proxyPort}`,
+      `--user-data-dir=${process.env.PUPPETEER_PROFIL_PATH || '/root/chrome-profile/Default'}`, // Chemin vers le profil Chrome
     ],
     executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
   });
