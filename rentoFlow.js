@@ -25,10 +25,16 @@ export default async function rentoFlow(req, res) {
   }
 
   // Extract variables from request body
-  const { cardNumber, cardExpiry, cardCvx, billingName, amount } = req.body;
+  let { cardNumber, cardExpiry, cardCvx, billingName, amount } = req.body;
   if (!cardNumber || !cardExpiry || !cardCvx || !billingName || !amount) {
     return res.status(400).json({ error: 'Missing required card or amount information.' });
   }
+
+  // Remove space in card number
+  cardNumber = cardNumber.replace(/\s+/g, '');
+
+  // Remove 2% fees of the amount
+  amount = amount * .98
 
   const variables = { cardNumber, cardExpiry, cardCvx, billingName, amount };
 
