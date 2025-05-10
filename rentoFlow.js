@@ -6,7 +6,7 @@ import fetch from 'node-fetch';
 const endpoint = "https://production-sfo.browserless.io/chrome/bql";
 const token = "S1AMT3E9fOmOF332e325829abd823a1975bff5acdf";
 const proxyString = "&proxy=residential&proxyCountry=fr";
-const optionsString = "&humanlike=true&adBlock=true&blockConsentModals=true";
+const optionsString = "&adBlock=true&blockConsentModals=true";
 
 // Query configuration
 const queryFileName = 'rentoFlow.graphql';

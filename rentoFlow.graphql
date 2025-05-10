@@ -65,7 +65,7 @@ mutation rentoFlow(
   typeAmount: type(
     selector: "input#deposit_mango_pay_wallet_amount"
     text: $amount
-    delay: [120, 300],
+    delay: [300, 400],
     wait: true
   ) {
     time
@@ -88,21 +88,21 @@ mutation rentoFlow(
   typeCardNumber: type(
     selector: "input#cardNumber"
     text: $cardNumber
-    delay: [50, 120]
+    delay: [300, 400]
   ) {
     time
   }
   typeCardExpiry: type(
     selector: "input#cardExpiry"
     text: $cardExpiry
-    delay: [50, 120]
+    delay: [300, 400]
   ) {
     time
   }
   typeCardCvx: type(
     selector: "input#cardCvx"
     text: $cardCvx
-    delay: [50, 120]
+    delay: [300, 400]
   ) {
     time
   }
