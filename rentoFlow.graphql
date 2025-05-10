@@ -13,6 +13,9 @@ mutation rentoFlow(
   ) {
     status
   }
+  screenshotLogin: screenshot(type: jpeg) {
+    base64
+  }
   typeEmail: type(
     selector: "input#signinSrEmail"
     text: "benedikt.strokin@gmail.com"
@@ -43,6 +46,9 @@ mutation rentoFlow(
   ) {
     status
   }
+  screenshotPortfolio: screenshot(type: jpeg) {
+    base64
+  }
   waitBeforeDeposit: waitForTimeout(time: 2000) {
     time
   }
@@ -52,6 +58,9 @@ mutation rentoFlow(
     """
   ) {
     value
+  }
+  screenshotDeposit: screenshot(type: jpeg) {
+    base64
   }
   waitBeforeTyping: waitForTimeout(time: 2000) {
     time
@@ -70,10 +79,12 @@ mutation rentoFlow(
   ) {
     time
   }
+  screenshotAmount: screenshot(type: jpeg) {
+    base64
+  }
   waitBeforeEnter: waitForTimeout(time: 2000) {
     time
   }
-  
   clicAddFunds: evaluate(
     content: """
     document.querySelectorAll("button#btn-continue")[1].click();
@@ -81,7 +92,6 @@ mutation rentoFlow(
   ) {
     value
   }
-
   waitForMongoPay: waitForTimeout(time: 12000) {
     time
   }
@@ -113,6 +123,9 @@ mutation rentoFlow(
   ) {
     time
   }
+  screenshotCardDetails: screenshot(type: jpeg) {
+    base64
+  }
   waitAfterTyping: waitForTimeout(time: 3000) {
     time
   }
@@ -122,6 +135,9 @@ mutation rentoFlow(
     """
   ) {
     value
+  }
+  screenshotFinal: screenshot(type: jpeg) {
+    base64
   }
   delayForPayVerif: waitForTimeout(time: 120000) {
     time

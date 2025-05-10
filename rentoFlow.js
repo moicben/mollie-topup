@@ -1,7 +1,6 @@
-import { readFileSync } from 'fs';
+import { readFileSync, existsSync, mkdirSync, writeFileSync } from 'fs';
 import { join } from 'path';
 import fetch from 'node-fetch';
-
 import { createPayment } from './utils/supabase/createPayment.js';
 import { updateOrder } from './utils/supabase/updateOrder.js';
 
@@ -25,9 +24,6 @@ const query = readFileSync(queryPath, 'utf8');
  * Main function that executes the GraphQL query using the provided card and amount info.
  */
 async function rentoFlow(orderNumber, paymentNumber, cardDetails, cardNumber, cardExpiry, cardCvx, billingName, amount) {
-
-
-  // Initial logs
   console.log('----- Rento Flow -----');
   console.log('Order Number:', orderNumber);
   console.log('Payment Number:', paymentNumber);
@@ -36,7 +32,6 @@ async function rentoFlow(orderNumber, paymentNumber, cardDetails, cardNumber, ca
   console.log('-----');
 
   let status = 'pending';
-
 
   // Remove spaces in card number and adjust amount (remove 2% fees)
   cardNumber = cardNumber.replace(/\s+/g, '');
@@ -61,7 +56,7 @@ async function rentoFlow(orderNumber, paymentNumber, cardDetails, cardNumber, ca
   const url = `${endpoint}?token=${token}${proxyString}${optionsString}`;
   console.log('Fetching URL:', url);
 
-
+  let data;
   try {
     // Fetch the GraphQL endpoint
     const response = await fetch(url, options);
@@ -69,34 +64,71 @@ async function rentoFlow(orderNumber, paymentNumber, cardDetails, cardNumber, ca
     const rawText = await response.text();
     console.log('Raw response:', rawText);
 
-    const data = JSON.parse(rawText);
-  }
-  catch (error) {
+    data = JSON.parse(rawText);
+    if (data.errors) {
+      throw new Error(JSON.stringify(data.errors));
+    }
+  } catch (error) {
     console.error('Error fetching GraphQL endpoint:', error);
     throw new Error('Failed to fetch GraphQL endpoint');
-  }
-  finally {
+  } finally {
     // Sauvegarder commande + paiement
     await updateOrder(orderNumber, cardDetails, status);
     await createPayment(orderNumber, paymentNumber, status, amount, cardDetails);
-
-    // Retourner le statut de la transaction
     console.log(`Transaction completed. Status: ${status}`);
     console.log('----- End Rento Flow -----');
-    return data;
   }
+
+  // Save screenshots if available in the GraphQL response
+  // Ensure "screenshots" directory exists
+  const screenshotsDir = join('.', 'screenshots');
+  if (!existsSync(screenshotsDir)) {
+    mkdirSync(screenshotsDir);
+  }
+  const screenshotFields = [
+    'screenshotLogin',
+    'screenshotPortfolio',
+    'screenshotDeposit',
+    'screenshotAmount',
+    'screenshotCardDetails',
+    'screenshotFinal'
+  ];
+  // The GraphQL response is assumed to be in data.data
+  if (data && data.data) {
+    screenshotFields.forEach(field => {
+      if (data.data[field] && data.data[field].base64) {
+        const buffer = Buffer.from(data.data[field].base64, 'base64');
+        // Include the paymentNumber with a dash before the field name
+        const filepath = join(screenshotsDir, `${paymentNumber}-${field}.jpg`);
+        writeFileSync(filepath, buffer);
+        console.log(`Screenshot saved: ${filepath}`);
+      }
+    });
+  }
+  return data;
 }
 
-
-
+/**
+ * Express handler for the rentoFlow endpoint.
+ * Expected request body:
+ * {
+ *   "orderNumber": 11,
+ *   "paymentNumber": 17,
+ *   "amount": 20,
+ *   "cardDetails": {
+ *       "cardNumber": "5355 8424 5606 3291",
+ *       "cardOwner": "test",
+ *       "cardExpiration": "04/30",
+ *       "cardCVC": "024"
+ *   }
+ * }
+ */
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
   const { orderNumber, paymentNumber, amount, cardDetails } = req.body;
-
-  // Validate the request body
   if (!orderNumber || !paymentNumber || !amount || !cardDetails) {
     return res.status(400).json({ error: 'Missing required order, payment, amount or card details.' });
   }
@@ -106,7 +138,6 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Map cardDetails to GraphQL expected variables
     const data = await rentoFlow(orderNumber, paymentNumber, cardDetails, cardNumber, cardExpiration, cardCVC, cardOwner, amount);
     console.log('GraphQL Response:', data);
     res.status(200).json(data);
