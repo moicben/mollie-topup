@@ -21,7 +21,7 @@ export async function launchBrowser() {
     defaultViewport: null,
     args: [
       '--start-maximized',
-      // '--no-sandbox',
+       '--no-sandbox',
       // '--disable-setuid-sandbox',
       // '--disable-blink-features=AutomationControlled', 
       // '--disable-infobars',
