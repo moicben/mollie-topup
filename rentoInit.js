@@ -4,6 +4,7 @@ import 'dotenv/config';
 import { checkCookies } from './utils/western/checkCookies.js';
 import { pressKey } from './utils/puppeteer/pressKey.js';
 import { launchBrowser } from './utils/puppeteer/launchBrowser.js';
+import { browserSession } from './utils/puppeteer/browserSession.js';
 
 const START_URL = 'https://inrento.com/portfolio/';
 //const START_URL = 'https://whatsmyip.com/';
