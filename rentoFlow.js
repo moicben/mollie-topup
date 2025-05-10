@@ -55,7 +55,12 @@ export default async function rentoFlow(req, res) {
 
   try {
     const response = await fetch(url, options);
-    const data = await response.json();
+
+    // Temporarily log the raw response to debug
+    const rawText = await response.text();
+    console.log('Raw response:', rawText);
+
+    const data = JSON.parse(rawText);
 
     if (data.errors) {
       console.error('GraphQL Errors:', data.errors);

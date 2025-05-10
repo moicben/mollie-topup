@@ -65,7 +65,8 @@ mutation rentoFlow(
   typeAmount: type(
     selector: "input#deposit_mango_pay_wallet_amount"
     text: $amount
-    delay: [50, 120]
+    delay: [120, 300],
+    wait: true
   ) {
     time
   }
