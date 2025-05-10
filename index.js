@@ -50,7 +50,9 @@ app.get('/', (req, res) => {
 
 app.post('/rento-init', rentoInit);
 app.post('/rento-debug', rentoDebug);
-app.post('/rento-proceed', rentoProceed);
+app.post('/rento-proceed', (req, res) => {
+  return rentoProceedHandler(browserSession.PaymentUrl)(req, res);
+});
 
 
 https.createServer(sslOptions, app).listen(PORT, () => {
