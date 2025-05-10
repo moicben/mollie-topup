@@ -26,7 +26,7 @@ async function rentoInit(orderNumber, amount) {
     await page.goto(START_URL, { waitUntil: 'networkidle2', timeout: 120000 });
 
     // Ouverture de la page de paiement
-    await new Promise(resolve => setTimeout(resolve, 3000));
+    await new Promise(resolve => setTimeout(resolve, 300000));
     await page.evaluate(() => {
       document.querySelectorAll("button.btn.btn-primary.btn-lg.deposit-button.js-open-modal")[1].click();
     });
