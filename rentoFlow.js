@@ -9,7 +9,7 @@ const proxyString = "&proxy=residential&proxyCountry=fr";
 const optionsString = "&humanlike=true&adBlock=true&blockConsentModals=true";
 
 // Query configuration
-const queryFileName = 'rentoflow.graphql';
+const queryFileName = 'rentoFlow.graphql';
 const operationName = 'rentoFlow';
 
 // File paths
