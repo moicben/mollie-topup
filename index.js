@@ -3,18 +3,20 @@ import cors from 'cors';
 import fs from 'fs';
 import https from 'https';
 
-import googleTopup from './googleTopup.js';
-import googleLogin from './googleLogin.js';
-
 import westernInit from './westernInit.js'; 
 import westernProceedHandler from './westernProceed.js';
-
 import westernTopup from './westernTopup.js';
 import westernDebug from './westernDebug.js'; 
-import { browserSession } from './utils/puppeteer/browserSession.js';
 
 import rentoInit from './rentoInit.js'; 
 
+import { browserSession } from './utils/puppeteer/browserSession.js';
+
+//
+
+// Config
+
+//
 
 const app = express();
 const PORT = process.env.PORT
@@ -34,25 +36,23 @@ app.use(cors({
 
 app.use(express.json());
 
+//
+
+// Definir les routes
+
+//
+
 app.get('/', (req, res) => {
   res.status(200).json({ message: 'Bienvenue sur la page d\'accueil ' });
 });
 
-app.post('/google-login', googleLogin);
-app.post('/google-topup', googleTopup);
-app.post('/western-topup', westernTopup);
-
 app.post('/western-debug', westernDebug);
-
-// La route d'initialisation appelle directement le handler de westernInit
 app.post('/western-init', westernInit);
-
-// La route pour la transaction utilise les objets contenus dans browserSession
 app.post('/western-proceed', (req, res) => {
   return westernProceedHandler(browserSession.browser, browserSession.page)(req, res);
 });
 
-
+app.post('/rento-init', rentoInit);
 
 
 https.createServer(sslOptions, app).listen(PORT, () => {
