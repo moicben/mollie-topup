@@ -8,9 +8,6 @@ import westernProceedHandler from './westernProceed.js';
 import westernTopup from './westernTopup.js';
 import westernDebug from './westernDebug.js'; 
 
-import rentoInit from './rentoInit.js'; 
-import rentoDebug from './rentoDebug.js';
-import rentoProceedHandler from './rentoProceed.js';
 import rentoFlow from './rentoFlow.js'; 
 
 import { browserSession } from './utils/puppeteer/browserSession.js';
@@ -37,11 +34,6 @@ app.get('/', (req, res) => {
   res.status(200).json({ message: 'Bienvenue sur la page d\'accueil ' });
 });
 
-app.post('/rento-init', rentoInit);
-app.post('/rento-debug', rentoDebug);
-app.post('/rento-proceed', (req, res) => {
-  return rentoProceedHandler(browserSession.PaymentUrl)(req, res);
-});
 app.post('/rento-flow', rentoFlow);
 
 https.createServer(sslOptions, app).listen(PORT, () => {
