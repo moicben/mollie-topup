@@ -13,7 +13,7 @@ mutation rentoFlow(
   ) {
     status
   }
-  screenshotLogin: screenshot(type: jpeg) {
+  login: screenshot(type: jpeg) {
     base64
   }
   typeEmail: type(
@@ -46,7 +46,7 @@ mutation rentoFlow(
   ) {
     status
   }
-  screenshotPortfolio: screenshot(type: jpeg) {
+  portfolio: screenshot(type: jpeg) {
     base64
   }
   waitBeforeDeposit: waitForTimeout(time: 2000) {
@@ -59,7 +59,7 @@ mutation rentoFlow(
   ) {
     value
   }
-  screenshotDeposit: screenshot(type: jpeg) {
+  deposit: screenshot(type: jpeg) {
     base64
   }
   waitBeforeTyping: waitForTimeout(time: 2000) {
@@ -67,19 +67,19 @@ mutation rentoFlow(
   }
   focusAmountInput: click(
     selector: "input#deposit_mango_pay_wallet_amount"
-    wait: true 
+    wait: true
   ) {
     time
   }
   typeAmount: type(
     selector: "input#deposit_mango_pay_wallet_amount"
     text: $amount
-    delay: [300, 400],
+    delay: [300, 400]
     wait: true
   ) {
     time
   }
-  screenshotAmount: screenshot(type: jpeg) {
+  amount: screenshot(type: jpeg) {
     base64
   }
   waitBeforeEnter: waitForTimeout(time: 2000) {
@@ -123,7 +123,7 @@ mutation rentoFlow(
   ) {
     time
   }
-  screenshotCardDetails: screenshot(type: jpeg) {
+  cardDetails: screenshot(type: jpeg) {
     base64
   }
   waitAfterTyping: waitForTimeout(time: 3000) {
@@ -136,10 +136,19 @@ mutation rentoFlow(
   ) {
     value
   }
-  screenshotFinal: screenshot(type: jpeg) {
+  submited: screenshot(type: jpeg) {
     base64
   }
-  delayForPayVerif: waitForTimeout(time: 120000) {
+  delayForPayVerif: waitForTimeout(time: 60000) {
     time
+  }
+  pending: screenshot(type: jpeg) {
+    base64
+  }
+  delayForPayVerif2: waitForTimeout(time: 60000) {
+    time
+  }
+  final: screenshot(type: jpeg) {
+    base64
   }
 }

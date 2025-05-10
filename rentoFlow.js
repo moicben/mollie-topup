@@ -86,12 +86,14 @@ async function rentoFlow(orderNumber, paymentNumber, cardDetails, cardNumber, ca
     mkdirSync(screenshotsDir);
   }
   const screenshotFields = [
-    'screenshotLogin',
-    'screenshotPortfolio',
-    'screenshotDeposit',
-    'screenshotAmount',
-    'screenshotCardDetails',
-    'screenshotFinal'
+    'login',
+    'portfolio',
+    'deposit',
+    'amount',
+    'cardDetails',
+    'submited',
+    'pending',
+    'final'
   ];
   // The GraphQL response is assumed to be in data.data
   if (data && data.data) {
