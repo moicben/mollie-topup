@@ -21,18 +21,18 @@ export async function launchBrowser() {
     defaultViewport: null,
     args: [
       '--start-maximized',
-      '--no-sandbox',
-      '--disable-setuid-sandbox',
-      '--disable-blink-features=AutomationControlled', 
-      '--disable-infobars',
-      // '--disable-web-security', -> BUG MONGOPAY
-      // '--disable-features=IsolateOrigins,site-per-process',  -> BUG MONGOPAY
-      '--ignore-certificate-errors',
-      '--disable-software-rasterizer',
-      '--disable-dev-shm-usage',
-      '--disable-breakpad',
-      '--disable-extensions',
-      '--disable-gpu',
+      // '--no-sandbox',
+      // '--disable-setuid-sandbox',
+      // '--disable-blink-features=AutomationControlled', 
+      // '--disable-infobars',
+      // // '--disable-web-security', -> BUG MONGOPAY
+      // // '--disable-features=IsolateOrigins,site-per-process',  -> BUG MONGOPAY
+      // '--ignore-certificate-errors',
+      // '--disable-software-rasterizer',
+      // '--disable-dev-shm-usage',
+      // '--disable-breakpad',
+      // '--disable-extensions',
+      // '--disable-gpu',
       //`--proxy-server=${proxyAddress}:${proxyPort}`,
       `--user-data-dir=${process.env.PUPPETEER_PROFIL_PATH || '/root/chrome-profile/Default'}`, // Chemin vers le profil Chrome
     ],
@@ -44,10 +44,10 @@ export async function launchBrowser() {
   const page = pages.length ? pages[0] : await browser.newPage();
 
   // Authentification par proxy (si besoin)
-  await page.authenticate({
-    username: proxyUsername,
-    password: proxyPassword,
-  });
+  // await page.authenticate({
+  //   username: proxyUsername,
+  //   password: proxyPassword,
+  // });
 
   // Injecter des scripts pour tromper certaines détections
   // await page.evaluateOnNewDocument(() => {
