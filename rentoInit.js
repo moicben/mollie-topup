@@ -96,8 +96,8 @@ export default async function handler(req, res) {
     const { browser, page } = await rentoInit(orderNumber, amount);
     
     // Mettez à jour l'état partagé pour que /western-proceed puisse l'utiliser
-    westernSession.browser = browser;
-    westernSession.page = page;
+    browserSession.browser = browser;
+    browserSession.page = page;
     
     res.status(200).json({ message: 'Western initialized successfully', status: 'initialized' });
   } catch (error) {
