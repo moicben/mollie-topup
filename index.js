@@ -46,12 +46,6 @@ app.get('/', (req, res) => {
   res.status(200).json({ message: 'Bienvenue sur la page d\'accueil ' });
 });
 
-app.post('/western-debug', westernDebug);
-app.post('/western-init', westernInit);
-app.post('/western-proceed', (req, res) => {
-  return westernProceedHandler(browserSession.browser, browserSession.page)(req, res);
-});
-
 app.post('/rento-init', rentoInit);
 
 
