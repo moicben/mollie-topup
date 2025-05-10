@@ -4,9 +4,9 @@ import fetch from 'node-fetch';
 import path from 'path';
 import 'dotenv/config';
 
-import { createPayment } from './utils/supabase/createPayment.js';
-import { updateOrder } from './utils/supabase/updateOrder.js';
-import { importCookies } from './utils/importCookies.js';
+import { createPayment } from '../utils/supabase/createPayment.js';
+import { updateOrder } from '../utils/supabase/updateOrder.js';
+import { importCookies } from '../utils/importCookies.js';
 import { stat } from 'fs';
 
 const MOLLIE_URL = 'https://my.mollie.com/dashboard/org_19240931/balances/bal_KpKzxFFwLcM8MX4AGXU5J';

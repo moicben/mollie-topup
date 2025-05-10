@@ -44,8 +44,7 @@ async function rentoInit(orderNumber, amount) {
       browser.close();
       status = 'inactive';
 
-      // Enregistrer l'état de la session dans Supabase
-      storeWestern(orderNumber, email, status, comment);
+      // Others things to do..
 
     }, 5 * 60 * 1000);
     browser.closeTimeout = closeTimeout;
@@ -57,16 +56,13 @@ async function rentoInit(orderNumber, amount) {
 
     comment = error.message || 'Unknown error';
     status = 'error'; 
-    
-    // Enregistrer l'état de la session dans Supabase
-    await storeWestern(orderNumber, email, status, comment);
+
 
     await browser.close(); // Fermer le navigateur en cas d'erreur
     throw error;
   }
   finally {
-    // Enregistrer l'état de la session dans Supabase
-    await storeWestern(orderNumber, email, status, `Montant : ${amount}`);
+
   }
 }
 

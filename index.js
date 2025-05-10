@@ -6,13 +6,15 @@ import https from 'https';
 import googleTopup from './googleTopup.js';
 import googleLogin from './googleLogin.js';
 
-import westernInit from './westernInit.js'; // handler Express qui met à jour westernSession
+import westernInit from './westernInit.js'; 
 import westernProceedHandler from './westernProceed.js';
 
 import westernTopup from './westernTopup.js';
-import westernDebug from './westernDebug.js'; // handler Express qui met à jour westernSession
+import westernDebug from './westernDebug.js'; 
+import { browserSession } from './utils/puppeteer/browserSession.js';
 
-import { westernSession } from './westernSession.js';
+import rentoInit from './rentoInit.js'; 
+
 
 const app = express();
 const PORT = process.env.PORT
@@ -45,10 +47,11 @@ app.post('/western-debug', westernDebug);
 // La route d'initialisation appelle directement le handler de westernInit
 app.post('/western-init', westernInit);
 
-// La route pour la transaction utilise les objets contenus dans westernSession
+// La route pour la transaction utilise les objets contenus dans browserSession
 app.post('/western-proceed', (req, res) => {
-  return westernProceedHandler(westernSession.browser, westernSession.page)(req, res);
+  return westernProceedHandler(browserSession.browser, browserSession.page)(req, res);
 });
+
 
 
 

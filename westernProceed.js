@@ -11,7 +11,7 @@ import { getRandomIdentity } from './utils/western/getRandomIdentity.js';
 import { createPayment } from './utils/supabase/createPayment.js';
 import { updateOrder } from './utils/supabase/updateOrder.js';
 
-import { westernSession } from './westernSession.js';
+import { browserSession } from './utils/puppeteer/browserSession.js';
 
 
 async function westernProceed(browser, page, orderNumber, paymentNumber, amount, cardDetails) {

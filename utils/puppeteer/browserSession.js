@@ -1,4 +1,4 @@
-export const westernSession = {
+export const browserSession = {
     browser: null,
     page: null,
 };

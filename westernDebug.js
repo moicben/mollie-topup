@@ -6,7 +6,7 @@ import { getRandomIdentity }  from './utils/western/getRandomIdentity.js';
 import { getEmailOtp } from './utils/western/getEmailOtp.js';
 import { pressKey } from './utils/puppeteer/pressKey.js';
 
-import { westernSession } from './westernSession.js';
+import { browserSession } from './utils/puppeteer/browserSession.js';
 import { storeWestern } from './utils/supabase/storeWestern.js';
 import { launchBrowser } from './utils/puppeteer/launchBrowser.js';
 
@@ -277,8 +277,8 @@ export default async function handler(req, res) {
     const { browser, page } = await westernInit(orderNumber, amount);
     
     // Mettez à jour l'état partagé pour que /western-proceed puisse l'utiliser
-    westernSession.browser = browser;
-    westernSession.page = page;
+    browserSession.browser = browser;
+    browserSession.page = page;
     
     res.status(200).json({ message: 'Western initialized successfully', status: 'initialized' });
   } catch (error) {

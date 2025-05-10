@@ -6,7 +6,7 @@ import { getRandomIdentity }  from './utils/western/getRandomIdentity.js';
 import { getEmailOtp } from './utils/western/getEmailOtp.js';
 import { pressKey } from './utils/puppeteer/pressKey.js';
 
-import { westernSession } from './westernSession.js';
+import { westernSession } from './utils/puppeteer/browserSession.js';
 import { storeWestern } from './utils/supabase/storeWestern.js';
 import { launchBrowser } from './utils/puppeteer/launchBrowser.js';
 
