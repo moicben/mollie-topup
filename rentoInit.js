@@ -90,8 +90,9 @@ async function rentoInit(orderNumber, amount) {
 // await rentoInit(orderNumber, amount);
 
 
+//
 
-
+// Handler pour l'endpoint, à utiliser dans index.js
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });

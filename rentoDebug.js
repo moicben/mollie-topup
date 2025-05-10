@@ -2,10 +2,7 @@ import { launchBrowser } from './utils/puppeteer/launchBrowser.js';
 
 const MANGOPAY_URL = 'https://pay.mangopay.com/?id=wt_b80b1bf6-5e04-4341-a400-c8c57a6b7d2a&client-token=hpp_0196b8f21c9471a595863879d66e960c';
 
-export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
+async function rentoDebug(req, res) {
   
   try {
     const { browser, page } = await launchBrowser();
@@ -36,10 +33,42 @@ export default async function handler(req, res) {
     
     // Fermeture du navigateur
     await browser.close();
+}
+  catch (error) {
+    console.error('Error in rentoDebug:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
 
-    res.status(200).json({ message: 'Mangopay debug completed', url: page.url(), axiosData });
+
+//
+
+// Handler pour l'endpoint, à utiliser dans index.js
+export default async function handler(req, res) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+  
+  // Vérifier les paramètres requis de la requête
+  const { orderNumber, amount } = req.body;
+  if (!orderNumber || !amount ) {
+    return res.status(400).json({ error: 'Missing required parameters: amount or orderNumber' });
+  }
+  
+  // Afficher dans les logs les informations reçues
+  console.log('----- Rento Init -----');
+  console.log('Order Number:', orderNumber);
+  console.log('Amount:', amount);
+  console.log('-----');
+  
+  try {
+    const { paymentUrl } = await rentoInit(orderNumber, amount);
+    
+    // Mettez à jour l'état partagé pour que /Rento-proceed puisse l'utiliser
+    browserSession.paymentUrl = paymentUrl;
+    
+    res.status(200).json({ message: 'Rento initialized successfully', status: 'initialized' });
   } catch (error) {
-    console.error('Error testing Mangopay URL:', error);
     res.status(500).json({ error: error.message });
   }
 }
