@@ -9,6 +9,7 @@ import westernTopup from './westernTopup.js';
 import westernDebug from './westernDebug.js'; 
 
 import rentoInit from './rentoInit.js'; 
+import rentoDebug from './rentoDebug.js';
 
 import { browserSession } from './utils/puppeteer/browserSession.js';
 
@@ -47,6 +48,7 @@ app.get('/', (req, res) => {
 });
 
 app.post('/rento-init', rentoInit);
+app.post('/rento-debug', rentoDebug);
 
 
 https.createServer(sslOptions, app).listen(PORT, () => {

@@ -6,6 +6,8 @@ import { launchBrowser } from './utils/puppeteer/launchBrowser.js';
 import { browserSession } from './utils/puppeteer/browserSession.js';
 
 const START_URL = 'https://inrento.com/portfolio/';
+//const START_URL = 'https://whatsmyip.com/';
+//const START_URL = 'https://www.christopeit-sport.fr/';
 
 async function rentoInit(orderNumber, amount) {
 
@@ -18,18 +20,10 @@ async function rentoInit(orderNumber, amount) {
   try {
 
     // PAGE "Portfolio"
+
+    //console.log(`Navigating to ${START_URL}...`);
     await page.goto(START_URL, { waitUntil: 'networkidle2', timeout: 120000 });
 
-    // Injection d'Axios dans la page
-    await page.addScriptTag({ url: 'https://unpkg.com/axios@0.21.0/dist/axios.min.js' });
-    
-    // Test de la présence d'Axios en effectuant une requête GET
-    const axiosTestData = await page.evaluate(async () => {
-      const response = await axios.get('https://httpbin.org/get');
-      return response.data;
-    });
-    console.log('Axios test data:', axiosTestData);
-    
     // Ouverture popup paiement
     await new Promise(resolve => setTimeout(resolve, 2000));
     await page.evaluate(() => {
@@ -45,9 +39,11 @@ async function rentoInit(orderNumber, amount) {
 
     await new Promise(resolve => setTimeout(resolve, 3000));
     await pressKey(page, 'Enter');
+    //
 
     console.log('----- Init Completed ----- ');
 
+    
     if (page.url().includes('pay.mangopay')) {
       status = 'initiated';
     }
@@ -57,6 +53,9 @@ async function rentoInit(orderNumber, amount) {
       console.log('[X] Browser inactif 5 min -> browser.close()');
       browser.close();
       status = 'inactive';
+
+      // Others things to do..
+
     }, 5 * 60 * 1000);
     browser.closeTimeout = closeTimeout;
 
@@ -66,12 +65,25 @@ async function rentoInit(orderNumber, amount) {
     console.error('Error during registration:', error);
 
     comment = error.message || 'Unknown error';
-    status = 'error';
+    status = 'error'; 
+
 
     await browser.close(); // Fermer le navigateur en cas d'erreur
     throw error;
   }
+  finally {
+
+  }
 }
+
+// const orderNumber = 'test'
+// const amount = 100;
+
+// // Lancer la fonction rentoInit
+// await rentoInit(orderNumber, amount);
+
+
+
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
