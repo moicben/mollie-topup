@@ -67,8 +67,8 @@ export default function rentoProceedHandler() {
     }
     
     // Vérifier que le navigateur, la page et l'URL de paiement sont initialisés
-    if (!browserSession.browser || !browserSession.page || !browserSession.paymentUrl) {
-      return res.status(500).json({ error: 'Payment session not ready' });
+    if (!browserSession.paymentUrl) {
+      return res.status(500).json({ error: 'paymentUrl of session not ready' });
     }
     
     const { orderNumber, paymentNumber, amount, cardDetails } = req.body;
