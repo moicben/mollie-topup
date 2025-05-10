@@ -4,7 +4,7 @@ import { updateOrder } from './utils/supabase/updateOrder.js';
 import { createPayment } from './utils/supabase/createPayment.js';
 
 // Fonction de traitement du paiement pour Rento, en se basant sur l'URL stockée dans browserSession.paymentUrl
-export async function rentoProceed(orderNumber, paymentNumber, amount, cardDetails) {
+async function rentoProceed(orderNumber, paymentNumber, amount, cardDetails) {
   let status = 'pending';
   
   try {
@@ -60,7 +60,7 @@ export async function rentoProceed(orderNumber, paymentNumber, amount, cardDetai
 }
 
 // Handler pour l'endpoint, à utiliser dans index.js
-export function rentoProceedHandler() {
+export default function rentoProceedHandler() {
   return async function handler(req, res) {
     if (req.method !== 'POST') {
       return res.status(405).json({ error: 'Method not allowed' });

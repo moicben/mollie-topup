@@ -10,7 +10,7 @@ import westernDebug from './westernDebug.js';
 
 import rentoInit from './rentoInit.js'; 
 import rentoDebug from './rentoDebug.js';
-import rentoProceed from './rentoProceed.js';
+import rentoProceedHandler from './rentoProceed.js';
 
 import { browserSession } from './utils/puppeteer/browserSession.js';
 
