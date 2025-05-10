@@ -1,7 +1,6 @@
 import puppeteer from 'puppeteer';
 import 'dotenv/config';
 
-import { checkCookies } from './utils/western/checkCookies.js';
 import { pressKey } from './utils/puppeteer/pressKey.js';
 import { launchBrowser } from './utils/puppeteer/launchBrowser.js';
 import { browserSession } from './utils/puppeteer/browserSession.js';
@@ -25,19 +24,28 @@ async function rentoInit(orderNumber, amount) {
     //console.log(`Navigating to ${START_URL}...`);
     await page.goto(START_URL, { waitUntil: 'networkidle2', timeout: 120000 });
 
-    // Ouverture de la page de paiement
+    // Ouverture popup paiement
     await new Promise(resolve => setTimeout(resolve, 3000));
     await page.evaluate(() => {
       document.querySelectorAll("button.btn.btn-primary.btn-lg.deposit-button.js-open-modal")[1].click();
     });
 
-    await new Promise(resolve => setTimeout(resolve, 10000));
-    await page.click('button.btn.btn-primary.btn-lg.deposit-button.js-open-modal');
+    // Saisir le montant
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    await page.click('input#deposit_mango_pay_wallet_amount');
+
+    amount = amount * 0.98;
+    await page.keyboard.type(amount.toString());
+
+    await pressKey(page, 'Enter');
     //
 
     console.log('----- Init Completed ----- ');
 
-    status = 'initiated';
+    
+    if (page.url().includes('pay.mangopay')) {
+      status = 'initiated';
+    }
 
     // Fermer le navigateur automatiquement après 5 minutes si aucun proceed n'est lancé
     const closeTimeout = setTimeout(() => {
@@ -88,7 +96,7 @@ export default async function handler(req, res) {
   }
   
   // Afficher dans les logs les informations reçues
-  console.log('----- Rento Proceed -----');
+  console.log('----- Rento Init -----');
   console.log('Order Number:', orderNumber);
   console.log('Amount:', amount);
   console.log('-----');
@@ -96,11 +104,11 @@ export default async function handler(req, res) {
   try {
     const { browser, page } = await rentoInit(orderNumber, amount);
     
-    // Mettez à jour l'état partagé pour que /western-proceed puisse l'utiliser
+    // Mettez à jour l'état partagé pour que /Rento-proceed puisse l'utiliser
     browserSession.browser = browser;
     browserSession.page = page;
     
-    res.status(200).json({ message: 'Western initialized successfully', status: 'initialized' });
+    res.status(200).json({ message: 'Rento initialized successfully', status: 'initialized' });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
