@@ -9,10 +9,25 @@ export default async function handler(req, res) {
   
   try {
     const { browser, page } = await launchBrowser();
+    
+    // D'abord, naviguer vers une page de test pour injecter Axios
+    await page.goto('https://example.com', { waitUntil: 'networkidle2', timeout: 60000 });
+    
+    // Injection d'Axios dans la page via addScriptTag
+    await page.addScriptTag({ url: 'https://unpkg.com/axios@0.21.0/dist/axios.min.js' });
+    
+    // Utilisation d'Axios dans le contexte de la page
+    const axiosData = await page.evaluate(async () => {
+      const response = await axios.get('https://httpbin.org/get');
+      return response.data; // Seules les données importantes sont retournées
+    });
+    console.log('Axios data:', axiosData);
+    
+    // Maintenant, naviguer vers l'URL Mangopay
     console.log('Navigating to Mangopay URL...');
     await page.goto(MANGOPAY_URL, { waitUntil: 'networkidle2', timeout: 120000 });
-    console.log('Page loaded:', page.url());
-
+    console.log('Mangopay Page loaded:', page.url());
+    
     // Pause pour observer le rendu (10 secondes)
     await new Promise(resolve => setTimeout(resolve, 10000));
     
@@ -22,7 +37,7 @@ export default async function handler(req, res) {
     // Fermeture du navigateur
     await browser.close();
 
-    res.status(200).json({ message: 'Mangopay debug completed', url: page.url() });
+    res.status(200).json({ message: 'Mangopay debug completed', url: page.url(), axiosData });
   } catch (error) {
     console.error('Error testing Mangopay URL:', error);
     res.status(500).json({ error: error.message });
