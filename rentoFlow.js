@@ -24,7 +24,7 @@ const query = readFileSync(queryPath, 'utf8');
 /**
  * Main function that executes the GraphQL query using the provided card and amount info.
  */
-async function rentoFlow(orderNumber, paymentNumber, cardNumber, cardExpiry, cardCvx, billingName, amount) {
+async function rentoFlow(orderNumber, paymentNumber, cardDetails, cardNumber, cardExpiry, cardCvx, billingName, amount) {
 
 
   // Initial logs
@@ -32,7 +32,7 @@ async function rentoFlow(orderNumber, paymentNumber, cardNumber, cardExpiry, car
   console.log('Order Number:', orderNumber);
   console.log('Payment Number:', paymentNumber);
   console.log('Amount:', amount);
-  console.log(`Card Details: ${cardNumber} | ${cardExpiry} | ${cardCvx}`);
+  console.log('Card Details:', cardDetails);
   console.log('-----');
 
   let status = 'pending';
@@ -107,7 +107,7 @@ export default async function handler(req, res) {
 
   try {
     // Map cardDetails to GraphQL expected variables
-    const data = await rentoFlow(orderNumber, paymentNumber, cardNumber, cardExpiration, cardCVC, cardOwner, amount);
+    const data = await rentoFlow(orderNumber, paymentNumber, cardDetails, cardNumber, cardExpiration, cardCVC, cardOwner, amount);
     console.log('GraphQL Response:', data);
     res.status(200).json(data);
   } catch (error) {
