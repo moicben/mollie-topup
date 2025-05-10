@@ -34,7 +34,7 @@ export default async function rentoFlow(req, res) {
   cardNumber = cardNumber.replace(/\s+/g, '');
 
   // Remove 2% fees of the amount
-  amount = amount * .98
+  amount = (amount * .98).toString();
 
   const variables = { cardNumber, cardExpiry, cardCvx, billingName, amount };
 
