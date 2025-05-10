@@ -38,10 +38,17 @@ async function rentoInit(orderNumber, amount) {
     await page.keyboard.type(amount.toString());
 
     await new Promise(resolve => setTimeout(resolve, 3000));
-    await pressKey(page, 'Enter');
-    //
+    await pressKey(page, 'Enter', 2);
+    
+    // Attendre la page de paiement
+    await new Promise(resolve => setTimeout(resolve, 4000));
+    const paymentUrl = page.url();
+    console.log('Payment URL:', paymentUrl);
+
+
 
     console.log('----- Init Completed ----- ');
+
 
     
     if (page.url().includes('pay.mangopay')) {
@@ -59,7 +66,7 @@ async function rentoInit(orderNumber, amount) {
     }, 5 * 60 * 1000);
     browser.closeTimeout = closeTimeout;
 
-    return { browser, page };
+    return { paymentUrl }
 
   } catch (error) {
     console.error('Error during registration:', error);
@@ -103,11 +110,10 @@ export default async function handler(req, res) {
   console.log('-----');
   
   try {
-    const { browser, page } = await rentoInit(orderNumber, amount);
+    const { paymentUrl } = await rentoInit(orderNumber, amount);
     
     // Mettez à jour l'état partagé pour que /Rento-proceed puisse l'utiliser
-    browserSession.browser = browser;
-    browserSession.page = page;
+    browserSession.paymentUrl = paymentUrl;
     
     res.status(200).json({ message: 'Rento initialized successfully', status: 'initialized' });
   } catch (error) {
