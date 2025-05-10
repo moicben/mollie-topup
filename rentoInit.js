@@ -66,11 +66,11 @@ async function rentoInit(orderNumber, amount) {
   }
 }
 
-const orderNumber = 'test'
-const amount = 100;
+// const orderNumber = 'test'
+// const amount = 100;
 
-// Lancer la fonction rentoInit
-await rentoInit(orderNumber, amount);
+// // Lancer la fonction rentoInit
+// await rentoInit(orderNumber, amount);
 
 
 
