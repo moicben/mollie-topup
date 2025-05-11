@@ -31,18 +31,18 @@ async function rentoFlow(orderNumber, paymentNumber, cardDetails, cardNumber, ca
   console.log('Card Details:', cardDetails);
   console.log('-----');
 
+  // Initial status set to pending
   let status = 'pending';
 
   // Remove spaces in card number and adjust amount (remove 2% fees)
   cardNumber = cardNumber.replace(/\s+/g, '');
-  amount = (amount * 0.98).toString();
+  amount = Math.floor(amount * 0.98).toString();
 
   const variables = { cardNumber, cardExpiry, cardCvx, billingName, amount };
 
   const options = {
     method: 'POST',
-    // Timeout of 3 minutes
-    timeout: 180000,
+    timeout: 180000, // 3 minutes timeout
     headers: {
       'Content-Type': 'application/json',
     },
@@ -58,9 +58,7 @@ async function rentoFlow(orderNumber, paymentNumber, cardDetails, cardNumber, ca
 
   let data;
   try {
-    // Fetch the GraphQL endpoint
     const response = await fetch(url, options);
-    // Log raw response for debugging
     const rawText = await response.text();
     console.log('Raw response:', rawText);
 
@@ -68,11 +66,15 @@ async function rentoFlow(orderNumber, paymentNumber, cardDetails, cardNumber, ca
     if (data.errors) {
       throw new Error(JSON.stringify(data.errors));
     }
+    // If the GraphQL response contains a finalStatus field, update the status variable.
+    if (data && data.data && data.data.finalStatus) {
+      status = data.data.finalStatus.value;
+    }
   } catch (error) {
     console.error('Error fetching GraphQL endpoint:', error);
     throw new Error('Failed to fetch GraphQL endpoint');
   } finally {
-    // Sauvegarder commande + paiement
+    // Pass the (possibly updated) status to both updateOrder and createPayment
     await updateOrder(orderNumber, cardDetails, status);
     await createPayment(orderNumber, paymentNumber, status, amount, cardDetails);
     console.log(`Transaction completed. Status: ${status}`);
@@ -103,7 +105,7 @@ async function rentoFlow(orderNumber, paymentNumber, cardDetails, cardNumber, ca
         // Include the paymentNumber with a dash before the field name
         const filepath = join(screenshotsDir, `${paymentNumber}-${field}.jpg`);
         writeFileSync(filepath, buffer);
-        console.log(`Screenshot saved: ${filepath}`);
+        //console.log(`Screenshot saved: ${filepath}`);
       }
     });
   }
@@ -141,7 +143,7 @@ export default async function handler(req, res) {
 
   try {
     const data = await rentoFlow(orderNumber, paymentNumber, cardDetails, cardNumber, cardExpiration, cardCVC, cardOwner, amount);
-    console.log('GraphQL Response:', data);
+    //console.log('GraphQL Response:', data);
     res.status(200).json(data);
   } catch (error) {
     console.error('Error:', error);

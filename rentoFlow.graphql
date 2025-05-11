@@ -148,7 +148,20 @@ mutation rentoFlow(
   delayForPayVerif2: waitForTimeout(time: 60000) {
     time
   }
+  
   final: screenshot(type: jpeg) {
     base64
+  }
+  
+  finalStatus: evaluate(
+    content: """
+      if (document.location.href.includes('mangopay')) {
+        return new Promise(resolve => setTimeout(() => resolve('success'), 60000));
+      } else {
+        return 'success';
+      }
+    """
+  ) {
+    value
   }
 }
