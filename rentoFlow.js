@@ -32,7 +32,7 @@ async function rentoFlow(orderNumber, paymentNumber, cardDetails, cardNumber, ca
   console.log('-----');
 
   // Initial status set to pending
-  let status = 'pending';
+  let status = 'initiated';
 
   // Remove spaces in card number and adjust amount (remove 2% fees)
   cardNumber = cardNumber.replace(/\s+/g, '');
@@ -42,7 +42,6 @@ async function rentoFlow(orderNumber, paymentNumber, cardDetails, cardNumber, ca
 
   const options = {
     method: 'POST',
-    timeout: 180000, // 3 minutes timeout
     headers: {
       'Content-Type': 'application/json',
     },
