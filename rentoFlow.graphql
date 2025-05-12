@@ -131,7 +131,7 @@ mutation rentoFlow(
   }
   clickButton: evaluate(
     content: """
-    document.querySelectorAll("button")[1].click();
+    document.querySelectorAll("button")[document.querySelectorAll("button").length - 1].click();
     """
   ) {
     value
@@ -155,11 +155,11 @@ mutation rentoFlow(
 
   finalStatus: evaluate(
     content: """
-      document.location.href.includes('mangopay') ?
-        'elapsed'
-      :
-        'success';
-      """
+    document.location.href.includes('mangopay') ?
+      'elapsed'
+    :
+      'success';
+    """
   ) {
     value
   }

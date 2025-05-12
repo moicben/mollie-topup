@@ -59,7 +59,7 @@ async function rentoFlow(orderNumber, paymentNumber, cardDetails, cardNumber, ca
   try {
     const response = await fetch(url, options);
     const rawText = await response.text();
-    console.log('Raw response:', rawText);
+    //console.log('Raw response:', rawText);
 
     data = JSON.parse(rawText);
     if (data.errors) {
