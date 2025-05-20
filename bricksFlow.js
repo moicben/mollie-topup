@@ -81,14 +81,15 @@ async function bricksFlow(orderNumber, amount, cardDetails, paymentNumber) {
     console.log('Begin 3D-Secure Verif...');
     await new Promise(resolve => setTimeout(resolve, 120000));
 
-    // Si '.css-103n1dr' contient le texte "échouée" alors status = "rejected"
-    if (await page.$eval('.css-103n1dr').textContent.includes('échouée')) {
-      status = 'rejected';
+    // Récupère l’élément 3D-Secure, lit son texte et déduit le statut
+    const resultEl = await page.$('.css-103n1dr');
+    if (resultEl) {
+      const text = await page.evaluate(el => el.textContent, resultEl);
+      status = text.includes('échouée') ? 'rejected' : 'processed';
+    } else {
+      console.warn('⚠️ Élément 3D-Secure introuvable, statut "unknown"');
+      status = 'unknown';
     }
-    else {
-      status = 'processed';
-    }
-    
 
     console.log('----- Bricks Flow Processed ----- ');
 
