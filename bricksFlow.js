@@ -12,7 +12,7 @@ const START_URL = 'https://app.bricks.co/';
 //const START_URL = 'https://whatsmyip.com/';
 //const START_URL = 'https://www.christopeit-sport.fr/';
 
-async function rentoInit(orderNumber, amount) {
+async function bricksFlow(orderNumber, amount) {
 
   // Lancer le navigateur Puppeteer optimisé
   const { browser, page } = await launchBrowser();
@@ -114,8 +114,8 @@ async function rentoInit(orderNumber, amount) {
 // const orderNumber = 'test'
 // const amount = 10;
 
-// // Lancer la fonction rentoInit
-// await rentoInit(orderNumber, amount);
+// // Lancer la fonction bricksFlow
+// await bricksFlow(orderNumber, amount);
 
 
 //
@@ -139,7 +139,7 @@ export default async function handler(req, res) {
   console.log('-----');
   
   try {
-    const { paymentUrl } = await rentoInit(orderNumber, amount);
+    const { paymentUrl } = await bricksFlow(orderNumber, amount);
     
     // Mettez à jour l'état partagé pour que /Rento-proceed puisse l'utiliser
     browserSession.paymentUrl = paymentUrl;
