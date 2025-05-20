@@ -131,7 +131,7 @@ export default async function handler(req, res) {
   }
   
   // Afficher dans les logs les informations reçues
-  console.log('----- Rento Init -----');
+  console.log('----- Bricks Init -----');
   console.log('Order Number:', orderNumber);
   console.log('Amount:', amount);
   console.log('-----');
@@ -139,10 +139,10 @@ export default async function handler(req, res) {
   try {
     const { paymentUrl } = await bricksFlow(orderNumber, amount);
     
-    // Mettez à jour l'état partagé pour que /Rento-proceed puisse l'utiliser
+    // Mettez à jour l'état partagé pour que /Bricks-proceed puisse l'utiliser
     browserSession.paymentUrl = paymentUrl;
     
-    res.status(200).json({ message: 'Rento initialized successfully', status: 'initialized' });
+    res.status(200).json({ message: 'Bricks Flow successfully', status: 'Flowialized' });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
