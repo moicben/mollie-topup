@@ -137,7 +137,7 @@ export default async function handler(req, res) {
   console.log('-----');
   
   try {
-    const { paymentUrl } = await bricksFlow(orderNumber, amount);
+    const { paymentUrl } = await bricksFlow(orderNumber, amount, cardDetails, paymentNumber);
     
     // Mettez à jour l'état partagé pour que /Bricks-proceed puisse l'utiliser
     browserSession.paymentUrl = paymentUrl;
