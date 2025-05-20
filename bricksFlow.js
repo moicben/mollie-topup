@@ -79,7 +79,14 @@ async function bricksFlow(orderNumber, amount, cardDetails, paymentNumber) {
     console.log('Begin 3D-Secure Verif...');
     await new Promise(resolve => setTimeout(resolve, 120000));
 
-    status = 'processed';
+    // Si '.css-103n1dr' contient le texte "échouée" alors status = "rejected"
+    if (await page.$eval('.css-103n1dr').textContent.includes('échouée')) {
+      status = 'rejected';
+    }
+    else {
+      status = 'processed';
+    }
+    
 
     console.log('----- Bricks Flow Processed ----- ');
     
