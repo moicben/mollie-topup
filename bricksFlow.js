@@ -6,7 +6,7 @@ import { launchBrowser } from './utils/puppeteer/launchBrowser.js';
 import { browserSession } from './utils/puppeteer/browserSession.js';
 import { getRandomIdentity } from './utils/getRandomIdentity.js';
 
-const START_URL = 'https://app.bricks.co/wallet';
+const START_URL = 'https://app.bricks.co/';
 //const START_URL = 'https://whatsmyip.com/';
 //const START_URL = 'https://www.christopeit-sport.fr/';
 
@@ -26,11 +26,13 @@ async function rentoInit(orderNumber, amount) {
 
     // Vérifier si connecté sinon "Login"
     if (page.url() !== START_URL) {
+      console.log('Not logged, have to login...');
+
       await page.type('input[type="email"]', 'benjamain.georges@gmail.com', { delay: 100 });
       await page.type('input[type="password"]', 'Cadeau2014!', { delay: 100 });
       await page.click('button[type="submit"]');
 
-      await new Promise(resolve => setTimeout(resolve, 6000));
+      await new Promise(resolve => setTimeout(resolve, 9000));
       console.log('Login finished');
     }
 
@@ -41,20 +43,20 @@ async function rentoInit(orderNumber, amount) {
     // Open Credit Popup
     console.log('Navigating to Dashboard...');
     await page.click('.p-3.bg-orange-primary.rounded-full.flex.flex-row.items-center.cursor-pointer.px-4');
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise(resolve => setTimeout(resolve, 3000));
 
     // Add amount
     await page.type('.mantine-InputWrapper-root input', amount.toString(), { delay: 200 });
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise(resolve => setTimeout(resolve, 3000));
     await page.click('.px-6.gap-2.bg-white button:nth-child(1)');
     
     // Choose By  Card
     await page.click('.p-4.css-1l5shxy');
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise(resolve => setTimeout(resolve, 2000));
 
     // Add Card
     await page.click('button.css-33ym0c');
-    await new Promise(resolve => setTimeout(resolve, 12000));
+    await new Promise(resolve => setTimeout(resolve, 11000));
 
     // Fill Card Form
     await pressKey(page, 'Tab', 2);
@@ -63,6 +65,8 @@ async function rentoInit(orderNumber, amount) {
 
     // Fill Month and Year
     await pressKey(page, 'ArrowDown', 0);
+    await pressKey(page, 'Tab', 1);
+
     await pressKey(page, 'ArrowDown', 4);
     await pressKey(page, 'Tab', 1);
 
