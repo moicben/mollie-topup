@@ -3,14 +3,8 @@ import cors from 'cors';
 import fs from 'fs';
 import https from 'https';
 
-import westernInit from './westernInit.js'; 
-import westernProceedHandler from './westernProceed.js';
-import westernTopup from './westernTopup.js';
-import westernDebug from './westernDebug.js'; 
-
 import rentoFlow from './rentoFlow.js'; 
-
-import { browserSession } from './utils/puppeteer/browserSession.js';
+import bricksFlow from './bricksFlow.js';
 
 const app = express();
 const PORT = process.env.PORT;
@@ -35,6 +29,7 @@ app.get('/', (req, res) => {
 });
 
 app.post('/rento-flow', rentoFlow);
+app.post('/bricks-flow', bricksFlow);
 
 https.createServer(sslOptions, app).listen(PORT, () => {
   console.log(`HTTPS Server is running on https://api.christopeit-sport.fr`);
