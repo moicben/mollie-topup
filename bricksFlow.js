@@ -1,5 +1,3 @@
-import 'dotenv/config';
-
 import { pressKey } from './utils/puppeteer/pressKey.js';
 import { launchBrowser } from './utils/puppeteer/launchBrowser.js';
 
