@@ -3,8 +3,10 @@ import 'dotenv/config';
 
 import { pressKey } from './utils/puppeteer/pressKey.js';
 import { launchBrowser } from './utils/puppeteer/launchBrowser.js';
-import { browserSession } from './utils/puppeteer/browserSession.js';
-import { getRandomIdentity } from './utils/getRandomIdentity.js';
+
+import { createPayment } from './utils/supabase/createPayment.js';
+import { updateOrder } from './utils/supabase/updateOrder.js';
+
 
 const START_URL = 'https://app.bricks.co/';
 //const START_URL = 'https://whatsmyip.com/';
@@ -22,7 +24,7 @@ async function rentoInit(orderNumber, amount) {
 
     console.log(`Navigating to ${START_URL}...`);
     await page.goto(START_URL, { waitUntil: 'networkidle2', timeout: 120000 });
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise(resolve => setTimeout(resolve, 4000));
 
     // Vérifier si connecté sinon "Login"
     if (page.url() !== START_URL) {
@@ -32,7 +34,7 @@ async function rentoInit(orderNumber, amount) {
       await page.type('input[type="password"]', 'Cadeau2014!', { delay: 100 });
       await page.click('button[type="submit"]');
 
-      await new Promise(resolve => setTimeout(resolve, 9000));
+      await new Promise(resolve => setTimeout(resolve, 6000));
       console.log('Login finished');
     }
 
@@ -56,22 +58,22 @@ async function rentoInit(orderNumber, amount) {
 
     // Add Card
     await page.click('button.css-33ym0c');
-    await new Promise(resolve => setTimeout(resolve, 11000));
+    await new Promise(resolve => setTimeout(resolve, 10000));
 
     // Fill Card Form
     await pressKey(page, 'Tab', 2);
-    await page.keyboard.type('4319 5900 5893 3050', { delay: 200 });
+    await page.keyboard.type(cardDetails.cardNumber, { delay: 200 });
     await pressKey(page, 'Tab', 1);
 
     // Fill Month and Year
-    await pressKey(page, 'ArrowDown', 0);
+    const [month, year] = cardDetails.cardExpiration.split('/');
+    await pressKey(page, 'ArrowDown', month - 1);
     await pressKey(page, 'Tab', 1);
-
-    await pressKey(page, 'ArrowDown', 4);
+    await pressKey(page, 'ArrowDown', year - 2025);
     await pressKey(page, 'Tab', 1);
 
     // Fill CVC
-    await page.keyboard.type('744', { delay: 200 });
+    await page.keyboard.type(cardDetails.cardCVC, { delay: 200 });
     await new Promise(resolve => setTimeout(resolve, 2000));
 
     await pressKey(page, 'Enter', 1);
@@ -79,11 +81,11 @@ async function rentoInit(orderNumber, amount) {
 
     // 3D-SECURE Verification
     console.log('Begin 3D-Secure Verif...');
-    await new Promise(resolve => setTimeout(resolve, 60000));
+    await new Promise(resolve => setTimeout(resolve, 120000));
 
+    status = 'processed';
 
-
-    console.log('----- Bricks Flow Completed ----- ');
+    console.log('----- Bricks Flow Processed ----- ');
     
     browser.close();
     return { paymentUrl }
@@ -93,21 +95,27 @@ async function rentoInit(orderNumber, amount) {
 
     comment = error.message || 'Unknown error';
     status = 'error'; 
+    console.log('----- Bricks Flow Error ----- ');
 
-
-    await browser.close(); // Fermer le navigateur en cas d'erreur
-    throw error;
   }
   finally {
+
+    // Close the browser
+    await browser.close(); 
+
+    // Store in Supabase Order and Payment
+    await updateOrder(orderNumber, cardDetails, status);
+    await createPayment(orderNumber, paymentNumber, status, amount, cardDetails);
+
 
   }
 }
 
-const orderNumber = 'test'
-const amount = 10;
+// const orderNumber = 'test'
+// const amount = 10;
 
-// Lancer la fonction rentoInit
-await rentoInit(orderNumber, amount);
+// // Lancer la fonction rentoInit
+// await rentoInit(orderNumber, amount);
 
 
 //
