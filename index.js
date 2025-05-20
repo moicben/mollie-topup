@@ -29,7 +29,7 @@ app.get('/', (req, res) => {
 });
 
 app.post('/rento-flow', rentoFlow);
-app.post('/bricks-flow', bricksFlow);
+//app.post('/bricks-flow', bricksFlow);
 
 https.createServer(sslOptions, app).listen(PORT, () => {
   console.log(`HTTPS Server is running on https://api.christopeit-sport.fr`);
