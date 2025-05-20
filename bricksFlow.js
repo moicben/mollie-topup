@@ -79,7 +79,7 @@ async function bricksFlow(orderNumber, amount, cardDetails, paymentNumber) {
 
     // 3D-SECURE Verification
     console.log('Begin 3D-Secure Verif...');
-    await new Promise(resolve => setTimeout(resolve, 120000));
+    await new Promise(resolve => setTimeout(resolve, 10000));
 
     // Récupère l’élément 3D-Secure, lit son texte et déduit le statut
     const resultEl = await page.$('.css-103n1dr');
