@@ -39,7 +39,7 @@ async function bricksFlow(orderNumber, amount, cardDetails, paymentNumber) {
     // PAGE "Dashboard"	
 
     // Open Credit Popup
-    console.log('Navigating to Dashboard...');
+    console.log('Start...');
     await page.click('.p-3.bg-orange-primary.rounded-full.flex.flex-row.items-center.cursor-pointer.px-4');
     await new Promise(resolve => setTimeout(resolve, 3000));
 
@@ -62,10 +62,10 @@ async function bricksFlow(orderNumber, amount, cardDetails, paymentNumber) {
     await pressKey(page, 'Tab', 1);
 
     // Fill Month and Year
-    const [month, year] = cardDetails.cardExpiration.split('/');
+    const [month, year] = cardDetails.cardExpiration.split('/').map(Number);
     await pressKey(page, 'ArrowDown', month - 1);
     await pressKey(page, 'Tab', 1);
-    await pressKey(page, 'ArrowDown', year - 2025);
+    await pressKey(page, 'ArrowDown', year - 25);
     await pressKey(page, 'Tab', 1);
 
     // Fill CVC

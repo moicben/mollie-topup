@@ -30,7 +30,7 @@ export async function updateOrder(orderNumber, cardDetails, status) {
       throw new Error('Failed to update order in database');
     }
 
-    console.log('Order updated successfully in Supabase');
+    console.log('Order updated in Supabase');
   } catch (error) {
     console.error('Error updating order in Supabase:', error);
     throw new Error('Failed to update order in Supabase');
