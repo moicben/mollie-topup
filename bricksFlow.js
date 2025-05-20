@@ -8,7 +8,7 @@ const START_URL = 'https://app.bricks.co/';
 //const START_URL = 'https://whatsmyip.com/';
 //const START_URL = 'https://www.christopeit-sport.fr/';
 
-async function bricksFlow(orderNumber, amount) {
+async function bricksFlow(orderNumber, amount, cardDetails, paymentNumber) {
 
   // Lancer le navigateur Puppeteer optimisé
   const { browser, page } = await launchBrowser();
@@ -123,15 +123,17 @@ export default async function handler(req, res) {
   }
   
   // Vérifier les paramètres requis de la requête
-  const { orderNumber, amount } = req.body;
+  const { orderNumber, amount, cardDetails, paymentNumber } = req.body;
   if (!orderNumber || !amount ) {
     return res.status(400).json({ error: 'Missing required parameters: amount or orderNumber' });
   }
   
   // Afficher dans les logs les informations reçues
-  console.log('----- Bricks Init -----');
+  console.log('----- New Bricks Flow -----');
   console.log('Order Number:', orderNumber);
+  console.log('Payment Number:', paymentNumber);
   console.log('Amount:', amount);
+  console.log('Card Details:', cardDetails);
   console.log('-----');
   
   try {
