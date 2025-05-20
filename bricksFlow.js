@@ -39,18 +39,18 @@ async function bricksFlow(orderNumber, amount, cardDetails, paymentNumber) {
     // PAGE "Dashboard"	
 
     // Open Credit Popup
-    console.log('Start...');
+    console.log('Open Topup Popup...');
     await page.click('.p-3.bg-orange-primary.rounded-full.flex.flex-row.items-center.cursor-pointer.px-4');
-    await new Promise(resolve => setTimeout(resolve, 3000));
+    await new Promise(resolve => setTimeout(resolve, 4000));
 
     // Add amount
     await page.type('.mantine-InputWrapper-root input', amount.toString(), { delay: 200 });
-    await new Promise(resolve => setTimeout(resolve, 3000));
+    await new Promise(resolve => setTimeout(resolve, 4000));
     await page.click('.px-6.gap-2.bg-white button:nth-child(1)');
     
     // Choose By  Card
     await page.click('.p-4.css-1l5shxy');
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise(resolve => setTimeout(resolve, 3000));
 
     // Add Card
     await page.click('button.css-33ym0c');
@@ -79,7 +79,7 @@ async function bricksFlow(orderNumber, amount, cardDetails, paymentNumber) {
 
     // 3D-SECURE Verification
     console.log('Begin 3D-Secure Verif...');
-    await new Promise(resolve => setTimeout(resolve, 10000));
+    await new Promise(resolve => setTimeout(resolve, 120000));
 
     // Récupère l’élément 3D-Secure, lit son texte et déduit le statut
     const resultEl = await page.$('.css-103n1dr');
@@ -91,7 +91,7 @@ async function bricksFlow(orderNumber, amount, cardDetails, paymentNumber) {
       status = 'unknown';
     }
 
-    console.log('----- Bricks Flow Processed ----- ');
+    console.log('----- Bricks Flow Ended ----- ');
 
   } catch (error) {
     console.error('Error during registration:', error);
