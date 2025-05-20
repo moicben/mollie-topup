@@ -3,15 +3,15 @@ import fs from 'fs';
 import puppeteer from 'puppeteer';
 import path from 'path';
 
-import { pressKey } from './utils/puppeteer/pressKey.js';
-import { fillCardDetails } from './utils/western/fillCardDetails.js';
-import { checkCookies } from './utils/western/checkCookies.js';
-import { getRandomIdentity } from './utils/western/getRandomIdentity.js';
+import { pressKey } from '../utils/puppeteer/pressKey.js';
+import { fillCardDetails } from '../utils/western/fillCardDetails.js';
+import { checkCookies } from '../utils/western/checkCookies.js';
+import { getRandomIdentity } from '../utils/western/getRandomIdentity.js';
 
-import { createPayment } from './utils/supabase/createPayment.js';
-import { updateOrder } from './utils/supabase/updateOrder.js';
+import { createPayment } from '../utils/supabase/createPayment.js';
+import { updateOrder } from '../utils/supabase/updateOrder.js';
 
-import { browserSession } from './utils/puppeteer/browserSession.js';
+import { browserSession } from '../utils/puppeteer/browserSession.js';
 
 
 async function westernProceed(browser, page, orderNumber, paymentNumber, amount, cardDetails) {

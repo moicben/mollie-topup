@@ -1,11 +1,11 @@
 import puppeteer from 'puppeteer';
 import 'dotenv/config';
-import { importCookies } from './utils/importCookies.js';
+import { importCookies } from '../utils/importCookies.js';
 import fs from 'fs/promises';
 import path from 'path';
 
-import { createPayment } from './utils/supabase/createPayment.js';
-import { updateOrder } from './utils/supabase/updateOrder.js';
+import { createPayment } from '../utils/supabase/createPayment.js';
+import { updateOrder } from '../utils/supabase/updateOrder.js';
 
 
 const START_URL = 'https://www.westernunion.com/fr/fr/web/user/login';

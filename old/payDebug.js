@@ -2,7 +2,7 @@ import puppeteer from 'puppeteer';
 import fs from 'fs/promises';
 import path from 'path';
 
-import { launchBrowser } from './utils/puppeteer/launchBrowser.js';
+import { launchBrowser } from '../utils/puppeteer/launchBrowser.js';
 
 const COOKIES_FILE = path.join(process.cwd(), 'cookies/mollie.json');
 const MOLLIE_URL = 'https://mollie.com/';

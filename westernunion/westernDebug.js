@@ -1,14 +1,14 @@
 import puppeteer from 'puppeteer';
 import 'dotenv/config';
 
-import { checkCookies } from './utils/western/checkCookies.js';
-import { getRandomIdentity }  from './utils/western/getRandomIdentity.js';
-import { getEmailOtp } from './utils/western/getEmailOtp.js';
-import { pressKey } from './utils/puppeteer/pressKey.js';
+import { checkCookies } from '../utils/western/checkCookies.js';
+import { getRandomIdentity }  from '../utils/western/getRandomIdentity.js';
+import { getEmailOtp } from '../utils/western/getEmailOtp.js';
+import { pressKey } from '../utils/puppeteer/pressKey.js';
 
-import { browserSession } from './utils/puppeteer/browserSession.js';
-import { storeWestern } from './utils/supabase/storeWestern.js';
-import { launchBrowser } from './utils/puppeteer/launchBrowser.js';
+import { browserSession } from '../utils/puppeteer/browserSession.js';
+import { storeWestern } from '../utils/supabase/storeWestern.js';
+import { launchBrowser } from '../utils/puppeteer/launchBrowser.js';
 
 const START_URL = 'https://www.westernunion.com/fr/fr/web/user/register';
 //const START_URL = 'https://whatsmyip.com/';
@@ -19,13 +19,8 @@ async function westernInit(orderNumber, amount) {
   // Récupérer une identité aléatoire
   const { firstName, lastName} = await getRandomIdentity();
 
-  const domains = [ 'cpav3.com', 'nuclene.com', 'steveix.com', 'mocvn.com', 'tenvil.com', 'tgvis.com', 'amozix.com', 'anypsd.com', 'maxric.com' ];
-  const randomIndex = Math.floor(Math.random() * domains.length);
-  const domain = domains[randomIndex]; 
-
   // Obtenir l'email de l'identité 
-  const email = `${firstName.toLowerCase()}.${lastName.toLowerCase()}@${domain}`;
-  console.log('Email:', email);
+  const email = `${firstName.toLowerCase()}.${lastName.toLowerCase()}@tenvil.com`;
 
   // Lancer le navigateur Puppeteer optimisé
   const { browser, page } = await launchBrowser();
@@ -50,7 +45,7 @@ async function westernInit(orderNumber, amount) {
     await page.keyboard.type(firstName, { delay: 200 });
     await new Promise(resolve => setTimeout(resolve, 500));
 
-    await pressKey(page, 'Tab', 1);
+    await pressKey(page, 'Tab', 2);
     await page.keyboard.type(lastName, { delay: 200 });
     await new Promise(resolve => setTimeout(resolve, 500));
 
@@ -77,11 +72,11 @@ async function westernInit(orderNumber, amount) {
       console.log('Email already registered!');
       status = 'email already registered';
       await browser.close(); // Fermer le navigateur
- 
+
       // Enregistrer l'état de la session dans Supabase
       await storeWestern(orderNumber, email, status, comment);
 
-      //return await westernInit(orderNumber, amount);
+      return await westernInit(orderNumber, amount);
     }
     console.log(email + '-> Registered');
     
@@ -96,14 +91,11 @@ async function westernInit(orderNumber, amount) {
     await pressKey(page, 'Tab', 4);
     await page.keyboard.press('Enter');
 
-    await new Promise(resolve => setTimeout(resolve, 7000));
+    await new Promise(resolve => setTimeout(resolve, 5000));
 
 
     // Demander le code OTP
     await page.click('button#button-request-code');
-    await new Promise(resolve => setTimeout(resolve, 500));
-    await page.keyboard.press('Enter');
-
     await new Promise(resolve => setTimeout(resolve, 8000));
 
     // Recevoir le code OTP par email
@@ -124,7 +116,7 @@ async function westernInit(orderNumber, amount) {
 
     // Attendre juqsu'au changement d'URL
     await page.waitForNavigation({ waitUntil: 'networkidle2', timeout: 30000 });
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise(resolve => setTimeout(resolve, 4000));
 
     //
 
@@ -255,12 +247,11 @@ async function westernInit(orderNumber, amount) {
   }
 }
 
-// const orderNumber = 'test'
+// const orderNumber = 15
 // const amount = 100;
-
 // Lancer la fonction westernInit
-//await westernInit(orderNumber, amount);
-//console.log(await getEmailOtp("acfd.mascrwtin@tenvil.com"))
+// await westernInit(orderNumber, amount);
+// console.log(await getEmailOtp("acfd.mascrwtin@tenvil.com"))
 
 
 
