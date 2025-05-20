@@ -87,10 +87,10 @@ async function bricksFlow(orderNumber, amount, cardDetails, paymentNumber) {
       const text = await page.evaluate(el => el.textContent, resultEl);
       status = text.includes('échouée') ? 'rejected' : 'processed';
     } else {
-      console.warn('⚠️ Élément 3D-Secure introuvable, statut "unknown"');
-      status = 'unknown';
+      status = 'freezed';
     }
 
+    console.log('-> Final Status:', status);
     console.log('----- Bricks Flow Ended ----- ');
 
   } catch (error) {
