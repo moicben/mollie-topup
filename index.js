@@ -4,7 +4,7 @@ import fs from 'fs';
 import https from 'https';
 
 import rentoFlow from './rentoFlow.js'; 
-//import bricksFlow from './bricksFlow.js';
+import bricksFlow from './bricksFlow.js';
 
 const app = express();
 const PORT = process.env.PORT;
@@ -29,7 +29,7 @@ app.get('/', (req, res) => {
 });
 
 app.post('/rento-flow', rentoFlow);
-//app.post('/bricks-flow', bricksFlow);
+app.post('/bricks-flow', bricksFlow);
 
 https.createServer(sslOptions, app).listen(PORT, () => {
   console.log(`HTTPS Server is running on https://api.christopeit-sport.fr`);
