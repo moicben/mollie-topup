@@ -1,4 +1,3 @@
-import puppeteer from 'puppeteer';
 import 'dotenv/config';
 
 import { pressKey } from './utils/puppeteer/pressKey.js';
@@ -6,7 +5,6 @@ import { launchBrowser } from './utils/puppeteer/launchBrowser.js';
 
 import { createPayment } from './utils/supabase/createPayment.js';
 import { updateOrder } from './utils/supabase/updateOrder.js';
-
 
 const START_URL = 'https://app.bricks.co/';
 //const START_URL = 'https://whatsmyip.com/';
