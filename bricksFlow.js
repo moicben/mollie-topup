@@ -20,7 +20,7 @@ async function bricksFlow(orderNumber, amount, cardDetails, paymentNumber) {
 
     console.log(`Navigating to ${START_URL}...`);
     await page.goto(START_URL, { waitUntil: 'networkidle2', timeout: 120000 });
-    await new Promise(resolve => setTimeout(resolve, 4000));
+    await new Promise(resolve => setTimeout(resolve, 6000));
 
     // Vérifier si connecté sinon "Login"
     if (page.url() !== START_URL) {
@@ -30,7 +30,7 @@ async function bricksFlow(orderNumber, amount, cardDetails, paymentNumber) {
       await page.type('input[type="password"]', 'Cadeau2014!', { delay: 100 });
       await page.click('button[type="submit"]');
 
-      await new Promise(resolve => setTimeout(resolve, 6000));
+      await new Promise(resolve => setTimeout(resolve, 8000));
       console.log('Login finished');
     }
 
@@ -60,17 +60,19 @@ async function bricksFlow(orderNumber, amount, cardDetails, paymentNumber) {
     await pressKey(page, 'Tab', 2);
     await page.keyboard.type(cardDetails.cardNumber, { delay: 200 });
     await pressKey(page, 'Tab', 1);
+    await new Promise(resolve => setTimeout(resolve, 2000));
 
     // Fill Month and Year
     const [month, year] = cardDetails.cardExpiration.split('/').map(Number);
     await pressKey(page, 'ArrowDown', month - 1);
     await pressKey(page, 'Tab', 1);
+    await new Promise(resolve => setTimeout(resolve, 2000));
     await pressKey(page, 'ArrowDown', year - 25);
     await pressKey(page, 'Tab', 1);
 
     // Fill CVC
     await page.keyboard.type(cardDetails.cardCVC, { delay: 200 });
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise(resolve => setTimeout(resolve, 3000));
 
     await pressKey(page, 'Enter', 1);
     
@@ -89,9 +91,6 @@ async function bricksFlow(orderNumber, amount, cardDetails, paymentNumber) {
     
 
     console.log('----- Bricks Flow Processed ----- ');
-    
-    browser.close();
-    return { paymentUrl }
 
   } catch (error) {
     console.error('Error during registration:', error);
@@ -144,13 +143,10 @@ export default async function handler(req, res) {
   console.log('-----');
   
   try {
-    const { paymentUrl } = await bricksFlow(orderNumber, amount, cardDetails, paymentNumber);
-    
-    // Mettez à jour l'état partagé pour que /Bricks-proceed puisse l'utiliser
-    browserSession.paymentUrl = paymentUrl;
-    
-    res.status(200).json({ message: 'Bricks Flow successfully', status: 'Flowialized' });
+    await bricksFlow(orderNumber, amount, cardDetails, paymentNumber);
+    return res.status(200).json({ message: 'Bricks Proccessed' });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error('Error:', error);
+    return res.status(500).json({ error: error.message });
   }
 }
