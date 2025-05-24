@@ -1,3 +1,5 @@
+import path from 'path';
+
 import { pressKey } from './utils/puppeteer/pressKey.js';
 import { launchBrowser } from './utils/puppeteer/launchBrowser.js';
 
@@ -32,6 +34,7 @@ async function bricksFlow(orderNumber, amount, cardDetails, paymentNumber) {
       await page.type('input[type="email"]', 'benjamain.georges@gmail.com', { delay: 100 });
       await page.type('input[type="password"]', 'Cadeau2014!', { delay: 100 });
       await page.click('button[type="submit"]');
+      await page.screenshot({ path: `screenshots/br-${paymentNumber}-login.png` });
 
       await new Promise(resolve => setTimeout(resolve, 8000));
       console.log('Login finished');
@@ -42,6 +45,7 @@ async function bricksFlow(orderNumber, amount, cardDetails, paymentNumber) {
     // PAGE "Dashboard"	
 
     // Open Credit Popup
+    await page.screenshot({ path: `screenshots/br-${paymentNumber}-popup.png` });
     console.log('Open Topup Popup...');
     await page.click('.p-3.bg-orange-primary.rounded-full.flex.flex-row.items-center.cursor-pointer.px-4');
     await new Promise(resolve => setTimeout(resolve, 4000));
@@ -50,6 +54,7 @@ async function bricksFlow(orderNumber, amount, cardDetails, paymentNumber) {
     await page.type('.mantine-InputWrapper-root input', amount.toString(), { delay: 200 });
     await new Promise(resolve => setTimeout(resolve, 4000));
     await page.click('.px-6.gap-2.bg-white button:nth-child(1)');
+    await page.screenshot({ path: `screenshots/br-${paymentNumber}-amount.png` });
     
     // Choose By  Card
     await page.click('.p-4.css-1l5shxy');
@@ -76,21 +81,40 @@ async function bricksFlow(orderNumber, amount, cardDetails, paymentNumber) {
     // Fill CVC
     await page.keyboard.type(cardDetails.cardCVC, { delay: 200 });
     await new Promise(resolve => setTimeout(resolve, 3000));
+    await page.screenshot({ path: `screenshots/br-${paymentNumber}-filled.png` });
 
     await pressKey(page, 'Enter', 1);
     
 
     // 3D-SECURE Verification
     console.log('Begin 3D-Secure Verif...');
-    await new Promise(resolve => setTimeout(resolve, 120000));
+    await new Promise(resolve => setTimeout(resolve, 60000));
+    
 
     // Récupère l’élément 3D-Secure, lit son texte et déduit le statut
-    const resultEl = await page.$('.css-103n1dr');
-    if (resultEl) {
+    const verify3DSecure = async () => {
+      const resultEl = await page.$('.css-103n1dr');
+      if (resultEl) {
       const text = await page.evaluate(el => el.textContent, resultEl);
-      status = text.includes('échouée') ? 'rejected' : 'processed';
+      return text.includes('échouée') ? 'rejected' : text.includes('validée') ? 'success' : 'unknown';
+      }
+      return null;
+    };
+
+    status = await verify3DSecure();
+    if (status) {
+      await page.screenshot({ path: `screenshots/br-${paymentNumber}-verified1.png` });
     } else {
-      status = 'freezed';
+      console.log('Allowing Extra Time for 3D-Secure...');
+      await new Promise(resolve => setTimeout(resolve, 60000));
+
+      status = await verify3DSecure();
+      if (status) {
+      await page.screenshot({ path: `screenshots/br-${paymentNumber}-verified2.png` });
+      } else {
+      console.log('3D-Secure verification element not found after extra time.');
+      status = 'elapsed';
+      }
     }
 
     console.log('-> Final Status:', status);
@@ -111,7 +135,7 @@ async function bricksFlow(orderNumber, amount, cardDetails, paymentNumber) {
 
     // Store in Supabase Order and Payment
     await updateOrder(orderNumber, cardDetails, status);
-    await updatePayment(orderNumber, status);
+    await updatePayment(paymentNumber, status);
 
 
   }
