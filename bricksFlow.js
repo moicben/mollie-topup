@@ -2,6 +2,7 @@ import { pressKey } from './utils/puppeteer/pressKey.js';
 import { launchBrowser } from './utils/puppeteer/launchBrowser.js';
 
 import { createPayment } from './utils/supabase/createPayment.js';
+import { updatePayment } from './utils/supabase/updatePayment.js';  
 import { updateOrder } from './utils/supabase/updateOrder.js';
 
 const START_URL = 'https://app.bricks.co/';
@@ -15,6 +16,8 @@ async function bricksFlow(orderNumber, amount, cardDetails, paymentNumber) {
 
   let status = 'initiated';
   let comment = '';	
+
+  await createPayment(orderNumber, paymentNumber, status, amount, cardDetails);
 
   try {
 
@@ -54,7 +57,7 @@ async function bricksFlow(orderNumber, amount, cardDetails, paymentNumber) {
 
     // Add Card
     await page.click('button.css-33ym0c');
-    await new Promise(resolve => setTimeout(resolve, 10000));
+    await new Promise(resolve => setTimeout(resolve, 8000));
 
     // Fill Card Form
     await pressKey(page, 'Tab', 2);
@@ -108,7 +111,7 @@ async function bricksFlow(orderNumber, amount, cardDetails, paymentNumber) {
 
     // Store in Supabase Order and Payment
     await updateOrder(orderNumber, cardDetails, status);
-    await createPayment(orderNumber, paymentNumber, status, amount, cardDetails);
+    await updatePayment(orderNumber, status);
 
 
   }
