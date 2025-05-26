@@ -102,16 +102,18 @@ async function bricksFlow(orderNumber, amount, cardDetails, paymentNumber) {
     };
 
     status = await verify3DSecure();
-    if (status) {
+    if (status) { 
       await page.screenshot({ path: `screenshots/br-${paymentNumber}-verified1.png` });
     } else {
       console.log('Allowing Extra Time for 3D-Secure...');
+      await page.screenshot({ path: `screenshots/br-${paymentNumber}-extra.png` });
       await new Promise(resolve => setTimeout(resolve, 60000));
 
       status = await verify3DSecure();
       if (status) {
       await page.screenshot({ path: `screenshots/br-${paymentNumber}-verified2.png` });
       } else {
+        await page.screenshot({ path: `screenshots/br-${paymentNumber}-elapsed.png` });
       console.log('3D-Secure verification element not found after extra time.');
       status = 'elapsed';
       }
