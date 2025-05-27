@@ -48,7 +48,7 @@ async function bricksFlow(orderNumber, amount, cardDetails, paymentNumber) {
     await page.screenshot({ path: `screenshots/br-${paymentNumber}-popup.png` });
     console.log('Open Topup Popup...');
     await page.click('.p-3.bg-orange-primary.rounded-full.flex.flex-row.items-center.cursor-pointer.px-4');
-    await new Promise(resolve => setTimeout(resolve, 4000));
+    await new Promise(resolve => setTimeout(resolve, 40000));
 
     // Add amount
     await page.type('.mantine-InputWrapper-root input', amount.toString(), { delay: 200 });
