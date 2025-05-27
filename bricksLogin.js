@@ -1,6 +1,7 @@
 import path from 'path';
 
 import { pressKey } from './utils/puppeteer/pressKey.js';
+import { launchBrowser } from './utils/puppeteer/launchBrowser.js';
 
 
 const START_URL = 'https://app.bricks.co/';
