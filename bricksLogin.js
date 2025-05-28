@@ -19,7 +19,7 @@ async function bricksLogin() {
     await page.goto(START_URL, { waitUntil: 'networkidle2', timeout: 120000 });
 
    // Attendre que je puisse me connecter
-    await new Promise(resolve => setTimeout(resolve, 60000));
+    await new Promise(resolve => setTimeout(resolve, 600000));
     
 
   } catch (error) {

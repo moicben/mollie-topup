@@ -31,7 +31,7 @@ async function bricksFlow(orderNumber, amount, cardDetails, paymentNumber) {
     if (page.url() !== START_URL) {
       console.log('Not logged, have to login...');
 
-      await page.type('input[type="email"]', 'benjamain.georges@gmail.com', { delay: 100 });
+      await page.type('input[type="email"]', 'rewovah332@frisbook.com', { delay: 100 });
       await page.type('input[type="password"]', 'Cadeau2014!', { delay: 100 });
       await page.click('button[type="submit"]');
       await page.screenshot({ path: `screenshots/br-${paymentNumber}-login.png` });
@@ -60,9 +60,25 @@ async function bricksFlow(orderNumber, amount, cardDetails, paymentNumber) {
     await page.click('.p-4.css-1l5shxy');
     await new Promise(resolve => setTimeout(resolve, 3000));
 
-    // Add Card
-    await page.click('button.css-33ym0c');
-    await new Promise(resolve => setTimeout(resolve, 8000));
+    // Add Card (already or not)
+
+    // Click on "Pay Now" (go pay direct if no card)
+    console.log('Clicking "Pay Now" button...');
+    await page.$('button.css-29n5l8');
+    await new Promise(resolve => setTimeout(resolve, 3000));
+
+    // Check if if there is a "Add Card" button
+    const addCardButton = await page.$('button.css-33ym0c');
+    if (addCardButton){
+      console.log('Card already exists, clicking "Add Card" button...');
+      await addCardButton.click();
+      await new Promise(resolve => setTimeout(resolve, 8000));
+    } 
+    else{
+      console.log('No card found, Payment Form Opened...');
+      await new Promise(resolve => setTimeout(resolve, 5000));
+    }
+
 
     // Fill Card Form
     await pressKey(page, 'Tab', 2);
