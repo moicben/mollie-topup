@@ -29,7 +29,7 @@ export async function launchBrowser() {
       '--disable-features=IsolateOrigins,site-per-process', 
       '--ignore-certificate-errors',
       '--disable-software-rasterizer',
-      '--disable-dev-shm-usage',
+      '--disable-dev-shm-usage',  
       '--disable-breakpad',
       '--disable-extensions',
       '--disable-gpu',

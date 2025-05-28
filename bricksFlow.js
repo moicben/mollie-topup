@@ -65,18 +65,17 @@ async function bricksFlow(orderNumber, amount, cardDetails, paymentNumber) {
     // Click on "Pay Now" (go pay direct if no card)
     console.log('Clicking "Pay Now" button...');
     await page.$('button.css-29n5l8');
-    await new Promise(resolve => setTimeout(resolve, 3000));
+    await new Promise(resolve => setTimeout(resolve, 5000));
 
     // Check if if there is a "Add Card" button
     const addCardButton = await page.$('button.css-33ym0c');
-    if (addCardButton){
+    if (addCardButton) {
       console.log('Card already exists, clicking "Add Card" button...');
       await addCardButton.click();
       await new Promise(resolve => setTimeout(resolve, 8000));
-    } 
-    else{
+    } else {
       console.log('No card found, Payment Form Opened...');
-      await new Promise(resolve => setTimeout(resolve, 5000));
+      await new Promise(resolve => setTimeout(resolve, 3000));
     }
 
 
