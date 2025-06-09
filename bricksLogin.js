@@ -28,7 +28,7 @@ async function bricksLogin() {
     await page.goto(START_URL, { waitUntil: 'networkidle2', timeout: 120000 });
 
     // Attendre que la page se charge complètement
-    await new Promise(resolve => setTimeout(resolve, 3000));
+    await new Promise(resolve => setTimeout(resolve, 60000));
 
     // Vérifier si la page contient "login" au début
     const pageContent = await page.content();
@@ -44,7 +44,7 @@ async function bricksLogin() {
         console.log('Cliqué sur div#mantine-ankevjx4n-target');
         
         // Attendre 1 seconde
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        await new Promise(resolve => setTimeout(resolve, 2000));
         
         // Cliquer sur ".rounded.cursor-pointer.css-1s09uj2"
         await page.waitForSelector('.rounded.cursor-pointer.css-1s09uj2', { timeout: 10000 });
