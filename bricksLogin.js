@@ -28,7 +28,7 @@ async function bricksLogin() {
     await page.goto(START_URL, { waitUntil: 'networkidle2', timeout: 120000 });
 
     // Attendre que la page se charge complètement
-    await new Promise(resolve => setTimeout(resolve, 60000));
+    await new Promise(resolve => setTimeout(resolve, 4000));
 
     // Vérifier si la page contient "login" au début
     const pageContent = await page.content();
@@ -37,28 +37,18 @@ async function bricksLogin() {
     if (!isLoginPage) {
       console.log('Page de login non détectée, navigation vers la page de connexion...');
       
-      // Cliquer sur div#mantine-ankevjx4n-target
-      try {
-        await page.waitForSelector('div#mantine-ankevjx4n-target', { timeout: 10000 });
-        await page.click('div#mantine-ankevjx4n-target');
-        console.log('Cliqué sur div#mantine-ankevjx4n-target');
-        
-        // Attendre 1 seconde
-        await new Promise(resolve => setTimeout(resolve, 2000));
-        
-        // Cliquer sur ".rounded.cursor-pointer.css-1s09uj2"
-        await page.waitForSelector('.rounded.cursor-pointer.css-1s09uj2', { timeout: 10000 });
-        await page.click('.rounded.cursor-pointer.css-1s09uj2');
-        console.log('Cliqué sur .rounded.cursor-pointer.css-1s09uj2');
-        
-        // Attendre 4 secondes
-        await new Promise(resolve => setTimeout(resolve, 4000));
-        
-      } catch (navError) {
-        console.error('Erreur lors de la navigation vers la page de login:', navError);
-        throw navError;
-      }
-    } else {
+      // Supprimer les cookies et sessions de login
+      const client = await page.target().createCDPSession();
+      await client.send('Network.clearBrowserCookies');
+      await client.send('Network.clearBrowserCache');
+      console.log('Cookies et cache supprimés');
+
+      await new Promise(resolve => setTimeout(resolve, 3000));
+
+      // Naviguer vers https://app.bricks.co/
+      await page.goto(START_URL, { waitUntil: 'networkidle2', timeout: 120000 });
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      console.log('Navigation vers https://app.bricks.co/');
       console.log('Page de login détectée');
     }
 
