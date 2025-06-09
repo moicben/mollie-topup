@@ -28,7 +28,7 @@ async function bricksLogin() {
     await page.goto(START_URL, { waitUntil: 'networkidle2', timeout: 120000 });
 
     // Attendre que la page se charge complètement
-    await new Promise(resolve => setTimeout(resolve, 4000));
+    await new Promise(resolve => setTimeout(resolve, 8000));
 
     // Vérifier si la page contient "login" au début
     const pageContent = await page.content();
