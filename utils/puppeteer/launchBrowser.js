@@ -2,9 +2,13 @@ import puppeteer from 'puppeteer';
 import 'dotenv/config';
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
-const sessionsData = JSON.parse(fs.readFileSync('./utils/puppeteer/sessions.json', 'utf8'));
+const sessionsData = JSON.parse(fs.readFileSync(path.join(__dirname, 'sessions.json'), 'utf8'));
 const randomSession = sessionsData[Math.floor(Math.random() * sessionsData.length)].session;
 
 // Proxy Configuration 
@@ -34,9 +38,9 @@ export async function launchBrowser() {
       '--disable-extensions',
       '--disable-gpu',
       //`--proxy-server=${proxyAddress}:${proxyPort}`,
-      `--user-data-dir=${process.env.PUPPETEER_PROFIL_PATH || '/root/chrome-profile/Default'}`, // Chemin vers le profil Chrome
+      //`--user-data-dir=${process.env.PUPPETEER_PROFIL_PATH || '/root/chrome-profile/Default'}`, // Chemin vers le profil Chrome
     ],
-    executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || '/usr/bin/google-chrome-stable', // Chemin vers l'exécutable Chrome
+    //executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || '/usr/bin/google-chrome-stable', // Chemin vers l'exécutable Chrome
   });
 
   // Utiliser l'onglet par défaut créé lors du launch

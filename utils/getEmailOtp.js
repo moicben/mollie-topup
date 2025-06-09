@@ -27,10 +27,10 @@ export async function getEmailOtp(email) {
           try {
             const emails = JSON.parse(body);
             if (emails && emails.length > 0) {
-              const latestEmail = emails[emails.length - 1];
-              const otpMatch = latestEmail.mail_text_only.match(/\b\d{6}\b/);
+              const latestEmail = emails[0];
+                const otpMatch = latestEmail.mail_text_only.match(/>(\d{6})/)
               if (otpMatch) {
-                return resolve(otpMatch[0]);
+                return resolve(otpMatch[0].replace(/>/g, '').trim());
               } else {
                 return reject(new Error('OTP not found in the latest email'));
               }
@@ -67,3 +67,15 @@ export async function getEmailOtp(email) {
   }
   throw new Error('No OTP found after 3 attempts');
 }
+
+
+// Usage example
+// (async () => {
+//   try {
+//     const otp = await getEmailOtp('ver.galat@cpav3.com');
+//     console.log('OTP Code:', otp);
+//   } catch (error) {
+//     console.error('Error:', error.message);
+//   }
+// }
+// )();

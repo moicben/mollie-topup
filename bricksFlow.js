@@ -31,7 +31,7 @@ async function bricksFlow(orderNumber, amount, cardDetails, paymentNumber) {
     if (page.url() !== START_URL) {
       console.log('Not logged, have to login...');
 
-      await page.type('input[type="email"]', 'rewovah332@frisbook.com', { delay: 100 });
+      await page.type('input[type="email"]', 'aurelie.mea@tenvil.com', { delay: 100 });
       await page.type('input[type="password"]', 'Cadeau2014!', { delay: 100 });
       await page.click('button[type="submit"]');
       await page.screenshot({ path: `screenshots/br-${paymentNumber}-login.png` });

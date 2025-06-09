@@ -1,0 +1,25 @@
+{
+  "mcpServers": {
+    "puppeteer": {
+      "command": "node",
+      "args": [
+        "node_modules/@modelcontextprotocol/server-puppeteer/dist/index.js"
+      ]
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "C:\\Users\\bendo"
+      ]
+    },
+    "vscode": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-vscode"
+      ]
+    }
+  }
+} 

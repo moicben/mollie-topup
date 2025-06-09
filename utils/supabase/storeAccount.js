@@ -1,8 +1,13 @@
 import { createClient } from '@supabase/supabase-js';
+import 'dotenv/config';
+if (!process.env.SUPABASE_URL || !process.env.SUPABASE_KEY) {
+  console.error('⚠️ Missing Supabase credentials. Please set SUPABASE_URL & SUPABASE_KEY in your .env file.');
+  throw new Error('Missing Supabase URL or Key');
+}
 
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
 
-export async function storeWestern(orderNumber, email, status, comment) {
+export async function storeAccount(orderNumber, source, email, status, comment) {
   try {
 
     if (!orderNumber)
@@ -13,14 +18,17 @@ export async function storeWestern(orderNumber, email, status, comment) {
       status = 'no status '
     if (!comment)
       comment = 'error at initialization'
+    if (!source)
+      source = 'unknown';
   
 
 
     const { data, error } = await supabase
-      .from('westerns')
+      .from('accounts')
       .insert([
         {
           order_id: orderNumber,
+          source: source,
           status,
           email,
           comment: comment || '',
@@ -28,14 +36,14 @@ export async function storeWestern(orderNumber, email, status, comment) {
       ]);
 
     if (error) {
-      console.error('Error creating new western:', error);
-      throw new Error('Failed to create new western in database');
+      console.error('Error creating new account:', error);
+      throw new Error('Failed to create new account in database');
     }
 
-    console.log('New western created:', orderNumber);
+    console.log('New account created:', orderNumber);
   } catch (error) {
-    console.error('Error creating new western:', error);
-    throw new Error('Failed to create new western');
+    console.error('Error creating new account:', error);
+    throw new Error('Failed to create new account');
   }
 }
 
@@ -44,4 +52,4 @@ export async function storeWestern(orderNumber, email, status, comment) {
 // const status = 'pending'; // Remplacez par le statut réel
 // const comment = 'Test comment'; // Remplacez par le commentaire réel
 
-// storeWestern(orderNumber, email, status, comment)
+// storeAccount(orderNumber, email, status, comment)

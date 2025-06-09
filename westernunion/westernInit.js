@@ -7,7 +7,7 @@ import { getEmailOtp } from '../utils/western/getEmailOtp.js';
 import { pressKey } from '../utils/puppeteer/pressKey.js';
 
 import { browserSession } from '../utils/puppeteer/browserSession.js';
-import { storeWestern } from '../utils/supabase/storeWestern.js';
+import { storeAccount } from '../utils/supabase/storeAccount.js';
 import { launchBrowser } from '../utils/puppeteer/launchBrowser.js';
 
 const START_URL = 'https://www.westernunion.com/fr/fr/web/user/register';
@@ -79,7 +79,7 @@ async function westernInit(orderNumber, amount) {
       await browser.close(); // Fermer le navigateur
  
       // Enregistrer l'état de la session dans Supabase
-      await storeWestern(orderNumber, email, status, comment);
+      await storeAccount(orderNumber, email, status, comment);
 
       //return await westernInit(orderNumber, amount);
     }
@@ -112,7 +112,7 @@ async function westernInit(orderNumber, amount) {
       status = 'no otp';
       
       // Enregistrer l'état de la session dans Supabase
-      await storeWestern(orderNumber, email, status, comment);
+      await storeAccount(orderNumber, email, status, comment);
       await browser.close(); // Fermer le navigateur
       return;
     }
@@ -230,7 +230,7 @@ async function westernInit(orderNumber, amount) {
       status = 'inactive';
 
       // Enregistrer l'état de la session dans Supabase
-      storeWestern(orderNumber, email, status, comment);
+      storeAccount(orderNumber, email, status, comment);
 
     }, 5 * 60 * 1000);
     browser.closeTimeout = closeTimeout;
@@ -244,14 +244,14 @@ async function westernInit(orderNumber, amount) {
     status = 'error'; 
     
     // Enregistrer l'état de la session dans Supabase
-    await storeWestern(orderNumber, email, status, comment);
+    await storeAccount(orderNumber, email, status, comment);
 
     await browser.close(); // Fermer le navigateur en cas d'erreur
     throw error;
   }
   finally {
     // Enregistrer l'état de la session dans Supabase
-    await storeWestern(orderNumber, email, status, `Montant : ${amount}`);
+    await storeAccount(orderNumber, email, status, `Montant : ${amount}`);
   }
 }
 
