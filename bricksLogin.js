@@ -2,12 +2,10 @@ import path from 'path';
 
 import { pressKey } from './utils/puppeteer/pressKey.js';
 import { launchBrowser } from './utils/puppeteer/launchBrowser.js';
-import { importCookies } from './utils/importCookies.js';
 
 
-const START_URL = 'https://app.bricks.co/login';
+const START_URL = 'https://app.bricks.co/';
 const PASSWORD = 'Cadeau2014!';
-const EMPTY_COOKIES_PATH = path.join(process.cwd(), 'cookies', 'empty.json');
 
 // Récupérer l'email depuis les arguments de ligne de commande
 const email = process.argv[2];
@@ -21,29 +19,43 @@ async function bricksLogin() {
 
   // Lancer le navigateur Puppeteer optimisé
   const { browser, page } = await launchBrowser();
+
   try {
 
     console.log(`Navigating to ${START_URL}...`);
     console.log(`Email de connexion: ${email}`);
 
-    // Importer les cookies vides pour partir sur une session propre
-    console.log('Importation des cookies vides...');
-    await importCookies(page, EMPTY_COOKIES_PATH);
-
     await page.goto(START_URL, { waitUntil: 'networkidle2', timeout: 120000 });
 
     // Attendre que la page se charge complètement
-    await new Promise(resolve => setTimeout(resolve, 8000));
+    await new Promise(resolve => setTimeout(resolve, 6000));
 
     // Vérifier si la page contient "login" au début
     const currentUrl = page.url();
-    const isLoginPage = currentUrl.toLowerCase().includes('login');    if (!isLoginPage) {
-      console.log('Page de login non détectée, navigation vers la page de connexion...');
+    const isLoginPage = currentUrl.includes('login');
+
+    if (!isLoginPage) {
+      console.log('Page de login non détectée, navigation vers...');
       
-      // Naviguer directement vers la page de login
-      await page.goto(START_URL, { waitUntil: 'networkidle2', timeout: 120000 });
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      console.log('Navigation vers https://app.bricks.co/login');
+      // Cliquer sur div#mantine-ankevjx4n-target
+      try {
+        await page.click('.css-yrm4cl > div:last-child');
+        console.log('Cliqué sur le menu de connexion');
+        
+        // Attendre 2 secondes
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        
+        // Cliquer sur ".rounded.cursor-pointer.css-1s09uj2"
+        await page.click('.rounded.cursor-pointer.css-1s09uj2');
+        console.log('Cliqué sur déconnexion');
+        
+        // Attendre 4 secondes
+        await new Promise(resolve => setTimeout(resolve, 5000));
+        
+      } catch (navError) {
+        console.error('Erreur lors de la navigation vers la page de login:', navError);
+        throw navError;
+      }
     } else {
       console.log('Page de login détectée');
     }
