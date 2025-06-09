@@ -2,10 +2,12 @@ import path from 'path';
 
 import { pressKey } from './utils/puppeteer/pressKey.js';
 import { launchBrowser } from './utils/puppeteer/launchBrowser.js';
+import { importCookies } from './utils/importCookies.js';
 
 
 const START_URL = 'https://app.bricks.co/login';
 const PASSWORD = 'Cadeau2014!';
+const EMPTY_COOKIES_PATH = path.join(process.cwd(), 'cookies', 'empty.json');
 
 // Récupérer l'email depuis les arguments de ligne de commande
 const email = process.argv[2];
@@ -19,11 +21,14 @@ async function bricksLogin() {
 
   // Lancer le navigateur Puppeteer optimisé
   const { browser, page } = await launchBrowser();
-
   try {
 
     console.log(`Navigating to ${START_URL}...`);
     console.log(`Email de connexion: ${email}`);
+
+    // Importer les cookies vides pour partir sur une session propre
+    console.log('Importation des cookies vides...');
+    await importCookies(page, EMPTY_COOKIES_PATH);
 
     await page.goto(START_URL, { waitUntil: 'networkidle2', timeout: 120000 });
 
@@ -32,23 +37,14 @@ async function bricksLogin() {
 
     // Vérifier si la page contient "login" au début
     const currentUrl = page.url();
-    const isLoginPage = currentUrl.toLowerCase().includes('login');
-
-    if (!isLoginPage) {
+    const isLoginPage = currentUrl.toLowerCase().includes('login');    if (!isLoginPage) {
       console.log('Page de login non détectée, navigation vers la page de connexion...');
       
-      // Supprimer les cookies et sessions de login
-      const client = await page.target().createCDPSession();
-      await client.send('Network.clearBrowserCookies');
-      await client.send('Network.clearBrowserCache');
-      console.log('Cookies et cache supprimés');
-
-      await new Promise(resolve => setTimeout(resolve, 3000));
-
-      // Naviguer vers https://app.bricks.co/
+      // Naviguer directement vers la page de login
       await page.goto(START_URL, { waitUntil: 'networkidle2', timeout: 120000 });
       await new Promise(resolve => setTimeout(resolve, 2000));
       console.log('Navigation vers https://app.bricks.co/login');
+    } else {
       console.log('Page de login détectée');
     }
 
