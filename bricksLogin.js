@@ -4,7 +4,7 @@ import { pressKey } from './utils/puppeteer/pressKey.js';
 import { launchBrowser } from './utils/puppeteer/launchBrowser.js';
 
 
-const START_URL = 'https://app.bricks.co/';
+const START_URL = 'https://app.bricks.co/login';
 const PASSWORD = 'Cadeau2014!';
 
 // Récupérer l'email depuis les arguments de ligne de commande
@@ -48,7 +48,7 @@ async function bricksLogin() {
       // Naviguer vers https://app.bricks.co/
       await page.goto(START_URL, { waitUntil: 'networkidle2', timeout: 120000 });
       await new Promise(resolve => setTimeout(resolve, 2000));
-      console.log('Navigation vers https://app.bricks.co/');
+      console.log('Navigation vers https://app.bricks.co/login');
       console.log('Page de login détectée');
     }
 
