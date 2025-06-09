@@ -28,7 +28,7 @@ async function bricksLogin() {
     await page.goto(START_URL, { waitUntil: 'networkidle2', timeout: 120000 });
 
     // Attendre que la page se charge complètement
-    await new Promise(resolve => setTimeout(resolve, 6000));
+    await new Promise(resolve => setTimeout(resolve, 7000));
 
     // Vérifier si la page contient "login" au début
     const currentUrl = page.url();
@@ -49,8 +49,8 @@ async function bricksLogin() {
         await page.click('.rounded.cursor-pointer.css-1s09uj2');
         console.log('Cliqué sur déconnexion');
         
-        // Attendre 4 secondes
-        await new Promise(resolve => setTimeout(resolve, 5000));
+        // Attendre la déconnexion
+        await new Promise(resolve => setTimeout(resolve, 7000));
         
       } catch (navError) {
         console.error('Erreur lors de la navigation vers la page de login:', navError);
@@ -88,7 +88,7 @@ async function bricksLogin() {
     await page.click('button[type="submit"]');
 
     // Attendre la connexion et vérifier le succès
-    await new Promise(resolve => setTimeout(resolve, 8000));
+    await new Promise(resolve => setTimeout(resolve, 10000));
     
     const endUrl = page.url();
     console.log(`URL actuelle après connexion: ${endUrl}`);
