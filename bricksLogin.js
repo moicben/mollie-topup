@@ -31,8 +31,8 @@ async function bricksLogin() {
     await new Promise(resolve => setTimeout(resolve, 8000));
 
     // Vérifier si la page contient "login" au début
-    const pageContent = await page.content();
-    const isLoginPage = pageContent.toLowerCase().includes('login');
+    const currentUrl = page.url();
+    const isLoginPage = currentUrl.toLowerCase().includes('login');
 
     if (!isLoginPage) {
       console.log('Page de login non détectée, navigation vers la page de connexion...');
@@ -82,8 +82,8 @@ async function bricksLogin() {
     // Attendre la connexion et vérifier le succès
     await new Promise(resolve => setTimeout(resolve, 8000));
     
-    const currentUrl = page.url();
-    console.log(`URL actuelle après connexion: ${currentUrl}`);
+    const endUrl = page.url();
+    console.log(`URL actuelle après connexion: ${endUrl}`);
 
   } catch (error) {
     console.error('Error during login:', error);
