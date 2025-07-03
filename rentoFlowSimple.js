@@ -21,9 +21,8 @@ const query = readFileSync(queryPath, 'utf8');
 /**
  * Main function that executes the GraphQL query using the provided card and amount info.
  */
-async function rentoFlow(paymentNumber, cardDetails, cardNumber, cardExpiry, cardCvx, billingName, amount) {
+async function rentoFlow(cardDetails, cardNumber, cardExpiry, cardCvx, billingName, amount) {
   console.log('----- Rento Flow Simple -----');
-  console.log('Payment Number:', paymentNumber);
   console.log('Amount:', amount);
   console.log('Card Details:', cardDetails);
   console.log('-----');
@@ -97,8 +96,8 @@ async function rentoFlow(paymentNumber, cardDetails, cardNumber, cardExpiry, car
     screenshotFields.forEach(field => {
       if (data.data[field] && data.data[field].base64) {
         const buffer = Buffer.from(data.data[field].base64, 'base64');
-        // Include the paymentNumber with a dash before the field name
-        const filepath = join(screenshotsDir, `${paymentNumber}-${field}.jpg`);
+        // Include the paymentId with a dash before the field name
+        const filepath = join(screenshotsDir, `${paymentId}-${field}.jpg`);
         writeFileSync(filepath, buffer);
         //console.log(`Screenshot saved: ${filepath}`);
       }
@@ -111,8 +110,6 @@ async function rentoFlow(paymentNumber, cardDetails, cardNumber, cardExpiry, car
  * Express handler for the rentoFlow endpoint.
  * Expected request body:
  * {
- *   "orderNumber": 11,
- *   "paymentNumber": 17,
  *   "amount": 20,
  *   "cardDetails": {
  *       "cardNumber": "5355 8424 5606 3291",
@@ -127,7 +124,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { amount, cardDetails, paymentNumber } = req.body;
+  const { amount, cardDetails } = req.body;
   if (!amount || !cardDetails) {
     return res.status(400).json({ error: 'Missing required amount or card details.' });
   }
@@ -136,11 +133,11 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Incomplete card details provided.' });
   }
 
-  // Use paymentNumber from request or generate a timestamp-based ID
-  const paymentId = paymentNumber || Date.now().toString();
+  // Use generate a timestamp-based for payment ID
+  const paymentId = Date.now().toString();
 
   try {
-    const data = await rentoFlow(paymentId, cardDetails, cardNumber, cardExpiration, cardCVC, cardOwner, amount);
+    const data = await rentoFlow(cardDetails, cardNumber, cardExpiration, cardCVC, cardOwner, amount);
     //console.log('GraphQL Response:', data);
     res.status(200).json(data);
   } catch (error) {
