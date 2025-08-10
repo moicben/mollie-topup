@@ -5,7 +5,6 @@ import https from 'https';
 
 import rentoFlow from './rentoFlow.js'; 
 import bricksFlow from './bricksFlow.js';
-import rentoFlowSimple from './rentoFlowSimple.js'; // Import the rentoFlowSimple function if needed
 
 const app = express();
 const PORT = process.env.PORT;
@@ -31,7 +30,6 @@ app.get('/', (req, res) => {
 
 app.post('/rento-flow', rentoFlow);
 app.post('/bricks-flow', bricksFlow);
-app.post('/rento-flow-simple', rentoFlowSimple); 
 
 https.createServer(sslOptions, app).listen(PORT, () => {
   console.log(`HTTPS Server is running on https://api.christopeit-sport.fr`);
